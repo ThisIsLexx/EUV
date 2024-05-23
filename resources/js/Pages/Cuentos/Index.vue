@@ -8,6 +8,8 @@ import { defineProps, watch } from 'vue';
 import debounce from 'lodash.debounce';
 import axios from 'axios';
 import Spinner from '@/Components/Custom/Spinner.vue';
+import Button from '@/Components/Custom/Button.vue';
+import Show from '@/Components/Custom/Show.vue';
 
 // defineProps({
 //     cuentos: {
@@ -68,9 +70,7 @@ const editCuento = (id: number) => {
                 <section class="flex content-end justify-between">
                     <h1>Listado de cuentos</h1>
                     <form @submit.prevent="createCuento">
-                        <button class="border-2 p-2 rounded-md">
-                            Crear nuevo cuento
-                        </button>
+                        <Button message="Crear nuevo cuento" type="primary" />
                     </form>
                 </section>
                 <Separator />
@@ -83,24 +83,24 @@ const editCuento = (id: number) => {
                 <!-- FIN: Barra de busqueda -->
             </div>
             <!-- INICIO: Listado de cuentos -->
-            <div class="p-5 border-2 m-5 rounded-md shadow-sm" v-if="filteredCuentos.length > 0">
-                <table class="min-w-full divide-y divide-gray-300 overflow-x-auto">
+            <div class="m-5" v-if="filteredCuentos.length > 0">
+                <table class="table-auto min-w-full divide-y divide-gray-300 bg-gray-200 shadow-sm rounded-md">
                     <thead>
-                        <tr>
-                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Id</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Titulo del cuento</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Contenido</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        <tr class="">
+                            <th scope="col" class="px-5 py-3 text-left text-xs font-medium uppercase">Id</th>
+                            <th scope="col" class="px-5 py-3 text-left text-xs font-medium uppercase">Titulo del cuento</th>
+                            <th scope="col" class="px-5 py-3 text-left text-xs font-medium uppercase">Contenido</th>
+                            <th scope="col" class="px-5 py-3 text-left text-xs font-medium uppercase">
                                 <span>Acciones</span>
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200">
+                    <tbody class="divide-y divide-gray-300">
                         <tr v-for="cuento in filteredCuentos" :key="cuento.id">
-                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ cuento.id }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ cuento.titulo }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ cuento.contenido.length > 30 ? cuento.contenido.substring(0,50)+"..." : cuento.contenido }}</td>
-                            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                            <td class="px-5 py-3 text-left text-sm"> <Show route="cuento/{{ $cuento.id }}/show" :id="cuento.id" /></td>
+                            <td class="px-5 py-3 text-left text-sm">{{ cuento.titulo }}</td>
+                            <td class="px-5 py-3 text-left text-sm">{{ cuento.contenido.length > 30 ? cuento.contenido.substring(0,50)+"..." : cuento.contenido }}</td>
+                            <td class="px-5 py-3 text-left text-sm">
                                 <div class="flex space-x-2">
                                     <!-- INICIO: Formulario editar cuento -->
                                     <form @submit.prevent="editCuento(cuento.id)">
