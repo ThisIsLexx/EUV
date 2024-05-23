@@ -42,7 +42,9 @@ class CuentoController extends Controller
         $cuento->contenido = $request->contenido;
         $cuento->save();
 
-        return redirect()->route('cuento.index');
+        return Inertia::render('Cuentos/Index', [
+            'cuentos' => Cuento::all(),
+        ]);
     }
 
     /**
@@ -78,5 +80,22 @@ class CuentoController extends Controller
         $cuento->delete();
 
         return redirect()->route('cuento.index');
+    }
+
+    public function search(Request $request)
+    {
+        $query = Cuento::query();
+
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('titulo', 'like', "%{$search}%");
+        }
+        else {
+            $query->all();
+        }
+
+        $cuentos = $query->get();
+
+        return response()->json($cuentos);
     }
 }
