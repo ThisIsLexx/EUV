@@ -1,19 +1,36 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 
-interface Props {
-    message: string;
-    button: "button" | "submit" | "reset";
-    type: string;
-    disabled: boolean;
-    icon: string;
-}
 
-const props = defineProps<Props>();
+
+const props = defineProps(
+    {
+        message: {
+            type: String,
+            required: true,
+        },
+        type: {
+            type: String as () => "button" | "submit" | "reset",
+            required: true,
+        },
+        button: {
+            type: String as () => "primary" | "secondary" | "danger",
+            default: "primary",
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+        icon: {
+            type: String,
+            default: null,
+        },
+    }
+);
 
 let bgColor = '';
 
-switch (props.type) {
+switch (props.button) {
     case 'primary':
         bgColor = 'bg-indigo-500 hover:bg-indigo-500/90';
         break;
@@ -31,8 +48,11 @@ switch (props.type) {
 </script>
 
 <template>
-    <button :type="`${button}`" :class="`text-white p-2 rounded-md shadow-sm hover:shadow-md btn btn-${type} ${bgColor}`" :disabled="disabled">
-        <i v-if="props.icon" :class="`${props.icon}`"></i>
+    <button :type="`${type}`" :class="`text-white p-2 rounded-md shadow-sm hover:shadow-md btn ${bgColor}`" :disabled="disabled">
+        <div v-if="icon">
+            <{{ icon }} />
+        </div>
+        <i v-if="icon" :class="`${icon}`"></i>
         <span>{{ message }}</span>
     </button>
 </template>

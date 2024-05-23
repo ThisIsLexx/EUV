@@ -76,10 +76,11 @@ class CuentoController extends Controller
      */
     public function destroy(Cuento $cuento)
     {
-        $cuento = Cuento::find($cuento->id);
         $cuento->delete();
 
-        return redirect()->route('cuento.index');
+        return redirect()->back()->with(
+            ['cuentos' => Cuento::all()]
+        );
     }
 
     public function search(Request $request)
