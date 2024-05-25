@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Cuento } from '@/types/cuento';
-import Separator from '@/Components/Separator.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
-import AppLayout from '@/Layouts/AppLayout.vue';
-import { defineProps, watch } from 'vue';
-import debounce from 'lodash.debounce';
 import axios from 'axios';
-import Spinner from '@/Components/Custom/Spinner.vue';
-import Button from '@/Components/Custom/Button.vue';
+import debounce from 'lodash.debounce';
+import { Cuento } from '@/types/cuento';
+import { defineProps, watch } from 'vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import Show from '@/Components/Custom/Show.vue';
-import DialogModal from '@/Components/DialogModal.vue';
+import Separator from '@/Components/Separator.vue';
+import Button from '@/Components/Custom/Button.vue';
+import { Head, Link, router } from '@inertiajs/vue3';
+import Spinner from '@/Components/Custom/Spinner.vue';
 import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
+
+import Modal from '@/Components/Custom/Modal.vue'
 
 const props = defineProps({
     cuentos: Array<Cuento>,
@@ -22,6 +23,8 @@ let searchMessage = "No se encontraron registros...";
 let filteredCuentos = ref<Array<Cuento>>(props.cuentos);
 let isLoading = ref(false);
 let showModal = ref(false);
+
+let cuentoEliminable = ref(null);
 
 const filtrarCuentoBusqueda = debounce(async (value: string) => {
     isLoading.value = true;
@@ -72,6 +75,18 @@ const editCuento = (id: number) => {
 
             <!-- INICIO: Modal confirmación borrar cuento -->
 
+            <Modal :showModal="showModal" size="lg" titulo="Eliminar cuento" @closeModal="showModal = false">
+                <template v-slot:modal-content class="flex flex-col">
+                    <span>
+                        Esta acción eliminará de forma permanente el cuento <strong>"{{ cuentoEliminable.titulo }}"</strong>. Desea continuar?
+                    </span>
+                </template>
+                <template v-slot:action-button>
+                    <button @click="deleteCuento(cuentoEliminable)" class="bg-indigo-500 text-white shadow-sm rounded-md px-2">
+                        Eliminar cuento
+                    </button>
+                </template>
+            </Modal>
 
 
             <!-- END: Modal confirmación borrar cuento -->
@@ -85,7 +100,7 @@ const editCuento = (id: number) => {
                 </section>
                 <Separator />
                 <!-- INICIO: Barra de busqueda -->
-                <div class="flex justify-between">
+                <div class="flex justify-between mt-4">
                     <input type="text" v-model="searchValue"
                         class="transition duration-100 rounded-md border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-200 w-72"
                         placeholder="Buscar cuento...">
@@ -130,7 +145,7 @@ const editCuento = (id: number) => {
                                     <!-- END: Formulario editar cuento -->
 
                                     <!-- INICIO: Formulario para eliminar cuento -->
-                                    <button @click="showModal = true" class="text-red-600 hover:text-red-500">
+                                    <button @click="showModal = true; cuentoEliminable = cuento" class="text-red-600 hover:text-red-500">
                                         <div class="flex content-end h-full">
                                             <TrashIcon class="w-4 h-4" />
                                             <span>
