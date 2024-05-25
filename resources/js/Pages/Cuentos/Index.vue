@@ -10,14 +10,8 @@ import axios from 'axios';
 import Spinner from '@/Components/Custom/Spinner.vue';
 import Button from '@/Components/Custom/Button.vue';
 import Show from '@/Components/Custom/Show.vue';
-import Banner from '@/Components/Banner.vue';
-
-// defineProps({
-//     cuentos: {
-//         type: Array<Cuento>,
-//         required: true
-//     },
-// });
+import DialogModal from '@/Components/DialogModal.vue';
+import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
     cuentos: Array<Cuento>,
@@ -27,6 +21,7 @@ let searchValue = ref('');
 let searchMessage = "No se encontraron registros...";
 let filteredCuentos = ref<Array<Cuento>>(props.cuentos);
 let isLoading = ref(false);
+let showModal = ref(false);
 
 const filtrarCuentoBusqueda = debounce(async (value: string) => {
     isLoading.value = true;
@@ -74,8 +69,13 @@ const editCuento = (id: number) => {
 <template>
     <AppLayout title="Cuentos">
         <div>
-            <Banner
-             />
+
+            <!-- INICIO: Modal confirmación borrar cuento -->
+
+
+
+            <!-- END: Modal confirmación borrar cuento -->
+
             <div class="p-5">
                 <section class="flex content-end justify-between">
                     <h1>Listado de cuentos</h1>
@@ -86,7 +86,9 @@ const editCuento = (id: number) => {
                 <Separator />
                 <!-- INICIO: Barra de busqueda -->
                 <div class="flex justify-between">
-                    <input type="text" v-model="searchValue" class="transition delay-150 ease-in-out p-2 rounded-md shadow-sm w-72" placeholder="Buscar cuento...">
+                    <input type="text" v-model="searchValue"
+                        class="transition duration-100 rounded-md border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-200 w-72"
+                        placeholder="Buscar cuento...">
                 </div>
                 <!-- FIN: Barra de busqueda -->
             </div>
@@ -96,7 +98,8 @@ const editCuento = (id: number) => {
                     <thead>
                         <tr class="">
                             <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Id</th>
-                            <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Titulo del cuento</th>
+                            <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Titulo del cuento
+                            </th>
                             <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Contenido</th>
                             <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">
                                 <span>Acciones</span>
@@ -105,25 +108,36 @@ const editCuento = (id: number) => {
                     </thead>
                     <tbody class="divide-y divide-gray-300 bg-gray-100">
                         <tr v-for="cuento in filteredCuentos" :key="cuento.id">
-                            <td class="px-5 py-3 text-left text-sm"> <Show route="cuento/{{ $cuento.id }}/show" :id="cuento.id" /></td>
+                            <td class="px-5 py-3 text-left text-sm">
+                                <Show route="cuento/{{ $cuento.id }}/show" :id="cuento.id" />
+                            </td>
                             <td class="px-5 py-3 text-left text-sm">{{ cuento.titulo }}</td>
-                            <td class="px-5 py-3 text-left text-sm">{{ cuento.contenido.length > 30 ? cuento.contenido.substring(0,50)+"..." : cuento.contenido }}</td>
+                            <td class="px-5 py-3 text-left text-sm">{{ cuento.contenido.length > 30 ?
+                                cuento.contenido.substring(0,50)+"..." : cuento.contenido }}</td>
                             <td class="px-5 py-3 text-left text-sm">
                                 <div class="flex space-x-2">
                                     <!-- INICIO: Formulario editar cuento -->
                                     <form @submit.prevent="editCuento(cuento.id)">
                                         <button class="text-sky-600 hover:text-sky-500">
-                                            Editar
+                                            <div class="flex content-end h-full">
+                                                <PencilSquareIcon class="w-4 h-4" />
+                                                <span>
+                                                    Editar
+                                                </span>
+                                            </div>
                                         </button>
                                     </form>
                                     <!-- END: Formulario editar cuento -->
 
                                     <!-- INICIO: Formulario para eliminar cuento -->
-                                    <form @submit.prevent="deleteCuento(cuento.id)">
-                                        <button class="text-red-600 hover:text-red-500">
-                                            Eliminar
-                                        </button>
-                                    </form>
+                                    <button @click="showModal = true" class="text-red-600 hover:text-red-500">
+                                        <div class="flex content-end h-full">
+                                            <TrashIcon class="w-4 h-4" />
+                                            <span>
+                                                Eliminar
+                                            </span>
+                                        </div>
+                                    </button>
                                     <!-- END: Formulario para eliminar cuento -->
                                 </div>
                             </td>

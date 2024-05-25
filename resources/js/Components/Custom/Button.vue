@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-
+import { router } from '@inertiajs/vue3';
 
 
 const props = defineProps(
@@ -25,6 +25,11 @@ const props = defineProps(
             type: String,
             default: null,
         },
+        redirect: {
+            type: String,
+            default: null,
+            required: false,
+        },
     }
 );
 
@@ -45,14 +50,29 @@ switch (props.button) {
         break;
 }
 
+function redirect () {
+    router.get(route(props.redirect));
+}
+
 </script>
 
 <template>
-    <button :type="`${type}`" :class="`text-white p-2 rounded-md shadow-sm hover:shadow-md btn ${bgColor}`" :disabled="disabled">
-        <div v-if="icon">
-            <{{ icon }} />
-        </div>
-        <i v-if="icon" :class="`${icon}`"></i>
-        <span>{{ message }}</span>
-    </button>
+    <div v-if="props.redirect" @click="props.redirect">
+        <button :type="`${type}`" :class="`text-white p-2 rounded-md shadow-sm hover:shadow-md btn ${bgColor}`" :disabled="disabled">
+            <div v-if="icon">
+                <{{ icon }} />
+            </div>
+            <i v-if="icon" :class="`${icon}`"></i>
+            <span>{{ message }}</span>
+        </button>
+    </div>
+    <div v-else>
+        <button :type="`${type}`" :class="`text-white p-2 rounded-md shadow-sm hover:shadow-md btn ${bgColor}`" :disabled="disabled">
+            <div v-if="icon">
+                <{{ icon }} />
+            </div>
+            <i v-if="icon" :class="`${icon}`"></i>
+            <span>{{ message }}</span>
+        </button>
+    </div>
 </template>

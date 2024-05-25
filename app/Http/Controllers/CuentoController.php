@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCuentoRequest;
 use Inertia\Inertia;
 
 use App\Models\Cuento;
@@ -30,12 +31,9 @@ class CuentoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCuentoRequest $request)
     {
-        $request->validate([
-            'titulo' => 'required',
-            'contenido' => 'required',
-        ]);
+        $request->validated();
 
         $cuento = new Cuento();
         $cuento->titulo = $request->titulo;
