@@ -10,9 +10,11 @@ import Separator from '@/Components/Separator.vue';
 import Button from '@/Components/Custom/Button.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import Spinner from '@/Components/Custom/Spinner.vue';
-import { TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
+import { TrashIcon, PencilSquareIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
 
 import Modal from '@/Components/Custom/Modal.vue'
+
+const emits = defineEmits(['closeModal']);
 
 const props = defineProps({
     cuentos: Array<Cuento>,
@@ -55,6 +57,7 @@ function deleteCuento(cuento: Cuento) {
     router.delete(route('cuento.destroy', cuento),
         {
             onSuccess: () => {
+                showModal.value = false;
                 filteredCuentos.value = props.cuentos;
             },
             onError: () => {
@@ -77,12 +80,16 @@ const editCuento = (id: number) => {
 
             <Modal :showModal="showModal" size="lg" titulo="Eliminar cuento" @closeModal="showModal = false">
                 <template v-slot:modal-content class="flex flex-col">
-                    <span>
-                        Esta acción eliminará de forma permanente el cuento <strong>"{{ cuentoEliminable.titulo }}"</strong>. Desea continuar?
-                    </span>
+                    <div class="flex flex-col justify-center text-center items-center">
+                        <ExclamationTriangleIcon class="w-16 h-16 text-orange-400 animate-pulse"/>
+                        <span>
+                            Esta acción eliminará de forma permanente el cuento <strong>"{{ cuentoEliminable.titulo }}"</strong>.
+                        </span>
+                        Este proceso es irreversible, desea continuar?
+                    </div>
                 </template>
                 <template v-slot:action-button>
-                    <button @click="deleteCuento(cuentoEliminable)" class="bg-indigo-500 text-white shadow-sm rounded-md px-2">
+                    <button @click="deleteCuento(cuentoEliminable)" class="bg-indigo-500 hover:bg-indigo-500/90 text-white shadow-sm rounded-md px-2">
                         Eliminar cuento
                     </button>
                 </template>
