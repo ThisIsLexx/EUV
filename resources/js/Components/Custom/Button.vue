@@ -57,7 +57,7 @@ function redirect () {
 </script>
 
 <template>
-    <div v-if="props.redirect" @click="props.redirect">
+    <div v-if="props.redirect" @click="redirect()">
         <button :type="`${type}`" :class="`text-white p-2 rounded-md shadow-sm hover:shadow-md btn ${bgColor}`" :disabled="disabled">
             <div v-if="icon">
                 <{{ icon }} />
