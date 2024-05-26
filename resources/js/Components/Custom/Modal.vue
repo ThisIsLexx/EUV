@@ -29,7 +29,7 @@ defineProps({
                 leave-from-class="opacity-100"
                 leave-to-class="opacity-0"
     >
-        <div class="absolute w-full bg-black bg-opacity-30 h-screen top-0 left-0 flex justify-center px-8" v-if="showModal">
+        <div class="absolute w-full bg-black bg-opacity-30 h-screen top-0 left-0 flex justify-center px-8 z-50" v-if="showModal">
             <transition
                 enter-active-class="ease-out duration-300"
                 enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
