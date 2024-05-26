@@ -74,8 +74,14 @@ const editCuento = (id: number) => {
 
 <template>
     <AppLayout title="Cuentos">
-        <div>
 
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Listado de cuentos
+            </h2>
+        </template>
+
+        <div>
             <!-- INICIO: Modal confirmación borrar cuento -->
 
             <Modal :showModal="showModal" size="lg" titulo="Eliminar cuento" @closeModal="showModal = false">
@@ -99,20 +105,26 @@ const editCuento = (id: number) => {
             <!-- END: Modal confirmación borrar cuento -->
 
             <div class="p-5">
-                <section class="flex content-end justify-between">
-                    <h1>Listado de cuentos</h1>
-                    <form @submit.prevent="createCuento">
-                        <Button message="Crear nuevo cuento" type="submit" button="primary" />
-                    </form>
+
+                <section class="flex justify-between content-center items-center mb-4">
+                    <!-- INICIO: Barra de busqueda -->
+                    <div class="flex justify-between">
+                        <input type="text" v-model="searchValue"
+                            class="transition duration-100 rounded-md border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-200 w-72"
+                            placeholder="Buscar cuento...">
+                    </div>
+                    <!-- FIN: Barra de busqueda -->
+
+                    <!-- INICIO: Botón para crear cuento -->
+                    <section class="flex justify-between">
+                        <form @submit.prevent="createCuento">
+                            <Button message="Crear nuevo cuento" type="submit" button="primary" />
+                        </form>
+                    </section>
+                    <!-- FIN: Botón para crear cuento -->
                 </section>
+
                 <Separator />
-                <!-- INICIO: Barra de busqueda -->
-                <div class="flex justify-between mt-4">
-                    <input type="text" v-model="searchValue"
-                        class="transition duration-100 rounded-md border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-200 w-72"
-                        placeholder="Buscar cuento...">
-                </div>
-                <!-- FIN: Barra de busqueda -->
             </div>
             <!-- INICIO: Listado de cuentos -->
             <div class="m-5" v-if="filteredCuentos.length > 0">
