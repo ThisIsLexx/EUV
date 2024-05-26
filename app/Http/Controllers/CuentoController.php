@@ -50,7 +50,9 @@ class CuentoController extends Controller
      */
     public function show(Cuento $cuento)
     {
-        //
+        return Inertia::render('Cuentos/Show', [
+            'cuento' => $cuento,
+        ]);
     }
 
     /**

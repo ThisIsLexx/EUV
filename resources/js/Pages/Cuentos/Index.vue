@@ -131,7 +131,7 @@ const editCuento = (id: number) => {
                     <tbody class="divide-y divide-gray-300 bg-gray-100">
                         <tr v-for="cuento in filteredCuentos" :key="cuento.id">
                             <td class="px-5 py-3 text-left text-sm">
-                                <Show route="cuento/{{ $cuento.id }}/show" :id="cuento.id" />
+                                <Show route="cuento.show" :id="cuento.id" />
                             </td>
                             <td class="px-5 py-3 text-left text-sm">{{ cuento.titulo }}</td>
                             <td class="px-5 py-3 text-left text-sm">{{ cuento.contenido.length > 30 ?

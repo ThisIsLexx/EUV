@@ -12,7 +12,7 @@ interface Props {
 const props = defineProps<Props>();
 
 function redirect() {
-    router.get(props.route);
+    router.get(route(props.route, props.id));
 }
 
 </script>
