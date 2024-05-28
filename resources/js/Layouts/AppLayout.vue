@@ -220,7 +220,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
-const route = window.location.pathname;
+const current_route = window.location.pathname;
 
 import { Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot, } from '@headlessui/vue';
 import { Bars3Icon, BellIcon, CalendarIcon, ChartPieIcon, Cog6ToothIcon, DocumentDuplicateIcon, FolderIcon, HomeIcon, UsersIcon, XMarkIcon, } from '@heroicons/vue/24/outline';
@@ -230,16 +230,16 @@ import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid';
 import { router } from '@inertiajs/vue3';
 
 function redirectToView(ruta : string) {
-    router.get(ruta);
+    router.get(route(ruta));
 };
 
 const navigation = [
-    { name: 'Inicio', href: "/dashboard", icon: HomeIcon, current: route === "/dashboard" },
+    { name: 'Inicio', href: "dashboard", icon: HomeIcon, current: current_route === "/dashboard" },
     { name: 'Mis cursos', href: "'#'", icon: UsersIcon, current: false },
     { name: 'Mis estadisticas', href: "'#'", icon: ChartPieIcon, current: false },
 ]
 const administrativo = [
-    { name: 'Listado de cuentos', href: "/cuento", icon: HomeIcon, current: route === "/cuento" },
+    { name: 'Listado de cuentos', href: "cuento.show", icon: HomeIcon, current: current_route === "/cuento" },
 ]
 const userNavigation = [
     { name: 'Mi perfil', href: "'#'" },
