@@ -239,7 +239,7 @@ const navigation = [
     { name: 'Mis estadisticas', href: "'#'", icon: ChartPieIcon, current: false },
 ]
 const administrativo = [
-    { name: 'Listado de cuentos', href: "cuento.show", icon: HomeIcon, current: current_route === "/cuento" },
+    { name: 'Listado de cuentos', href: "cuento.index", icon: HomeIcon, current: current_route === "/cuento" },
 ]
 const userNavigation = [
     { name: 'Mi perfil', href: "'#'" },

@@ -128,8 +128,8 @@ const editCuento = (id: number) => {
             </div>
             <!-- INICIO: Listado de cuentos -->
             <div class="m-5" v-if="filteredCuentos.length > 0">
-                <table class="table-auto min-w-full divide-y divide-gray-300 bg-gray-200 shadow-md rounded-md">
-                    <thead>
+                <table class="table-auto min-w-full divide-y divide-gray-300 bg-indigo-500 shadow-md rounded-md">
+                    <thead class="text-white">
                         <tr class="">
                             <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Id</th>
                             <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Titulo del cuento
@@ -141,7 +141,7 @@ const editCuento = (id: number) => {
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-300 bg-gray-100">
-                        <tr v-for="cuento in filteredCuentos" :key="cuento.id">
+                        <tr v-for="cuento in filteredCuentos" :key="cuento.id" class="even:bg-gray-100/10 odd:bg-white">
                             <td class="px-5 py-3 text-left text-sm">
                                 <Show route="cuento.show" :id="cuento.id" />
                             </td>
