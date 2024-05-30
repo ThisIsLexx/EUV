@@ -24,3 +24,9 @@ Route::middleware([
     })->name('dashboard');
     Route::resource('cuento', CuentoController::class);
 });
+
+Route::get('/mis-cursos', function () {
+    return Inertia::render('Cursos/CursoIndex',[
+        'titulo' => 'Mis cursos',
+    ]);
+})->middleware(['auth:sanctum', 'verified']);
