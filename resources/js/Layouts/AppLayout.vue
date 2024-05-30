@@ -164,14 +164,11 @@
 
                 <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
 
-                    <div class="flex items-center gap-x-4 lg:gap-x-6">
-                        <button type="button" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
-                            <span class="sr-only">Ver notificaciones</span>
-                            <BellIcon class="h-6 w-6" aria-hidden="true" />
-                        </button>
+                    <div class="flex items-center w-full justify-between gap-x-4 lg:gap-x-6">
 
-                        <!-- Separator -->
-                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true" />
+                        <!-- INICIO: Breadcrumbs -->
+                        <Breadcrumbs :breadcrumbs="props.breadcrumbs" />
+                        <!-- FIN: Breadcrumbs -->
 
                         <!-- Profile dropdown -->
                         <Menu as="div" class="relative">
@@ -219,6 +216,13 @@
 
 import { ref } from 'vue';
 import axios from 'axios';
+import Breadcrumbs from '@/Components/Custom/Breadcrumbs.vue';
+import { Breadcrumb } from '@/types/breadcrumb';
+
+const props = defineProps({
+    breadcrumbs: Array<Breadcrumb>,
+});
+
 
 const current_route = window.location.pathname;
 

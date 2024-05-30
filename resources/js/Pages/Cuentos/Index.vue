@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
 import { Cuento } from '@/types/cuento';
+import { Breadcrumb } from '@/types/breadcrumb';
 import { defineProps, watch } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Show from '@/Components/Custom/Show.vue';
@@ -13,11 +14,13 @@ import Spinner from '@/Components/Custom/Spinner.vue';
 import { TrashIcon, PencilSquareIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
 
 import Modal from '@/Components/Custom/Modal.vue'
+import Breadcrumbs from '@/Components/Custom/Breadcrumbs.vue';
 
 const emits = defineEmits(['closeModal']);
 
 const props = defineProps({
     cuentos: Array<Cuento>,
+    breadcrumbs: Array<Breadcrumb>,
 });
 
 let searchValue = ref('');
@@ -68,12 +71,12 @@ function deleteCuento(cuento: Cuento) {
 }
 
 const editCuento = (id: number) => {
-    router.get(`/cuento/${id}/edit`);
+    router.get(route('cuento.edit', id));
 }
 </script>
 
 <template>
-    <AppLayout title="Cuentos">
+    <AppLayout title="Cuentos" :breadcrumbs="props.breadcrumbs">
 
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">

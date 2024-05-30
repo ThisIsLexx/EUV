@@ -17,6 +17,9 @@ class CuentoController extends Controller
     {
         return Inertia::render('Cuentos/Index', [
             'cuentos' => Cuento::all(),
+            'breadcrumbs' => [
+                ['name' => 'Listado de cuentos', 'href' => 'cuento.index', 'current' => true],
+            ],
         ]);
     }
 
@@ -25,7 +28,12 @@ class CuentoController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Cuentos/Create');
+        return Inertia::render('Cuentos/Create', [
+            'breadcrumbs' => [
+                ['name' => 'Listado de cuentos', 'href' => 'cuento.index', 'current' => false],
+                ['name' => 'Crear cuento', 'href' => 'cuento.create', 'current' => true],
+            ],
+        ]);
     }
 
     /**
@@ -60,15 +68,30 @@ class CuentoController extends Controller
      */
     public function edit(Cuento $cuento)
     {
-        //
+        return Inertia::render('Cuentos/Create', [
+            'editable' => true,
+            'cuento' => $cuento,
+            'breadcrumbs' => [
+                ['name' => 'Listado de cuentos', 'href' => 'cuento.index', 'current' => false],
+                ['name' => 'Editar cuento', 'href' => 'cuento.edit', 'current' => true],
+            ],
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cuento $cuento)
+    public function update(StoreCuentoRequest $request, Cuento $cuento)
     {
-        //
+        $request->validated();
+
+        $cuento->titulo = $request->titulo;
+        $cuento->contenido = $request->contenido;
+        $cuento->save();
+
+        return Inertia::render('Cuentos/Index', [
+            'cuentos' => Cuento::all(),
+        ]);
     }
 
     /**
