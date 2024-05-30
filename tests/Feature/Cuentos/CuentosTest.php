@@ -30,3 +30,19 @@ test('Se renderiza el listado de cuentos', function () {
         ->where('cuentos', Cuento::all()->toArray())
     );
 });
+
+test('Se tienen los breadcrumbs en listado de cuentos', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user);
+
+    $request = $this->get('/cuento');
+    $request->assertStatus(200);
+    $request->assertInertia(fn (Assert $page) => $page
+        ->has('breadcrumbs')
+        ->where('breadcrumbs', [
+            ['name' => 'Listado de cuentos', 'href' => 'cuento.index', 'current' => true],
+        ])
+    );
+});
+
