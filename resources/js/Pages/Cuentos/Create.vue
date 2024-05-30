@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { router, useForm } from '@inertiajs/vue3';
+import { router, useForm, Head } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Separator from '@/Components/Separator.vue';
 import Button from '@/Components/Custom/Button.vue';
@@ -34,6 +34,7 @@ onMounted(() => {
 </script>
 
 <template>
+    <Head :title="props.editable ? 'Editar cuento' : 'Registrar cuento'"/>
     <AppLayout title="Crear Cuento" :breadcrumbs="props.breadcrumbs">
         <div class="relative">
             <div class="absolute top-0 left-0 right-0 p-10 flex justify-center min-w-full h-[268px] rounded-md bg-gradient-to-r from-indigo-500/80 to-indigo-800/80 z-[-1] shadow-xl">
@@ -76,8 +77,7 @@ onMounted(() => {
                     </div>
                     <div class="flex justify-end w-full space-x-1">
                         <Button message="Cancelar" type="button" button="secondary" redirect="cuento.index"/>
-                        <Button message="Crear nuevo cuento" type="submit" button="primary" redirect="" v-if="props.editable === false" />
-                        <Button message="Guardar cambios" type="submit" button="primary" redirect="" v-else />
+                        <Button :message="props.editable ? 'Guardar cambios' : 'Crear cuento'" type="submit" button="primary" redirect="" />
                     </div>
                 </form>
             </div>

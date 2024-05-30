@@ -76,6 +76,7 @@ const editCuento = (id: number) => {
 </script>
 
 <template>
+    <Head title="Listado de cuentos" />
     <AppLayout title="Cuentos" :breadcrumbs="props.breadcrumbs">
 
         <template #header>
