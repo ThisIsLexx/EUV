@@ -48,9 +48,14 @@ class CuentoController extends Controller
         $cuento->contenido = $request->contenido;
         $cuento->save();
 
-        return Inertia::render('Cuentos/Index', [
+        return redirect()->route('cuento.index')->with([
             'cuentos' => Cuento::all(),
+            'message' => ['title' => 'Cuento creado!', 'description' => 'El cuento ha sido creado correctamente.', 'type' => 'success']
         ]);
+
+        // return Inertia::render('Cuentos/Index', [
+        //     'cuentos' => Cuento::all(),
+        // ]);
     }
 
     /**
