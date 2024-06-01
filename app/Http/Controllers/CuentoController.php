@@ -46,6 +46,7 @@ class CuentoController extends Controller
         $cuento = new Cuento();
         $cuento->titulo = $request->titulo;
         $cuento->contenido = $request->contenido;
+        $cuento->dificultad = $request->dificultad;
         $cuento->save();
 
         return redirect()->route('cuento.index')->with([
@@ -96,6 +97,7 @@ class CuentoController extends Controller
 
         $cuento->titulo = $request->titulo;
         $cuento->contenido = $request->contenido;
+        $cuento->dificultad = $request->dificultad;
         $cuento->save();
 
         return Inertia::render('Cuentos/Index', [

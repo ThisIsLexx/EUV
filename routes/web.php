@@ -5,6 +5,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Models\Cuento;
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -28,5 +30,8 @@ Route::middleware([
 Route::get('/mis-cursos', function () {
     return Inertia::render('Cursos/CursoIndex',[
         'titulo' => 'Mis cursos',
+        'baja' => Cuento::where('dificultad', 'baja')->get(),
+        'media' => Cuento::where('dificultad', 'media')->get(),
+        'alta' => Cuento::where('dificultad', 'alta')->get(),
     ]);
 })->middleware(['auth:sanctum', 'verified'])->name('mis-cursos');

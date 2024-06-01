@@ -24,6 +24,7 @@ class StoreCuentoRequest extends FormRequest
         return [
             'titulo' => 'required',
             'contenido' => 'required',
+            'dificultad' => 'required|in:baja,media,alta',
         ];
     }
 
@@ -32,6 +33,8 @@ class StoreCuentoRequest extends FormRequest
         return [
             'titulo.required' => 'El titulo es requerido',
             'contenido.required' => 'El contenido del cuento es requerido',
+            'dificultad.required' => 'La dificultad del cuento es requerida',
+            'dificultad.in' => 'La dificultad del cuento debe ser baja, media o alta',
         ];
     }
 }
