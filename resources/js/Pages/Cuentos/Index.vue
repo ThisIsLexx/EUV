@@ -139,6 +139,7 @@ const editCuento = (id: number) => {
                             <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Titulo del cuento
                             </th>
                             <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Contenido</th>
+                            <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Dificultad</th>
                             <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">
                                 <span>Acciones</span>
                             </th>
@@ -152,6 +153,7 @@ const editCuento = (id: number) => {
                             <td class="px-5 py-3 text-left text-sm">{{ cuento.titulo }}</td>
                             <td class="px-5 py-3 text-left text-sm">{{ cuento.contenido.length > 30 ?
                                 cuento.contenido.substring(0,50)+"..." : cuento.contenido }}</td>
+                            <td class="px-5 py-3 text-left text-sm">{{ cuento.dificultad }}</td>
                             <td class="px-5 py-3 text-left text-sm">
                                 <div class="flex space-x-2">
                                     <!-- INICIO: Formulario editar cuento -->

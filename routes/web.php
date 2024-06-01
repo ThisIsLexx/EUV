@@ -29,4 +29,4 @@ Route::get('/mis-cursos', function () {
     return Inertia::render('Cursos/CursoIndex',[
         'titulo' => 'Mis cursos',
     ]);
-})->middleware(['auth:sanctum', 'verified']);
+})->middleware(['auth:sanctum', 'verified'])->name('mis-cursos');

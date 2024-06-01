@@ -4,12 +4,14 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import Separator from '@/Components/Separator.vue';
 import Button from '@/Components/Custom/Button.vue';
 import { Cuento } from '@/types/cuento';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { Breadcrumb } from '@/types/breadcrumb';
+import { formToJSON } from 'axios';
 
 const form = useForm({
     titulo: null,
     contenido: null,
+    dificultad: null,
 });
 
 const props = defineProps({
@@ -28,6 +30,7 @@ onMounted(() => {
     if (props.editable) {
         form.titulo = props.cuento.titulo;
         form.contenido = props.cuento.contenido;
+        form.dificultad = props.cuento.dificultad;
     }
 });
 
@@ -72,6 +75,31 @@ onMounted(() => {
                                 v-model="form.contenido"></textarea>
                             <div v-if="form.errors.contenido" class="text-red-500 text-xs uppercase">
                                 {{ form.errors.contenido }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col space-y-2 mb-2">
+                            <label for="titulo">Dificultad recomendada <span class="text-red-500 font-semibold">*</span></label>
+                            <div class="flex space-x-4 content-center items-center justify-left">
+                                <input type="radio" id="1" v-model="form.dificultad" value="baja" >
+                                <label for="dificultad_baja">Dificultad baja</label>
+                            </div>
+                            <div class="flex space-x-4 content-center items-center justify-left">
+                                <input type="radio" id="2" v-model="form.dificultad" value="media" >
+                                <label for="dificultad_media">Dificultad media</label>
+                            </div>
+                            <div class="flex space-x-4 content-center items-center justify-left">
+                                <input type="radio" id="3" v-model="form.dificultad" value="alta" >
+                                <label for="dificultad_alta">Dificultad alta</label>
+                            </div>
+
+                            <!-- <input type="text" name="titulo"
+                                class="transition duration-100 rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200"
+                                :class="{ 'border-red-600' : form.errors.titulo }"
+                                v-model="form.titulo"
+                            > -->
+                            <div v-if="form.errors.dificultad" class="text-red-500 text-xs uppercase">
+                                {{ form.errors.titulo }}
                             </div>
                         </div>
                     </div>

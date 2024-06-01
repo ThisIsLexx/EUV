@@ -12,5 +12,6 @@ class Cuento extends Model
     protected $fillable = [
         'titulo',
         'contenido',
+        'dificultad',
     ];
 }
