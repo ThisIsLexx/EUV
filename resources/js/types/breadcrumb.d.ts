@@ -1,5 +1,5 @@
 export interface Breadcrumb {
-        name: string;
-        href: string;
-        current: boolean;
+    name: string;
+    href: string;
+    current: boolean;
 }

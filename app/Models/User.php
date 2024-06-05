@@ -64,4 +64,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function curso()
+    {
+        return $this->hasOne(Curso::class);
+    }
+
+    public function cursos()
+    {
+        return $this->belongsToMany(Curso::class);
+    }
 }

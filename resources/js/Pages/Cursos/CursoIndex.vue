@@ -2,11 +2,15 @@
 
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Separator from '@/Components/Separator.vue';
+import Button from '@/Components/Custom/Button.vue';
+import { PlayIcon } from '@heroicons/vue/20/solid';
 import { Cuento } from '@/types/cuento';
+import { Curso } from '@/types/curso';
+import { Breadcrumb } from '@/types/breadcrumb';
 
 const props = defineProps({
-    titulo: {
-        type: String,
+    curso: {
+        type: Object as () => Curso,
         required: true
     },
     baja: {
@@ -18,6 +22,10 @@ const props = defineProps({
     alta: {
         type: Array<Cuento>,
     },
+    breadcrumbs: {
+        type: Array<Breadcrumb>,
+        required: true
+    }
 });
 
 const forvalue = [1,2,3,4,5,6,7,8,9,10];
@@ -25,24 +33,33 @@ const forvalue = [1,2,3,4,5,6,7,8,9,10];
 </script>
 
 <template>
-    <AppLayout>
+    <AppLayout :breadcrumbs="props.breadcrumbs">
         <div>
-            <h1>{{props.titulo}}</h1>
+            <h1 class="font-semibold text-2xl uppercase">{{props.curso.codigo}}</h1>
+            <span class="text-gray-600 text-sm uppercase">
+                {{ props.curso.titulo }} - {{ props.curso.descripcion }}
+            </span>
         </div>
         <Separator/>
 
         <div class="flex flex-col">
             <!-- INICIO: CURSOS DIFICULTAD BAJA -->
             <div class="w-full" v-if="baja.length > 0">
-                {{ console.log(baja) }}
                 <div class="my-4 w-full bg-gradient-to-r from-cyan-500 to-emerald-500 text-white p-5 rounded-md mb-4">
                     <span class="font-semibold">
                         Cursos dificultad baja
                     </span>
                 </div>
-                <div class="flex relative space-x-4 overflow-x-auto w-full pb-6">
-                    <div v-for="cuento in baja" class="min-w-96 p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
-                        {{cuento.titulo}}
+                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+                    <div v-for="cuento in baja" class="p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
+                        <div class="flex text-xs uppercase font-semibold">
+                            {{cuento.titulo}}
+                        </div>
+                        <Separator/>
+                        <div class="flex justify-end space-x-2">
+                            <Button message="Ver estadísticas" type="button" button="secondary" />
+                            <Button message="" type="button" button="primary" icon="PlayIcon" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,9 +72,16 @@ const forvalue = [1,2,3,4,5,6,7,8,9,10];
                         Cursos dificultad media
                     </span>
                 </div>
-                <div class="flex relative space-x-4 overflow-x-auto w-full pb-6">
-                    <div v-for="cuento in media" class="min-w-96 p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
-                        {{cuento.titulo}}
+                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+                    <div v-for="cuento in media" class="p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
+                        <div class="flex text-xs uppercase font-semibold">
+                            {{cuento.titulo}}
+                        </div>
+                        <Separator/>
+                        <div class="flex justify-end space-x-2">
+                            <Button message="Ver estadísticas" type="button" button="secondary" />
+                            <Button message="" type="button" button="primary" icon="PlayIcon" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -70,9 +94,16 @@ const forvalue = [1,2,3,4,5,6,7,8,9,10];
                         Cursos dificultad alta
                     </span>
                 </div>
-                <div class="flex relative space-x-4 overflow-x-auto w-full pb-6">
-                    <div v-for="cuento in alta" class="min-w-96 p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
-                        {{cuento.titulo}}
+                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+                    <div v-for="cuento in alta" class="p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
+                        <div class="flex text-xs uppercase font-semibold">
+                            {{cuento.titulo}}
+                        </div>
+                        <Separator/>
+                        <div class="flex justify-end space-x-2">
+                            <Button message="Ver estadísticas" type="button" button="secondary" />
+                            <Button message="" type="button" button="primary" icon="PlayIcon" />
+                        </div>
                     </div>
                 </div>
             </div>

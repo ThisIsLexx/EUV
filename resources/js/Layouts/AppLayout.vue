@@ -239,7 +239,7 @@ function redirectToView(ruta : string) {
 
 const navigation = [
     { name: 'Inicio', href: "dashboard", icon: HomeIcon, current: current_route === "/dashboard" },
-    { name: 'Mis cursos', href: "mis-cursos", icon: UsersIcon, current: false },
+    { name: 'Mis cursos', href: "curso.index", icon: UsersIcon, current: current_route === "/curso" },
     { name: 'Mis estadisticas', href: "'#'", icon: ChartPieIcon, current: false },
 ]
 const administrativo = [

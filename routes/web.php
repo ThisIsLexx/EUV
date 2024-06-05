@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CuentoController;
+use App\Http\Controllers\CursoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,13 +26,6 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
     Route::resource('cuento', CuentoController::class);
+    Route::resource('curso', CursoController::class);
+    Route::post('/curso/unirse', [CursoController::class, 'unirse'])->name('curso.unirse');
 });
-
-Route::get('/mis-cursos', function () {
-    return Inertia::render('Cursos/CursoIndex',[
-        'titulo' => 'Mis cursos',
-        'baja' => Cuento::where('dificultad', 'baja')->get(),
-        'media' => Cuento::where('dificultad', 'media')->get(),
-        'alta' => Cuento::where('dificultad', 'alta')->get(),
-    ]);
-})->middleware(['auth:sanctum', 'verified'])->name('mis-cursos');
