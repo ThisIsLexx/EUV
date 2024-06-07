@@ -21,6 +21,8 @@
     "dependencies": {
         "@headlessui/vue": "^1.7.22",
         "@heroicons/vue": "^2.1.3",
-        "lodash.debounce": "^4.0.8"
+        "apexcharts": "^3.49.1",
+        "lodash.debounce": "^4.0.8",
+        "vue3-apexcharts": "^1.5.3"
     }
 }

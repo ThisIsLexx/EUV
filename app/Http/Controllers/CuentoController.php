@@ -112,9 +112,7 @@ class CuentoController extends Controller
     {
         $cuento->delete();
 
-        return redirect()->back()->with(
-            ['cuentos' => Cuento::all()]
-        );
+        return redirect()->back();
     }
 
     public function search(Request $request)
