@@ -28,6 +28,7 @@ Route::middleware([
     Route::resource('cuento', CuentoController::class);
     Route::resource('curso', CursoController::class);
     Route::post('/curso/unirse', [CursoController::class, 'unirse'])->name('curso.unirse');
+    Route::get('/curso/play/{curso}', [CuentoController::class, 'play'])->name('curso.play');
     Route::get('/estadisticas', function () {
         return Inertia::render('Estadisticas/MisEstadisticas', [
             'breadcrumbs' => [

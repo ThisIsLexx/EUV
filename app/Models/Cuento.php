@@ -14,4 +14,9 @@ class Cuento extends Model
         'contenido',
         'dificultad',
     ];
+
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
 }

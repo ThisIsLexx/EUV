@@ -131,4 +131,17 @@ class CuentoController extends Controller
 
         return response()->json($cuentos);
     }
+
+    public function play(int $cuento_id)
+    {
+        $cuento = Cuento::find($cuento_id);
+
+        return Inertia::render('Cuentos/Play', [
+            'cuento' => $cuento,
+            'breadcrumbs' => [
+                ['name' => 'Listado de cuentos', 'href' => 'cuento.index', 'current' => false],
+                ['name' => 'Jugar cuento: ' . $cuento->titulo, 'href' => 'cuento.play', 'current' => true],
+            ],
+        ]);
+    }
 }

@@ -7,6 +7,7 @@ import { PlayIcon } from '@heroicons/vue/20/solid';
 import { Cuento } from '@/types/cuento';
 import { Curso } from '@/types/curso';
 import { Breadcrumb } from '@/types/breadcrumb';
+import { Head, Link, router } from '@inertiajs/vue3';
 
 const props = defineProps({
     curso: {
@@ -29,6 +30,10 @@ const props = defineProps({
 });
 
 const forvalue = [1,2,3,4,5,6,7,8,9,10];
+
+const startGame = (cuento: number) => {
+    router.get(route('curso.play', cuento));
+}
 
 </script>
 
@@ -58,7 +63,9 @@ const forvalue = [1,2,3,4,5,6,7,8,9,10];
                         <Separator/>
                         <div class="flex justify-end space-x-2">
                             <Button message="Ver estadísticas" type="button" button="secondary" />
-                            <Button message="" type="button" button="primary" icon="PlayIcon" />
+                            <div @click="startGame(cuento.id)">
+                                <Button message="" type="button" button="primary" icon="PlayIcon" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,7 +87,9 @@ const forvalue = [1,2,3,4,5,6,7,8,9,10];
                         <Separator/>
                         <div class="flex justify-end space-x-2">
                             <Button message="Ver estadísticas" type="button" button="secondary" />
-                            <Button message="" type="button" button="primary" icon="PlayIcon" />
+                            <div @click="startGame(cuento.id)">
+                                <Button message="" type="button" button="primary" icon="PlayIcon" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -102,7 +111,9 @@ const forvalue = [1,2,3,4,5,6,7,8,9,10];
                         <Separator/>
                         <div class="flex justify-end space-x-2">
                             <Button message="Ver estadísticas" type="button" button="secondary" />
-                            <Button message="" type="button" button="primary" icon="PlayIcon" />
+                            <div @click="startGame(cuento.id)">
+                                <Button message="" type="button" button="primary" icon="PlayIcon" />
+                            </div>
                         </div>
                     </div>
                 </div>
