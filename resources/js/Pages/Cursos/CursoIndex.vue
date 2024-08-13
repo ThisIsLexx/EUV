@@ -64,7 +64,7 @@ const startGame = (cuento: number) => {
                         <div class="flex justify-end space-x-2">
                             <Button message="Ver estadísticas" type="button" button="secondary" />
                             <div @click="startGame(cuento.id)">
-                                <Button message="" type="button" button="primary" icon="PlayIcon" />
+                                <Button message="Iniciar" type="button" button="primary" />
                             </div>
                         </div>
                     </div>
@@ -88,7 +88,7 @@ const startGame = (cuento: number) => {
                         <div class="flex justify-end space-x-2">
                             <Button message="Ver estadísticas" type="button" button="secondary" />
                             <div @click="startGame(cuento.id)">
-                                <Button message="" type="button" button="primary" icon="PlayIcon" />
+                                <Button message="Iniciar" type="button" button="primary" />
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@ const startGame = (cuento: number) => {
                         <div class="flex justify-end space-x-2">
                             <Button message="Ver estadísticas" type="button" button="secondary" />
                             <div @click="startGame(cuento.id)">
-                                <Button message="" type="button" button="primary" icon="PlayIcon" />
+                                <Button message="Iniciar" type="button" button="primary" />
                             </div>
                         </div>
                     </div>
