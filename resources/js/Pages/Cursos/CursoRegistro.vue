@@ -3,7 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { Breadcrumb } from '@/types/breadcrumb';
 import { Curso } from '@/types/curso';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 import Separator from '@/Components/Separator.vue';
 import Modal from '@/Components/Custom/Modal.vue';
@@ -89,21 +89,25 @@ const form = useForm({
                 <div class="flex justify-between items-center">
                     <h2 class="text-lg font-semibold">Mis cursos</h2>
                     <div class="flex space-x-2">
-                        <button @click="showModal = true" type="button"
-                            class="bg-indigo-500 hover:bg-indigo-500/90 text-white p-2 rounded-md shadow-sm hover:shadow-md">
-                            Registrar nuevo curso
-                        </button>
-                        <button @click="crearCurso = true" type="button"
-                            class="bg-blue-500 hover:bg-blue-500/90 text-white p-2 rounded-md shadow-sm hover:shadow-md">
-                            Crear nuevo curso
-                        </button>
+                        <transition appear name="slide-fade">
+                            <button @click="showModal = true" type="button"
+                                class="bg-indigo-500 hover:bg-indigo-500/90 text-white p-2 rounded-md shadow-sm hover:shadow-md">
+                                Registrar nuevo curso
+                            </button>
+                        </transition>
+                        <transition appear name="slide-fade" :style="{ transitionDelay: '200ms' }">
+                            <button @click="crearCurso = true" type="button"
+                                class="bg-blue-500 hover:bg-blue-500/90 text-white p-2 rounded-md shadow-sm hover:shadow-md">
+                                Crear nuevo curso
+                            </button>
+                        </transition>
                     </div>
                 </div>
                 <Separator />
             </div>
-            <div class="w-full grid grid-cols-4">
+            <div class="w-full grid grid-cols-3 gap-2">
                 <div v-for="curso in mis_cursos" :key="curso.id" class="rounded-md border-2">
-                    <div class="bg-white shadow-sm hover:shadow-md p-5 cursor-pointer transition ease-in-out duration-300 hover:text-indigo-500 hover:shadow-indigo-500/30" @click="verCurso(curso)">
+                    <div class="bg-white shadow-sm hover:shadow-md p-5 cursor-pointer h-full w-full transition ease-in-out duration-300 hover:text-indigo-500 hover:shadow-indigo-500/30" @click="verCurso(curso)">
                         <h3 class="text-lg font-semibold">{{ curso.titulo }}</h3>
                         <p class="text-sm">{{ curso.descripcion }}</p>
                     </div>
