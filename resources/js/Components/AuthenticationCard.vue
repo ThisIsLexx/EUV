@@ -2,14 +2,18 @@
     <div class="flex">
         <!-- BEGIN: Card inicio de sesión -->
         <div class="flex flex-col sm:justify-center w-1/3 items-center pt-6 sm:pt-0 px-20 z-10 bg-gray-100 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
-            <div>
-                <slot name="logo" />
-            </div>
+                <transition appear name="left-to-right" :style="{ transitionDelay: '300ms'}">
+                    <div>
+                        <slot name="logo"/>
+                    </div>
+                </transition>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-lg overflow-hidden sm:rounded-lg">
-                <slot />
+                <transition appear name="left-to-right">
+                    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-lg overflow-hidden sm:rounded-lg">
+                        <slot />
+                    </div>
+                </transition>
             </div>
-        </div>
         <!-- END: Card inicio de sesión -->
 
         <!-- BEGIN: Imagen de bienvenida -->
@@ -19,3 +23,4 @@
         <!-- END: Imagen de bienvenida -->
     </div>
 </template>
+
