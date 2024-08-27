@@ -7,6 +7,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import Separator from '@/Components/Separator.vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -74,16 +75,25 @@ const submit = () => {
                     <Checkbox v-model:checked="form.remember" name="remember" />
                     <span class="ms-2 text-sm text-gray-600">Recuerdame</span>
                 </label>
+
             </div>
 
             <div class="flex items-center justify-end mt-4">
                 <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Olvidaste tu contraseña?
                 </Link>
-
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Iniciar Sesión
                 </PrimaryButton>
+            </div>
+            <div class="mt-5">
+                <Separator/>
+                <span class="text-sm text-gray-600">
+                    Aún no tienes una cuenta?
+                    <Link :href="route('register')" class="underline ml-1 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Registrate aquí.
+                    </Link>
+                </span>
             </div>
         </form>
     </AuthenticationCard>
