@@ -192,16 +192,17 @@
                                 <MenuItems
                                     class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                                     <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
-                                    <div v-if="item.href === 'logout'" class="border-b border-gray-200">
-                                        <a href="javascript;" :on-click="logout()"
+                                        <a :href="item.href"
                                             :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">{{ item.name }}
                                         </a>
-                                    </div>
-
-                                    <a v-else   :href="item.href" :on-click="item.href === 'logout' ? logout() : null"
-                                        :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">{{ item.name }}
-                                    </a>
                                     </MenuItem>
+                                    <form @submit.prevent="logout">
+                                        <MenuItem as="button">
+                                            <a class="hover:bg-gray-50 block px-3 py-1 text-sm leading-6 text-gray-900">
+                                                Cerrar Sesión
+                                            </a>
+                                        </MenuItem>
+                                    </form>
                                 </MenuItems>
                             </transition>
                         </Menu>
@@ -243,12 +244,9 @@ function redirectToView(ruta : string) {
     router.get(route(ruta));
 };
 
-function logout() {
-    axios.post(route('logout')).then(() => {
-        window.location.href = route('welcome');
-    });
-}
-
+const logout = () => {
+    router.post(route('logout'));
+};
 const navigation = [
     { name: 'Inicio', href: "dashboard", icon: HomeIcon, current: current_route === "/dashboard" },
     { name: 'Mis cursos', href: "curso.index", icon: UsersIcon, current: current_route === "/curso" },
@@ -258,7 +256,7 @@ const administrativo = [
     { name: 'Listado de cuentos', href: "cuento.index", icon: HomeIcon, current: current_route === "/cuento" },
 ]
 const userNavigation = [
-    { name: 'Cerrar sesión', href: "logout" },
+    // { name: 'Cerrar sesión', href: "logout" },
 ]
 
 const sidebarOpen = ref(false)
