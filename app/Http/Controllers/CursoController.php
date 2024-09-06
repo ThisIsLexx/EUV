@@ -112,4 +112,20 @@ class CursoController extends Controller
             ],
         ]);
     }
+
+    public function cancelar(Curso $curso)
+    {
+        $user = auth()->user();
+        $usuario = User::find($user->id);
+
+        $usuario->cursos()->detach($curso);
+
+        return Inertia::render('Cursos/CursoRegistro', [
+            'titulo' => 'Mis cursos',
+            'mis_cursos' => $usuario->cursos()->get(),
+            'breadcrumbs' => [
+                ['name' => 'Listado de cursos', 'href' => 'curso.index', 'current' => true],
+            ],
+        ]);
+    }
 }
