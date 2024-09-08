@@ -8,26 +8,32 @@ import { Cuento } from '@/types/cuento';
 import { Curso } from '@/types/curso';
 import { Breadcrumb } from '@/types/breadcrumb';
 import { Head, Link, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { UserCircleIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/solid';
 
 const props = defineProps({
     curso: {
         type: Object as () => Curso,
         required: true
     },
-    baja: {
-        type: Array<Cuento>,
-    },
-    media: {
-        type: Array<Cuento>,
-    },
-    alta: {
-        type: Array<Cuento>,
-    },
     breadcrumbs: {
         type: Array<Breadcrumb>,
         required: true
+    },
+    asignaciones: {
+        type: Array<Cuento>,
+        required: true
+    },
+    tutor: {
+        required: true
+    },
+    personas: {
+        required: true,
+        default: null
     }
 });
+
+let activeTab = ref('tablero');
 
 const forvalue = [1,2,3,4,5,6,7,8,9,10];
 
@@ -35,90 +41,133 @@ const startGame = (cuento: number) => {
     router.get(route('curso.play', cuento));
 }
 
+let isTutor = false;
 </script>
 
 <template>
     <AppLayout :breadcrumbs="props.breadcrumbs">
-        <div>
-            <h1 class="font-semibold text-2xl uppercase">{{props.curso.codigo}}</h1>
-            <span class="text-gray-600 text-sm uppercase">
-                {{ props.curso.titulo }} - {{ props.curso.descripcion }}
-            </span>
+
+        <!-- BEGIN: Tabs de navegación -->
+        <div class="flex w-full">
+            <div class="flex border-b-2 border-gray-200 w-full">
+                <div class="px-4 py-2 rounded-t-md text-sm transition-all ease-in-out duration-300 font-semibold  focus:outline-none cursor-pointer"
+                :class="{ ' text-indigo-600 bg-gray-200':  activeTab === 'tablero' }"
+                @click="activeTab = 'tablero'">
+                    Tablero
+                </div>
+                <div class="px-4 py-2 rounded-t-md text-sm transition-all ease-in-out duration-300 font-semibold  focus:outline-none cursor-pointer"
+                :class="{ ' text-indigo-600 bg-gray-200 ': activeTab === 'personas' }"
+                @click="activeTab = 'personas'">
+                    Personas
+                </div>
+            </div>
         </div>
-        <Separator/>
-
+        <!-- END: Tabs de navegación -->
         <div class="flex flex-col">
-            <!-- INICIO: CURSOS DIFICULTAD BAJA -->
-            <div class="w-full" v-if="baja.length > 0">
-                <div class="my-4 w-full bg-gradient-to-r from-cyan-500 to-emerald-500 text-white p-5 rounded-md mb-4">
-                    <span class="font-semibold">
-                        Cursos dificultad baja
-                    </span>
-                </div>
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-                    <div v-for="cuento in baja" class="p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
-                        <div class="flex text-xs uppercase font-semibold">
-                            {{cuento.titulo}}
-                        </div>
-                        <Separator/>
-                        <div class="flex justify-end space-x-2">
-                            <Button message="Ver estadísticas" type="button" button="secondary" />
-                            <div @click="startGame(cuento.id)">
-                                <Button message="Iniciar" type="button" button="primary" />
+            <!-- INICIO: Index de curso -->
+            <transition
+                appear
+                enter-from-class="opacity-0 scale-95"
+                enter-to-class="opacity-100 scale-100"
+                enter-active-class="transition ease-out duration-300"
+            >
+                <div v-if="activeTab === 'tablero'">
+                     <div class="flex justify-center w-full">
+                         <div class="my-4 w-5/6 md:w-4/6 lg:w-2/3 content-end bg-gradient-to-r from-cyan-500 to-emerald-500 text-white p-5 rounded-md min-h-[180px]">
+                             <div class="flex flex-col">
+                                 <span class="font-semibold text-3xl">
+                                     {{ props.curso.titulo }}
+                                 </span>
+                                 <span class="font-semibold text-xl">
+                                     {{ props.curso.codigo }}
+                                 </span>
+                             </div>
+                         </div>
+                     </div>
+                     <!-- BEGIN: Asignaciones del curso -->
+                        <div class="flex justify-center w-full">
+                            <div class="my-4 w-5/6 md:w-4/6 lg:w-2/3">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-3xl">
+                                        Asignaciones
+                                        <Separator/>
+                                    </span>
+                                    <div v-if="props.asignaciones.length" class="flex flex-col w-full space-y-2">
+                                        <div v-for="asignacion in props.asignaciones" :key="asignacion.id"
+                                            class="flex justify-between p-2 border border-gray-200 rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:border-indigo-500 hover:text-indigo-600">
+                                            <span class="flex justify-start items-center content-center w-full font-medium">
+                                                <PlayIcon class="w-8 h-8 mr-2 opacity-70"/>
+                                                {{ asignacion.titulo }}
+                                            </span>
+                                            <span class="font-semibold justify-end content-center">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div v-else class="w-full flex flex-col justify-center items-center p-10">
+                                        <ClipboardDocumentListIcon class="w-24 h-24 opacity-70"/>
+                                        <span class="text-gray-700 mt-4">
+                                            No hay asignaciones en este curso.
+                                            <div v-if="$page.props.auth.user.email === props.tutor[1]" class="flex w-full justify-center mt-2">
+                                                <Button type="button" message="Agregar asignación" redirect="curso.create"/>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                     <!-- END: Asignaciones del curso -->
                 </div>
-            </div>
-            <!-- FIN: CURSOS DIFICULTAD BAJA -->
+            </transition>
+            <!-- FIN: Index de curso -->
 
-            <!-- INICIO: CURSOS DIFICULTAD MEDIA -->
-            <div class="w-full" v-if="media.length > 0">
-                <div class="my-4 w-full bg-gradient-to-r from-orange-500 to-yellow-500 text-white p-5 rounded-md mb-4">
-                    <span class="font-semibold">
-                        Cursos dificultad media
-                    </span>
+            <!-- INICIO: Index de personas -->
+            <transition
+                enter-from-class="opacity-0 scale-95"
+                enter-to-class="opacity-100 scale-100"
+                enter-active-class="transition ease-out duration-300"
+            >
+                <div v-if="activeTab === 'personas'">
+                     <div class="flex justify-center w-full mt-10">
+                         <div class="my-4 w-1/2 lg:w-2/3">
+                             <div class="flex flex-col">
+                                 <span class="font-medium text-3xl">
+                                    Tutor del curso
+                                    <Separator/>
+                                    <span class="text-sm uppercase">
+                                        <div class="flex justify-between p-5 border-b transition-all duration-200 border-gray-200 hover:border-indigo-600 hover:text-indigo-600">
+                                                <span class="flex justify-start items-center content-center w-full font-semibold">
+                                                    <UserCircleIcon class="w-8 h-8 mr-2 opacity-70"/>
+                                                    {{ props.tutor[0] }}
+                                                </span>
+                                            </div>
+                                    </span>
+                                </span>
+                                 <span class="font-medium text-3xl mt-10">
+                                    Personas inscritas
+                                    <Separator/>
+                                    <span class="text-sm uppercase">
+                                        <div v-if="props.personas.length > 0">
+                                            <div v-for="persona in props.personas" :key="persona.id" class="flex justify-between p-5 border-b transition-all duration-200 border-gray-200 hover:border-indigo-600 hover:text-indigo-600">
+                                                <span class="flex justify-start items-center content-center w-full font-semibold">
+                                                    <UserCircleIcon class="w-8 h-8 mr-2 opacity-70"/>
+                                                    {{ persona.name }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div v-else class="w-full flex flex-col justify-center items-center p-10">
+                                            <ClipboardDocumentListIcon class="w-24 h-24 opacity-70"/>
+                                            <span class="text-gray-700 mt-4 text-center">
+                                                Ups! Al parecer no hay personas inscritas en este curso.
+                                            </span>
+                                        </div>
+                                    </span>
+                                 </span>
+                             </div>
+                         </div>
+                     </div>
                 </div>
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-                    <div v-for="cuento in media" class="p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
-                        <div class="flex text-xs uppercase font-semibold">
-                            {{cuento.titulo}}
-                        </div>
-                        <Separator/>
-                        <div class="flex justify-end space-x-2">
-                            <Button message="Ver estadísticas" type="button" button="secondary" />
-                            <div @click="startGame(cuento.id)">
-                                <Button message="Iniciar" type="button" button="primary" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- FIN: CURSOS DIFICULTAD MEDIA -->
-
-            <!-- INICIO: CURSOS DIFICULTAD ALTA -->
-            <div class="w-full" v-if="alta.length > 0">
-                <div class="my-4 w-full bg-gradient-to-r from-red-500 to-fuchsia-500 text-white p-5 rounded-md mb-4">
-                    <span class="font-semibold">
-                        Cursos dificultad alta
-                    </span>
-                </div>
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-                    <div v-for="cuento in alta" class="p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
-                        <div class="flex text-xs uppercase font-semibold">
-                            {{cuento.titulo}}
-                        </div>
-                        <Separator/>
-                        <div class="flex justify-end space-x-2">
-                            <Button message="Ver estadísticas" type="button" button="secondary" />
-                            <div @click="startGame(cuento.id)">
-                                <Button message="Iniciar" type="button" button="primary" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- FIN: CURSOS DIFICULTAD ALTA -->
+            </transition>
+            <!-- FIN: Index de personas -->
         </div>
 
     </AppLayout>
