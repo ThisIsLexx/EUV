@@ -3,4 +3,5 @@ export interface Curso {
     codigo: string;
     titulo: string;
     descripcion: string;
+    user_id: number;
 }

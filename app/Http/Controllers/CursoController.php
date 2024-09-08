@@ -50,11 +50,14 @@ class CursoController extends Controller
      */
     public function show(Curso $curso)
     {
+        $personas = $curso->alumnos()->get()->whereNotIn('id', [$curso->user->id]);
+        $asignaciones = $curso->cuentos()->get();
+
         return Inertia::render('Cursos/CursoIndex',[
             'curso' => $curso,
-            'baja' => Cuento::where('dificultad', 'baja')->get(),
-            'media' => Cuento::where('dificultad', 'media')->get(),
-            'alta' => Cuento::where('dificultad', 'alta')->get(),
+            'tutor' => [$curso->user->name, $curso->user->email],
+            'personas' => $personas,
+            'asignaciones' => $asignaciones,
             'breadcrumbs' => [
                 ['name' => 'Listado de cursos', 'href' => 'curso.index', 'current' => false],
                 ['name' => $curso->codigo, 'href' => '', 'current' => true],

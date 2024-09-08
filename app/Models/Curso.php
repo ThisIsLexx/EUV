@@ -22,7 +22,7 @@ class Curso extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function alumnos() : BelongsToMany {
+    public function alumnos() : belongsToMany {
         return $this->belongsToMany(User::class);
     }
 
