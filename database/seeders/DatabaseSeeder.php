@@ -8,6 +8,8 @@ use App\Models\Cuento;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use Database\Factories\UserFactory;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -20,7 +22,12 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CuentoSeeder::class,
             CursoSeeder::class,
-        ]);
 
+        ]);
+        $curso = Curso::first();
+
+        User::factory()->count(10)->create()->each(function ($user) use ($curso) {
+            $user->cursos()->attach($curso);
+        });
     }
 }

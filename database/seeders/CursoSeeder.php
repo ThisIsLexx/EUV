@@ -18,11 +18,13 @@ class CursoSeeder extends Seeder
             'codigo' => 'CURSO-001',
             'titulo' => 'Conceptos básicos del inglés',
             'descripcion' => 'En este curso encontrará cuentos relacionados al nivel básico del idioma inglés.',
+            'user_id' => 1,
         ]);
         Curso::create([
             'codigo' => 'CURSO-002',
             'titulo' => 'Curso de programación',
             'descripcion' => 'Curso de programación en Vue',
+            'user_id' => 1,
         ]);
     }
 }
