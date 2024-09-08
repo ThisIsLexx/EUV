@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('titulo');
             $table->text('contenido');
             $table->string('dificultad');
+            $table->foreignId('curso_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
