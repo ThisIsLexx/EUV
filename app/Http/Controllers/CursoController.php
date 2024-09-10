@@ -106,7 +106,7 @@ class CursoController extends Controller
         $curso = Curso::where('codigo', $request->codigo)->first();
 
         if (!$curso) {
-            return redirect()->back();
+            return redirect()->back()->with('danger', 'No se encontró un curso con ese código!');
         }
 
         if (!$usuario->cursos()->find($curso->id)) {

@@ -91,12 +91,12 @@ const curso_form = useForm({
         </Modal>
 
         <!-- INICIO: Modal unirse a curso -->
-        <Modal :showModal="showModal" size="sm" titulo="Unirme a curso" @closeModal="showModal = false">
+        <Modal :showModal="showModal" size="sm" titulo="Unirme a curso" @closeModal="showModal = false; form.reset(); form.clearErrors()">
             <template v-slot:modal-content class="flex flex-col">
                 <div class="flex flex-col justify-start">
 
                     <div class="flex flex-col">
-                        <span>
+                        <span class="mb-2">
                             Accediste como
                         </span>
                         <div class="flex items-center">
@@ -112,8 +112,8 @@ const curso_form = useForm({
                     <label for="titulo" class="">Código del curso<span
                             class="text-red-500 font-semibold">*</span></label>
                     <span class="text-gray-600 text-sm mb-2">Pídele a tu tutor el código de la clase para ingresarlo aquí.</span>
-                    <input type="text" name="titulo"
-                        class="transition duration-100 max-h-[30px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200"
+                    <input required type="text" name="titulo"
+                        class="transition duration-100 max-h-[32px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200"
                         :class="{ 'border-red-600': form.errors.codigo }" v-model="form.codigo">
                     <div v-if="form.errors.codigo" class="text-red-500 text-xs uppercase mt-2">
                         {{ form.errors.codigo }}
@@ -130,21 +130,51 @@ const curso_form = useForm({
         <!-- END: Modal unirse a curso -->
 
         <!-- INICIO: Modal creación de curso -->
-        <Modal :showModal="crearCurso" size="lg" titulo="Crear nuevo curso" @closeModal="crearCurso = false">
+        <Modal :showModal="crearCurso" size="lg" titulo="Crear nuevo curso" @closeModal="crearCurso = false; form.reset(); form.clearErrors()">
             <template v-slot:modal-content class="flex flex-col">
-                <div class="p-5 bg-gray-200 rounded-md flex flex-col">
-                    <span>
-                        <label for="titulo_curso">Título</label>
-                        <span class="text-red-500 font-semibold">*</span>
-                    </span>
-                    <span class="text-xs text-gray-600 uppercase">
-                        Ingrese un título descriptivo para el curso
-                    </span>
-                    <input type="text" name="titulo"
-                        class="transition duration-100 max-h-[30px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200"
-                        :class="{ 'border-red-600': curso_form.errors.titulo }" v-model="curso_form.titulo">
-                    <div v-if="curso_form.errors.titulo" class="text-red-500 text-xs uppercase mt-2">
-                        {{ curso_form.errors.titulo }}
+                <div class="p-5 flex flex-col gap-y-4">
+                    <div class="flex flex-col">
+                        <span>
+                            <label for="titulo_curso">Título</label>
+                            <span class="text-red-500 font-semibold">*</span>
+                        </span>
+                        <input required type="text" name="titulo_curso"
+                            class="transition duration-100 max-h-[32px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200"
+                            :class="{ 'border-red-600': curso_form.errors.titulo }" v-model="curso_form.titulo">
+                        <div v-if="curso_form.errors.titulo" class="text-red-500 text-xs uppercase mt-2">
+                            {{ curso_form.errors.titulo }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span>
+                            <label for="codigo_curso">Código del curso</label>
+                            <span class="text-red-500 font-semibold">*</span>
+                        </span>
+                        <span class="text-xs text-gray-600 uppercase">
+                            Ingrese un código único para el curso
+                        </span>
+                        <input required type="text" name="codigo_curso"
+                            class="transition duration-100 max-h-[32px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200"
+                            :class="{ 'border-red-600': curso_form.errors.codigo }" v-model="curso_form.codigo">
+                        <div v-if="curso_form.errors.codigo" class="text-red-500 text-xs uppercase mt-2">
+                            {{ curso_form.errors.codigo }}
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <span>
+                            <label for="codigo_curso">Descripción del curso</label>
+                            <span class="text-red-500 font-semibold">*</span>
+                        </span>
+                        <span class="text-xs text-gray-600 uppercase">
+                            Ingrese una descripción para las personas que deseen unirse al curso
+                        </span>
+                        <textarea required name="descripcion_curso"
+                            class="transition duration-100 rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200"
+                            :class="{ 'border-red-600': curso_form.errors.descripcion }" v-model="curso_form.descripcion" rows="3"></textarea>
+                        <div v-if="curso_form.errors.descripcion" class="text-red-500 text-xs uppercase mt-2">
+                            {{ curso_form.errors.descripcion }}
+                        </div>
                     </div>
 
                 </div>

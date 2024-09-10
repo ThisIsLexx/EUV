@@ -60,15 +60,15 @@ const alertIcon = computed(() => {
 const alertClass = computed(() => {
     switch (type.value) {
         case 'success':
-            return 'bg-emerald-100 !text-emerald-800';
+            return 'bg-emerald-100/60 !text-emerald-800';
         case 'danger':
-            return 'bg-red-100 !text-red-800';
+            return 'bg-red-100/60 !text-red-800';
         case 'warning':
-            return 'bg-orange-100 !text-orange-800';
+            return 'bg-orange-100/60 !text-orange-800';
         case 'info':
-            return 'bg-blue-100 !text-blue-800';
+            return 'bg-blue-100/60 !text-blue-800';
         default:
-            return 'bg-gray-100 !text-gray-800';
+            return 'bg-gray-100/60 !text-gray-800';
     }
 });
 
