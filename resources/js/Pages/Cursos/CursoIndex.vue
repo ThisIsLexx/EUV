@@ -35,13 +35,10 @@ const props = defineProps({
 
 let activeTab = ref('tablero');
 
-const forvalue = [1,2,3,4,5,6,7,8,9,10];
-
 const startGame = (cuento: number) => {
     router.get(route('curso.play', cuento));
 }
 
-let isTutor = false;
 </script>
 
 <template>
