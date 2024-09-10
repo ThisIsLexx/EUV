@@ -22,14 +22,18 @@ class CrearCursoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'codigo' => 'required|unique:cursos,codigo|min:3',
+            'titulo' => 'required',
+            'descripcion' => 'required',
         ];
     }
 
     public function messages(): array
     {
         return [
-
+            'codigo.required' => 'El código del curso es requerido',
+            'codigo.unique' => 'Ya existe un curso con ese código!',
+            'codigo.min' => 'El código del curso debe tener al menos 3 caracteres',
         ];
     }
 }

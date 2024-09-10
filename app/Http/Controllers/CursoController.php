@@ -50,6 +50,10 @@ class CursoController extends Controller
         $curso->user_id = auth()->user()->id;
         $curso->save();
 
+        $user = auth()->user();
+        $usuario = User::find($user->id);
+        $usuario->cursos()->attach($curso);
+
         return redirect()->route('curso.index')->with('success', 'Curso creado exitosamente!');
 
     }

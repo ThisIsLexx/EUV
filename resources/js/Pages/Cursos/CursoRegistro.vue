@@ -44,6 +44,15 @@ function cancelarRegistro(curso_id: number) {
     cancelar_registro.value = false;
 }
 
+function creaCurso() {
+    curso_form.post(route('curso.store', curso_form), {
+        onSuccess: () => {
+            crearCurso.value = false;
+            curso_form.reset();
+        }
+    });
+}
+
 function toggleShowMenu(curso_id: number) {
 
     // console.log(currentCurso.value, curso_id);
@@ -176,9 +185,14 @@ const curso_form = useForm({
                             {{ curso_form.errors.descripcion }}
                         </div>
                     </div>
-
                 </div>
             </template>
+            <template v-slot:action-button>
+                    <button @click="creaCurso()"
+                        class="bg-indigo-500 hover:bg-indigo-500/90 text-white shadow-sm rounded-md px-2">
+                        Crear curso
+                    </button>
+                </template>
         </Modal>
         <!-- END: Modal creación de curso -->
 
