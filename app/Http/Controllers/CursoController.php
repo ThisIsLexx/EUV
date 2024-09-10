@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CrearCursoRequest;
 use App\Http\Requests\UnirseCursoRequest;
 use Inertia\Inertia;
 use App\Models\Curso;
@@ -40,9 +41,17 @@ class CursoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CrearCursoRequest $request)
     {
-        //
+        $curso = new Curso();
+        $curso->codigo = $request->codigo;
+        $curso->titulo = $request->titulo;
+        $curso->descripcion = $request->descripcion;
+        $curso->user_id = auth()->user()->id;
+        $curso->save();
+
+        return redirect()->route('curso.index')->with('success', 'Curso creado exitosamente!');
+
     }
 
     /**
@@ -97,23 +106,17 @@ class CursoController extends Controller
         $curso = Curso::where('codigo', $request->codigo)->first();
 
         if (!$curso) {
-            return redirect()->route('curso.index');
+            return redirect()->back();
         }
 
         if (!$usuario->cursos()->find($curso->id)) {
             $usuario->cursos()->attach($curso);
+            return redirect()->back()->with('success', 'Registro exitoso!');
         }
         else {
-            return redirect()->route('curso.index');
+            return redirect()->back();
         }
 
-        return Inertia::render('Cursos/CursoRegistro', [
-            'titulo' => 'Mis cursos',
-            'mis_cursos' => $usuario->cursos()->get(),
-            'breadcrumbs' => [
-                ['name' => 'Listado de cursos', 'href' => 'curso.index', 'current' => true],
-            ],
-        ]);
     }
 
     public function cancelar(Curso $curso)
@@ -123,12 +126,6 @@ class CursoController extends Controller
 
         $usuario->cursos()->detach($curso);
 
-        return Inertia::render('Cursos/CursoRegistro', [
-            'titulo' => 'Mis cursos',
-            'mis_cursos' => $usuario->cursos()->get(),
-            'breadcrumbs' => [
-                ['name' => 'Listado de cursos', 'href' => 'curso.index', 'current' => true],
-            ],
-        ]);
+        return redirect()->back()->with('success', 'Registro cancelado correctamente!');
     }
 }

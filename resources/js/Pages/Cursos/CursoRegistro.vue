@@ -4,7 +4,7 @@ import { Head, router, useForm } from '@inertiajs/vue3';
 import { Breadcrumb } from '@/types/breadcrumb';
 import { Curso } from '@/types/curso';
 import { ref, watch } from 'vue';
-import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid';
+import { EllipsisVerticalIcon, ExclamationTriangleIcon, UserCircleIcon } from '@heroicons/vue/20/solid';
 import Separator from '@/Components/Separator.vue';
 import Modal from '@/Components/Custom/Modal.vue';
 
@@ -19,6 +19,7 @@ const props = defineProps({
 
 
 let showModal = ref(false);
+let cancelar_registro = ref(false);
 let crearCurso = ref(false);
 let showMenu = ref(false);
 let currentCurso = ref(null);
@@ -40,7 +41,7 @@ function verCurso(curso: Curso) {
 
 function cancelarRegistro(curso_id: number) {
     router.post(route('curso.cancelar', curso_id));
-    console.log('Cancelar registro', curso_id);
+    cancelar_registro.value = false;
 }
 
 function toggleShowMenu(curso_id: number) {
@@ -57,6 +58,13 @@ const form = useForm({
     codigo: null,
 });
 
+const curso_form = useForm({
+    titulo: null,
+    descripcion: null,
+    codigo: null,
+    tutor: null,
+});
+
 </script>
 
 <template>
@@ -65,6 +73,22 @@ const form = useForm({
             <h1>{{props.titulo}}</h1>
         </div>
         <Separator />
+
+        <Modal :showModal="cancelar_registro" size="md" :titulo="props.mis_cursos?.find(curso => curso.id === currentCurso)?.titulo" @closeModal="cancelar_registro = false">
+            <template v-slot:modal-content>
+                <div class="flex flex-col justify-center text-center">
+                    <ExclamationTriangleIcon class="w-24 h-24 animate-pulse text-red-500 mx-auto" />
+                    <h2 class="text-lg font-semibold uppercase">Cancelar registro</h2>
+                    <p>¿Estás seguro de que deseas cancelar el registro del curso?</p>
+                    <p>Esta acción es irreversible y todos los datos asociados al registro serán eliminados.</p>
+                </div>
+            </template>
+            <template v-slot:action-button>
+                <button @click="cancelarRegistro(currentCurso)" class="bg-red-500 hover:bg-red-500/90 text-white shadow-sm rounded-md px-2">
+                    Cancelar registro
+                </button>
+            </template>
+        </Modal>
 
         <!-- INICIO: Modal unirse a curso -->
         <Modal :showModal="showModal" size="sm" titulo="Unirme a curso" @closeModal="showModal = false">
@@ -75,9 +99,12 @@ const form = useForm({
                         <span>
                             Accediste como
                         </span>
-                        <span class="text-gray-600 text-sm">
-                            {{ $page.props.auth.user.name }} - {{ $page.props.auth.user.email }}
-                        </span>
+                        <div class="flex items-center">
+                            <UserCircleIcon class="w-8 h-8 mr-2 opacity-70"/>
+                            <span class=" text-gray-600 text-sm">
+                                {{ $page.props.auth.user.name }}
+                            </span>
+                        </div>
                     </div>
 
                     <Separator />
@@ -86,7 +113,7 @@ const form = useForm({
                             class="text-red-500 font-semibold">*</span></label>
                     <span class="text-gray-600 text-sm mb-2">Pídele a tu tutor el código de la clase para ingresarlo aquí.</span>
                     <input type="text" name="titulo"
-                        class="transition duration-100 rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200"
+                        class="transition duration-100 max-h-[30px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200"
                         :class="{ 'border-red-600': form.errors.codigo }" v-model="form.codigo">
                     <div v-if="form.errors.codigo" class="text-red-500 text-xs uppercase mt-2">
                         {{ form.errors.codigo }}
@@ -105,7 +132,20 @@ const form = useForm({
         <!-- INICIO: Modal creación de curso -->
         <Modal :showModal="crearCurso" size="lg" titulo="Crear nuevo curso" @closeModal="crearCurso = false">
             <template v-slot:modal-content class="flex flex-col">
-                <div>
+                <div class="p-5 bg-gray-200 rounded-md flex flex-col">
+                    <span>
+                        <label for="titulo_curso">Título</label>
+                        <span class="text-red-500 font-semibold">*</span>
+                    </span>
+                    <span class="text-xs text-gray-600 uppercase">
+                        Ingrese un título descriptivo para el curso
+                    </span>
+                    <input type="text" name="titulo"
+                        class="transition duration-100 max-h-[30px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200"
+                        :class="{ 'border-red-600': curso_form.errors.titulo }" v-model="curso_form.titulo">
+                    <div v-if="curso_form.errors.titulo" class="text-red-500 text-xs uppercase mt-2">
+                        {{ curso_form.errors.titulo }}
+                    </div>
 
                 </div>
             </template>
@@ -161,7 +201,7 @@ const form = useForm({
                                     <div v-if="showMenu && currentCurso === curso.id" class="absolute right-2 mt-2 w-40 bg-white rounded-md shadow-lg z-40">
                                         <ul class="py-1">
                                             <li>
-                                                <div @click="cancelarRegistro(curso.id)" class="transition-all ease-in-out duration-200 block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 cursor-pointer">
+                                                <div @click="cancelar_registro = true" class="transition-all ease-in-out duration-200 block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 cursor-pointer">
                                                     Cancelar registro
                                                 </div>
                                             </li>
@@ -169,6 +209,7 @@ const form = useForm({
                                     </div>
                                 </transition>
                             </div>
+
 
 
                             <!-- BEGIN: Imagen de curso -->
