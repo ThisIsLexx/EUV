@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('codigo');
             $table->string('titulo');
             $table->string('descripcion');
+            $table->string('color')->default('blue');
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

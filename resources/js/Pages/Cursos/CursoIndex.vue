@@ -39,6 +39,27 @@ const startGame = (cuento: number) => {
     router.get(route('curso.play', cuento));
 }
 
+function resolveCursoColor(color: string) {
+    switch (color) {
+        case 'blue':
+            return 'bg-gradient-to-r from-sky-500 to-indigo-500';
+        case 'emerald':
+            return 'bg-gradient-to-r from-cyan-500 to-emerald-500';
+        case 'red':
+            return 'bg-gradient-to-r from-rose-500 to-red-500';
+        case 'amber':
+            return 'bg-gradient-to-r from-amber-500 to-yellow-500';
+        case 'orange':
+            return 'bg-gradient-to-r from-orange-500 to-yellow-500';
+        case 'purple':
+            return 'bg-gradient-to-r from-violet-500 to-purple-500';
+        case 'gray':
+            return 'bg-gradient-to-r from-gray-500 to-gray-800';
+        default:
+            return 'bg-gradient-to-r from-cyan-500 to-emerald-500';
+    }
+}
+
 </script>
 
 <template>
@@ -70,7 +91,8 @@ const startGame = (cuento: number) => {
             >
                 <div v-if="activeTab === 'tablero'">
                      <div class="flex justify-center w-full">
-                         <div class="my-4 w-5/6 md:w-4/6 lg:w-2/3 content-end bg-gradient-to-r from-cyan-500 to-emerald-500 text-white p-5 rounded-md min-h-[180px]">
+                         <div class="my-4 w-5/6 md:w-4/6 lg:w-2/3 content-end text-white p-5 rounded-md min-h-[180px]"
+                            :class="resolveCursoColor(props.curso.color)">
                              <div class="flex flex-col">
                                  <span class="font-semibold text-3xl">
                                      {{ props.curso.titulo }}

@@ -47,6 +47,7 @@ class CursoController extends Controller
         $curso->codigo = $request->codigo;
         $curso->titulo = $request->titulo;
         $curso->descripcion = $request->descripcion;
+        $curso->color = $request->color;
         $curso->user_id = auth()->user()->id;
         $curso->save();
 

@@ -72,6 +72,7 @@ const curso_form = useForm({
     descripcion: null,
     codigo: null,
     tutor: null,
+    color: 'blue',
 });
 
 </script>
@@ -183,6 +184,58 @@ const curso_form = useForm({
                             :class="{ 'border-red-600': curso_form.errors.descripcion }" v-model="curso_form.descripcion" rows="3"></textarea>
                         <div v-if="curso_form.errors.descripcion" class="text-red-500 text-xs uppercase mt-2">
                             {{ curso_form.errors.descripcion }}
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <span>
+                            <label for="color_curso">Color</label>
+                            <span class="text-red-500 font-semibold">*</span>
+                        </span>
+                        <span class="text-xs text-gray-600 uppercase">
+                            Seleccione un color para el banner del curso
+                        </span>
+
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" value="blue" v-model="curso_form.color" class="hidden">
+                                <span class="w-8 h-8 rounded-full transition-all duration-300 hover:scale-105 bg-blue-200 shadow-lg"
+                                    :class="curso_form.color === 'blue' ? 'border-2 border-blue-500' : 'border-2 border-transparent' "></span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" value="emerald" v-model="curso_form.color" class="hidden">
+                                <span class="w-8 h-8 rounded-full transition-all duration-300 hover:scale-105 bg-emerald-200 shadow-lg"
+                                    :class="curso_form.color === 'emerald' ? 'border-2 border-emerald-500' : 'border-2 border-transparent'"></span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" value="amber" v-model="curso_form.color" class="hidden">
+                                <span class="w-8 h-8 rounded-full transition-all duration-300 hover:scale-105 bg-amber-200 shadow-lg"
+                                    :class="curso_form.color === 'amber' ? 'border-2 border-amber-500' : 'border-2 border-transparent'"></span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" value="orange" v-model="curso_form.color" class="hidden">
+                                <span class="w-8 h-8 rounded-full transition-all duration-300 hover:scale-105 bg-orange-200 shadow-lg"
+                                    :class="curso_form.color === 'orange' ? 'border-2 border-orange-500' : 'border-2 border-transparent'"></span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" value="red" v-model="curso_form.color" class="hidden">
+                                <span class="w-8 h-8 rounded-full transition-all duration-300 hover:scale-105 bg-red-200 shadow-lg"
+                                    :class="curso_form.color === 'red' ? 'border-2 border-red-500' : 'border-2 border-transparent'"></span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" value="purple" v-model="curso_form.color" class="hidden">
+                                <span class="w-8 h-8 rounded-full transition-all duration-300 hover:scale-105 bg-purple-200 shadow-lg"
+                                    :class="curso_form.color === 'purple' ? 'border-2 border-purple-500' : 'border-2 border-transparent'"></span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" value="gray" v-model="curso_form.color" class="hidden">
+                                <span class="w-8 h-8 rounded-full transition-all duration-300 hover:scale-105 bg-gray-200 shadow-lg"
+                                    :class="curso_form.color === 'gray' ? 'border-2 border-gray-500' : 'border-2 border-transparent'"></span>
+                            </label>
+                        </div>
+
+                        <div v-if="curso_form.errors.color" class="text-red-500 text-xs uppercase mt-2">
+                            {{ curso_form.errors.color }}
                         </div>
                     </div>
                 </div>
