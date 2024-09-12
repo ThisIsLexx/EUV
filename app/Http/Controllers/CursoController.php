@@ -66,12 +66,20 @@ class CursoController extends Controller
     {
         $personas = $curso->alumnos()->get()->whereNotIn('id', [$curso->user->id]);
         $asignaciones = $curso->cuentos()->get();
+        $cuentos = Cuento::whereNotIn('id', $asignaciones->pluck('id'))->get()->map(function($cuento) {
+            return [
+            'id' => $cuento->id,
+            'titulo' => $cuento->titulo,
+            'dificultad' => $cuento->dificultad,
+            ];
+        });
 
         return Inertia::render('Cursos/CursoIndex',[
             'curso' => $curso,
             'tutor' => [$curso->user->name, $curso->user->email],
             'personas' => $personas,
             'asignaciones' => $asignaciones,
+            'cuentos' => $cuentos,
             'breadcrumbs' => [
                 ['name' => 'Listado de cursos', 'href' => 'curso.index', 'current' => false],
                 ['name' => $curso->codigo, 'href' => '', 'current' => true],
@@ -132,5 +140,21 @@ class CursoController extends Controller
         $usuario->cursos()->detach($curso);
 
         return redirect()->back()->with('success', 'Registro cancelado correctamente!');
+    }
+
+    public function asignar(Request $request, Curso $curso)
+    {
+
+
+        $request->validate([
+            'selectedCuentos' => 'required|array',
+        ]);
+
+
+        foreach ($request->selectedCuentos as $cuento) {
+            $curso->cuentos()->attach($cuento['id']);
+        }
+
+        return redirect()->back()->with('success', 'Textos asignados correctamente!');
     }
 }
