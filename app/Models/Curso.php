@@ -26,7 +26,7 @@ class Curso extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function cuentos() : HasMany {
-        return $this->hasMany(Cuento::class);
+    public function cuentos() : belongsToMany {
+        return $this->belongsToMany(Cuento::class);
     }
 }
