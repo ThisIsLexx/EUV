@@ -228,6 +228,11 @@ const curso_form = useForm({
                                     :class="curso_form.color === 'purple' ? 'border-2 border-purple-500' : 'border-2 border-transparent'"></span>
                             </label>
                             <label class="flex items-center cursor-pointer">
+                                <input type="radio" value="pink" v-model="curso_form.color" class="hidden">
+                                <span class="w-8 h-8 rounded-full transition-all duration-300 hover:scale-105 bg-pink-200 shadow-lg"
+                                    :class="curso_form.color === 'pink' ? 'border-2 border-pink-500' : 'border-2 border-transparent'"></span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
                                 <input type="radio" value="gray" v-model="curso_form.color" class="hidden">
                                 <span class="w-8 h-8 rounded-full transition-all duration-300 hover:scale-105 bg-gray-200 shadow-lg"
                                     :class="curso_form.color === 'gray' ? 'border-2 border-gray-500' : 'border-2 border-transparent'"></span>

@@ -25,7 +25,7 @@ class CrearCursoRequest extends FormRequest
             'codigo' => 'required|unique:cursos,codigo|min:3',
             'titulo' => 'required|min:3|max:255',
             'descripcion' => 'required|min:5|max:255',
-            'color' => 'required|string|in:blue,emerald,red,amber,purple,orange,gray',
+            'color' => 'required|string|in:blue,emerald,red,amber,purple,orange,gray,pink',
         ];
     }
 

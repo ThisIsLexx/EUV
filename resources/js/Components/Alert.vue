@@ -95,5 +95,4 @@ watch(() => page.props.flash, (flash: FlashProps) => {
     }
 }, { immediate: true });
 
-console.log(page.props);
 </script>
