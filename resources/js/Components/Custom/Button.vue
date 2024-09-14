@@ -58,7 +58,7 @@ function redirect () {
 
 <template>
     <div v-if="props.redirect" @click="redirect()">
-        <button :type="`${type}`" :class="`text-white p-2 rounded-md shadow-sm hover:shadow-md btn ${bgColor}`" :disabled="disabled">
+        <button :type="`${type}`" :class="`text-white p-2 transition-all duration-300 ease-in-out rounded-md shadow-sm hover:shadow-md btn ${bgColor}`" :disabled="disabled">
             <div v-if="icon === 'PlayIcon'">
                 <PlayIcon class="w-6 h-6" />
             </div>
@@ -66,7 +66,7 @@ function redirect () {
         </button>
     </div>
     <div v-else>
-        <button :type="`${type}`" :class="`text-white p-2 rounded-md shadow-sm hover:shadow-md btn ${bgColor}`" :disabled="disabled">
+        <button :type="`${type}`" :class="`text-white p-2 transition-all duration-300 ease-in-out rounded-md shadow-sm hover:shadow-md btn ${bgColor}`" :disabled="disabled">
             <div v-if="icon === 'PlayIcon'">
                 <PlayIcon class="w-6 h-6" />
             </div>

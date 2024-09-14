@@ -17,7 +17,9 @@ class CursoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'titulo' => fake()->text(),
+            'descripcion' => fake()->text(),
+            'codigo' => fake()->unique()->text(),
         ];
     }
 }

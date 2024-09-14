@@ -93,3 +93,21 @@
     transform: translateX(-20px);
     opacity: 0;
 }
+
+/* CUSTOM SCROLLBAR STYLE */
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Color and border */
+::-webkit-scrollbar-thumb {
+    background-color: #9ca3af;
+    border-radius: 10px;
+    border: 2px solid transparent;
+}

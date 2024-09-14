@@ -39,7 +39,7 @@ defineProps({
                 leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
                 <div class="p-4 bg-white self-start mt-32 max-w-screen-md rounded-md" v-if="showModal"
-                    :class="{ 'w-full' : size === 'lg' }"
+                    :class="{ 'w-full' : size === 'lg', 'w-1/3' : size === 'sm', 'w-1/2' : size === 'md' }"
                 >
                     <h1>{{  titulo }}</h1>
                     <Separator />

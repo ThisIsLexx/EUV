@@ -209,7 +209,7 @@
                     </div>
                 </div>
             </div>
-
+            <Alert />
             <main class="py-10">
                 <div class="px-4 sm:px-6 lg:px-8">
                     <slot />
@@ -224,6 +224,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import Breadcrumbs from '@/Components/Custom/Breadcrumbs.vue';
+import Alert from '@/Components/Alert.vue';
 import { Breadcrumb } from '@/types/breadcrumb';
 
 const props = defineProps({

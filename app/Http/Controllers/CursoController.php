@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CrearCursoRequest;
 use App\Http\Requests\UnirseCursoRequest;
 use Inertia\Inertia;
 use App\Models\Curso;
@@ -40,9 +41,22 @@ class CursoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CrearCursoRequest $request)
     {
-        //
+        $curso = new Curso();
+        $curso->codigo = $request->codigo;
+        $curso->titulo = $request->titulo;
+        $curso->descripcion = $request->descripcion;
+        $curso->color = $request->color;
+        $curso->user_id = auth()->user()->id;
+        $curso->save();
+
+        $user = auth()->user();
+        $usuario = User::find($user->id);
+        $usuario->cursos()->attach($curso);
+
+        return redirect()->route('curso.index')->with('success', 'Curso creado exitosamente!');
+
     }
 
     /**
@@ -50,11 +64,25 @@ class CursoController extends Controller
      */
     public function show(Curso $curso)
     {
+        $personas = $curso->alumnos()->get()->whereNotIn('id', [$curso->user->id]);
+        $asignaciones = $curso->cuentos()->get();
+        $cuentos = Cuento::whereNotIn('id', $asignaciones->pluck('id'))->get()->map(function($cuento) {
+            return [
+            'id' => $cuento->id,
+            'titulo' => $cuento->titulo,
+            'dificultad' => $cuento->dificultad,
+            ];
+        });
+        $puntaje = $curso->puntajes()->where('user_id', auth()->user()->id)->orderBy('puntaje', 'desc')->get();
+
+
         return Inertia::render('Cursos/CursoIndex',[
             'curso' => $curso,
-            'baja' => Cuento::where('dificultad', 'baja')->get(),
-            'media' => Cuento::where('dificultad', 'media')->get(),
-            'alta' => Cuento::where('dificultad', 'alta')->get(),
+            'tutor' => [$curso->user->name, $curso->user->email],
+            'personas' => $personas,
+            'asignaciones' => $asignaciones,
+            'cuentos' => $cuentos,
+            'puntaje' => $puntaje,
             'breadcrumbs' => [
                 ['name' => 'Listado de cursos', 'href' => 'curso.index', 'current' => false],
                 ['name' => $curso->codigo, 'href' => '', 'current' => true],
@@ -94,22 +122,45 @@ class CursoController extends Controller
         $curso = Curso::where('codigo', $request->codigo)->first();
 
         if (!$curso) {
-            return redirect()->route('curso.index');
+            return redirect()->back()->with('danger', 'No se encontró un curso con ese código!');
         }
 
         if (!$usuario->cursos()->find($curso->id)) {
             $usuario->cursos()->attach($curso);
+            return redirect()->back()->with('success', 'Registro exitoso!');
         }
         else {
-            return redirect()->route('curso.index');
+            return redirect()->back();
         }
 
-        return Inertia::render('Cursos/CursoRegistro', [
-            'titulo' => 'Mis cursos',
-            'mis_cursos' => $usuario->cursos()->get(),
-            'breadcrumbs' => [
-                ['name' => 'Listado de cursos', 'href' => 'curso.index', 'current' => true],
-            ],
+    }
+
+    public function cancelar(Curso $curso)
+    {
+        $user = auth()->user();
+        $usuario = User::find($user->id);
+
+        $usuario->cursos()->detach($curso);
+
+        return redirect()->back()->with('success', 'Registro cancelado correctamente!');
+    }
+
+    public function asignar(Request $request, Curso $curso)
+    {
+        $request->validate([
+            'selectedCuentos' => 'required|array',
         ]);
+        foreach ($request->selectedCuentos as $cuento) {
+            $curso->cuentos()->attach($cuento['id']);
+        }
+
+        return redirect()->back()->with('success', 'Textos asignados correctamente!');
+    }
+
+    public function desasignar(Cuento $cuento, Curso $curso)
+    {
+        $curso->cuentos()->detach($cuento);
+
+        return redirect()->back()->with('success', 'Texto desasignado correctamente!');
     }
 }

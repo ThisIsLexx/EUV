@@ -65,9 +65,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function curso()
+    public function cursos_creados()
     {
-        return $this->hasOne(Curso::class);
+        return $this->hasMany(Curso::class);
     }
 
     public function cursos()

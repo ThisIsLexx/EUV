@@ -27,7 +27,6 @@ const banners = [
 
 const nextBanner = () => {
     currentBanner.value = currentBanner.value === banners.length - 1 ? 0 : currentBanner.value + 1;
-    console.log(currentBanner.value);
 };
 
 // Recorrer entre los diferentes banners

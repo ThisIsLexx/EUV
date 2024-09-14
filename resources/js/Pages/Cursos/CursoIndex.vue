@@ -1,124 +1,343 @@
 <script setup lang="ts">
 
+import { ref, watch } from 'vue';
+import debounce from 'lodash.debounce';
+import { Curso } from '@/types/curso';
+import { Cuento } from '@/types/cuento';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Breadcrumb } from '@/types/breadcrumb';
+import Modal from '@/Components/Custom/Modal.vue';
+import { PlayIcon } from '@heroicons/vue/20/solid';
 import Separator from '@/Components/Separator.vue';
 import Button from '@/Components/Custom/Button.vue';
-import { PlayIcon } from '@heroicons/vue/20/solid';
-import { Cuento } from '@/types/cuento';
-import { Curso } from '@/types/curso';
-import { Breadcrumb } from '@/types/breadcrumb';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
+import { UserCircleIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/solid';
 
 const props = defineProps({
     curso: {
         type: Object as () => Curso,
-        required: true
-    },
-    baja: {
-        type: Array<Cuento>,
-    },
-    media: {
-        type: Array<Cuento>,
-    },
-    alta: {
-        type: Array<Cuento>,
+        required: true,
     },
     breadcrumbs: {
         type: Array<Breadcrumb>,
-        required: true
+        required: true,
+    },
+    asignaciones: {
+        type: Array<Cuento>,
+        required: true,
+    },
+    tutor: {
+        required: true,
+    },
+    personas: {
+        required: true,
+        default: null,
+    },
+    cuentos: {
+        type: Array<Cuento>,
+        default: null,
+    },
+    puntaje: {
+        type: Object,
+        default: null,
     }
 });
 
-const forvalue = [1,2,3,4,5,6,7,8,9,10];
+console.log(props.puntaje);
+
+let activeTab = ref('tablero');
+let cuentoFilter = ref('');
+let mostrarCuentos = ref(false);
+let filteredCuentos = ref<Array<Cuento>>(props.cuentos);
+let isLoading = ref(false);
+let asd = ref(false);
+
+function resolveCursoColor(color: string) {
+    switch (color) {
+        case 'blue':
+            return 'bg-gradient-to-r from-sky-500 to-indigo-500';
+        case 'emerald':
+            return 'bg-gradient-to-r from-cyan-500 to-emerald-500';
+        case 'red':
+            return 'bg-gradient-to-r from-rose-500 to-red-500';
+        case 'amber':
+            return 'bg-gradient-to-r from-amber-500 to-yellow-500';
+        case 'orange':
+            return 'bg-gradient-to-r from-orange-500 to-yellow-500';
+        case 'purple':
+            return 'bg-gradient-to-r from-violet-500 to-purple-500';
+        case 'gray':
+            return 'bg-gradient-to-r from-gray-500 to-gray-800';
+        case 'pink':
+            return 'bg-gradient-to-r from-pink-500 to-rose-500';
+        default:
+            return 'bg-gradient-to-r from-cyan-500 to-emerald-500';
+    }
+}
 
 const startGame = (cuento: number) => {
     router.get(route('curso.play', cuento));
+}
+
+watch(cuentoFilter, (value) => {
+    filtrarCuentoBusqueda(value);
+});
+
+const filtrarCuentoBusqueda = debounce(async (value: string) => {
+    isLoading.value = true;
+    try {
+        filteredCuentos.value = props.cuentos.filter((cuento: Cuento) => cuento.titulo.toLowerCase().includes(value.toLowerCase()));
+    } catch (error) {
+        console.error('Error fetching cuentos:', error);
+    } finally {
+        isLoading.value = false;
+    }
+}, 200);
+
+let selectedCuentos = ref<Array<Cuento>>([]);
+
+function Texts(cuento: number) {
+    if (selectedCuentos.value.includes(props.cuentos.find((c) => c.id === cuento))) {
+        selectedCuentos.value = selectedCuentos.value.filter((c) => c.id !== cuento);
+    }
+    else {
+        selectedCuentos.value.push(props.cuentos.find((c) => c.id === cuento));
+    }
+    console.log(selectedCuentos.value);
+}
+
+const form = useForm({
+    selectedCuentos: selectedCuentos,
+});
+
+function asignarCuentos() {
+    form.selectedCuentos = selectedCuentos;
+    form.post(route('curso.asignar', props.curso), {
+        onSuccess: () => {
+            mostrarCuentos.value = false;
+            selectedCuentos.value = [];
+            filteredCuentos.value = props.cuentos;
+            form.reset();
+            form.clearErrors();
+        }
+    });
+}
+
+function hasHighScore(asignacion: number) {
+    return props.puntaje.length && props.puntaje.find(p => p.curso_id === asignacion);
+}
+
+function getHighScore(asignacion: number) {
+    return props.puntaje.find(p => p.curso_id === asignacion).puntaje;
 }
 
 </script>
 
 <template>
     <AppLayout :breadcrumbs="props.breadcrumbs">
-        <div>
-            <h1 class="font-semibold text-2xl uppercase">{{props.curso.codigo}}</h1>
-            <span class="text-gray-600 text-sm uppercase">
-                {{ props.curso.titulo }} - {{ props.curso.descripcion }}
-            </span>
+
+        <!-- BEGIN: Tabs de navegación -->
+        <div class="flex w-full">
+            <div class="flex border-b-2 border-gray-200 w-full">
+                <div class="px-4 py-2 rounded-t-md text-sm transition-all ease-in-out duration-300 font-semibold  focus:outline-none cursor-pointer"
+                :class="{ ' text-indigo-600 bg-gray-200':  activeTab === 'tablero' }"
+                @click="activeTab = 'tablero'">
+                    Tablero
+                </div>
+                <div class="px-4 py-2 rounded-t-md text-sm transition-all ease-in-out duration-300 font-semibold  focus:outline-none cursor-pointer"
+                :class="{ ' text-indigo-600 bg-gray-200 ': activeTab === 'personas' }"
+                @click="activeTab = 'personas'">
+                    Personas
+                </div>
+            </div>
         </div>
-        <Separator/>
+        <!-- END: Tabs de navegación -->
+
+        <Modal :showModal="mostrarCuentos" size="lg" titulo="Agregar asignaciones" @closeModal="mostrarCuentos = false; form.reset(); form.clearErrors(); selectedCuentos = []">
+            <template v-slot:modal-content>
+                <div class="p-5 w-full h-full">
+                    <div>
+                        <input type="text" v-model="cuentoFilter" placeholder="Buscar textos..."
+                            class="transition duration-100 max-h-[32px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200">
+                    </div>
+                    <Separator margin="mb-6 mt-2"/>
+                    <div v-if="isLoading">
+                        <div class="flex justify-center items-center w-full h-full">
+                            <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-600"></div>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-xl">Textos disponibles <span v-if="form.errors.selectedCuentos" class="text-red-500 uppercase text-xl font-semibold animate-pulse">*</span></span>
+                            <transition
+                                enter-from-class="opacity-0"
+                                enter-to-class="opacity-100"
+                                enter-active-class="transition ease-out duration-300"
+                                leave-active-class="transition ease-in duration-200"
+
+
+                            >
+                                <span v-if="form.errors.selectedCuentos" class="text-red-500 uppercase text-xs font-semibold">Necesitas seleccionar al menos un texto para asignarlo al curso!</span>
+                            </transition>
+
+                        </div>
+                        <div v-if="filteredCuentos.length > 0">
+                            <div v-for="cuento in filteredCuentos" class="flex flex-col my-2" @click="Texts(cuento.id)">
+                                <div class="flex justify-between group p-2 border items-center border-gray-200 rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:border-indigo-500 hover:text-indigo-600"
+                                    :class="{'border-indigo-500': selectedCuentos.some(c => c.id === cuento.id)}">
+                                    <span>
+                                        {{ cuento.titulo }} - Dificultad: {{ cuento.dificultad }}
+                                    </span>
+                                    <span class="h-5 w-5 bg-gray-300 rounded-full transition-all duration-300 ease-in-out group-hover:bg-indigo-400"
+                                        :class="{'!bg-indigo-400': selectedCuentos.some(c => c.id === cuento.id)}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else class="w-full flex flex-col justify-center items-center p-10">
+                            <ClipboardDocumentListIcon class="w-24 h-24 opacity-60"/>
+                            <span class="text-gray-700 mt-4">
+                                No hay textos disponibles para asignar en este momento.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template v-slot:action-button>
+                <button @click="asignarCuentos()" class="bg-indigo-500 hover:bg-indigo-500/90 text-white shadow-sm rounded-md px-2">
+                    Asignar textos
+                </button>
+            </template>
+
+        </Modal>
 
         <div class="flex flex-col">
-            <!-- INICIO: CURSOS DIFICULTAD BAJA -->
-            <div class="w-full" v-if="baja.length > 0">
-                <div class="my-4 w-full bg-gradient-to-r from-cyan-500 to-emerald-500 text-white p-5 rounded-md mb-4">
-                    <span class="font-semibold">
-                        Cursos dificultad baja
-                    </span>
-                </div>
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-                    <div v-for="cuento in baja" class="p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
-                        <div class="flex text-xs uppercase font-semibold">
-                            {{cuento.titulo}}
-                        </div>
-                        <Separator/>
-                        <div class="flex justify-end space-x-2">
-                            <Button message="Ver estadísticas" type="button" button="secondary" />
-                            <div @click="startGame(cuento.id)">
-                                <Button message="Iniciar" type="button" button="primary" />
+            <!-- INICIO: Index de curso -->
+            <transition
+                appear
+                enter-from-class="opacity-0 scale-95"
+                enter-to-class="opacity-100 scale-100"
+                enter-active-class="transition ease-out duration-300"
+            >
+                <div v-if="activeTab === 'tablero'">
+                     <div class="flex justify-center w-full">
+                         <div class="my-4 w-5/6 md:w-4/6 lg:w-2/3 content-end text-white p-5 rounded-md min-h-[180px]"
+                            :class="resolveCursoColor(props.curso.color)">
+                             <div class="flex flex-col">
+                                 <span class="font-semibold text-3xl">
+                                     {{ props.curso.titulo }}
+                                 </span>
+                                 <span class="font-semibold text-xl">
+                                     {{ props.curso.codigo }}
+                                 </span>
+                             </div>
+                         </div>
+                     </div>
+                     <!-- BEGIN: Asignaciones del curso -->
+                        <div class="flex justify-center w-full">
+                            <div class="my-4 w-5/6 md:w-4/6 lg:w-2/3">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-3xl">
+                                        <div class="flex justify-between">
+                                            <span>
+                                                Asignaciones
+                                            </span>
+                                            <div v-if="$page.props.auth.user.email === props.tutor[1] && props.asignaciones.length" class="text-sm">
+                                                <Button type="button" @click="mostrarCuentos = true" message="Agregar asignación"/>
+                                            </div>
+                                            <!-- TODO: INFORMACIÓN EXTRA SOBRE COMO OBTENER PUNTAJES -->
+                                            <!-- <div>
+                                                <span class="bg-gray-200 rounded-full text-xs p-5" @click="asd = true; console.log(asd)">
+                                                    ?
+                                                </span>
+                                            </div> -->
+                                        </div>
+                                        <Separator/>
+                                    </span>
+                                    <div v-if="props.asignaciones.length" class="flex flex-col w-full space-y-2">
+                                        <div v-for="asignacion in props.asignaciones" :key="asignacion.id" @click="startGame(asignacion.id)"
+                                            class="flex group justify-between p-2 border border-gray-200 rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:border-indigo-500 ">
+                                            <span class="flex justify-start items-center content-center w-full font-medium group-hover:text-indigo-600">
+                                                <PlayIcon class="w-8 h-8 mr-2 opacity-70"/>
+                                                {{ asignacion.titulo }}
+                                            </span>
+                                            <span class="flex group min-w-[228px] font-semibold items-center transition-all duration-300 ease-in-out justify-center border-l-2 px-5 hover:border-indigo-500 hover:bg-indigo-100 content-center text-sm">
+                                                <span class="mr-1">
+                                                    Mejor puntaje:
+                                                </span>
+                                                <span v-if="hasHighScore(asignacion.id)" class="group-hover:text-indigo-500 transition-all duration-300 ease-in-out">
+                                                    {{ getHighScore(asignacion.id) }} puntos
+                                                </span>
+                                                <span v-else class="group-hover:text-indigo-500 transition-all duration-300 ease-in-out">
+                                                    Sin puntaje
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div v-else class="w-full flex flex-col justify-center items-center p-10">
+                                        <ClipboardDocumentListIcon class="w-24 h-24 opacity-70"/>
+                                        <span class="text-gray-700 mt-4">
+                                            No hay asignaciones en este curso.
+                                            <div v-if="$page.props.auth.user.email === props.tutor[1]" class="flex w-full justify-center mt-2">
+                                                <Button type="button" @click="mostrarCuentos = true" message="Agregar asignación"/>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                     <!-- END: Asignaciones del curso -->
                 </div>
-            </div>
-            <!-- FIN: CURSOS DIFICULTAD BAJA -->
+            </transition>
+            <!-- FIN: Index de curso -->
 
-            <!-- INICIO: CURSOS DIFICULTAD MEDIA -->
-            <div class="w-full" v-if="media.length > 0">
-                <div class="my-4 w-full bg-gradient-to-r from-orange-500 to-yellow-500 text-white p-5 rounded-md mb-4">
-                    <span class="font-semibold">
-                        Cursos dificultad media
-                    </span>
+            <!-- INICIO: Index de personas -->
+            <transition
+                enter-from-class="opacity-0 scale-95"
+                enter-to-class="opacity-100 scale-100"
+                enter-active-class="transition ease-out duration-300"
+            >
+                <div v-if="activeTab === 'personas'">
+                     <div class="flex justify-center w-full mt-10">
+                         <div class="my-4 w-1/2 lg:w-2/3">
+                             <div class="flex flex-col">
+                                 <span class="font-medium text-3xl">
+                                    Tutor del curso
+                                    <Separator/>
+                                    <span class="text-sm uppercase">
+                                        <div class="flex justify-between p-5 border-b transition-all duration-200 border-gray-200 hover:border-indigo-600 hover:text-indigo-600">
+                                                <span class="flex justify-start items-center content-center w-full font-semibold">
+                                                    <UserCircleIcon class="w-8 h-8 mr-2 opacity-70"/>
+                                                    {{ props.tutor[0] }}
+                                                </span>
+                                            </div>
+                                    </span>
+                                </span>
+                                 <span class="font-medium text-3xl mt-10">
+                                    Personas inscritas
+                                    <Separator/>
+                                    <span class="text-sm uppercase">
+                                        <div v-if="props.personas.length > 0">
+                                            <div v-for="persona in props.personas" :key="persona.id" class="flex justify-between p-5 border-b transition-all duration-200 border-gray-200 hover:border-indigo-600 hover:text-indigo-600">
+                                                <span class="flex justify-start items-center content-center w-full font-semibold">
+                                                    <UserCircleIcon class="w-8 h-8 mr-2 opacity-70"/>
+                                                    {{ persona.name }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div v-else class="w-full flex flex-col justify-center items-center p-10">
+                                            <ClipboardDocumentListIcon class="w-24 h-24 opacity-70"/>
+                                            <span class="text-gray-700 mt-4 text-center">
+                                                Ups! Al parecer no hay personas inscritas en este curso.
+                                            </span>
+                                        </div>
+                                    </span>
+                                 </span>
+                             </div>
+                         </div>
+                     </div>
                 </div>
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-                    <div v-for="cuento in media" class="p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
-                        <div class="flex text-xs uppercase font-semibold">
-                            {{cuento.titulo}}
-                        </div>
-                        <Separator/>
-                        <div class="flex justify-end space-x-2">
-                            <Button message="Ver estadísticas" type="button" button="secondary" />
-                            <div @click="startGame(cuento.id)">
-                                <Button message="Iniciar" type="button" button="primary" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- FIN: CURSOS DIFICULTAD MEDIA -->
-
-            <!-- INICIO: CURSOS DIFICULTAD ALTA -->
-            <div class="w-full" v-if="alta.length > 0">
-                <div class="my-4 w-full bg-gradient-to-r from-red-500 to-fuchsia-500 text-white p-5 rounded-md mb-4">
-                    <span class="font-semibold">
-                        Cursos dificultad alta
-                    </span>
-                </div>
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-                    <div v-for="cuento in alta" class="p-5 rounded-md border-2 shadow-sm transition ease-in-out duration-300 hover:shadow-md">
-                        <div class="flex text-xs uppercase font-semibold">
-                            {{cuento.titulo}}
-                        </div>
-                        <Separator/>
-                        <div class="flex justify-end space-x-2">
-                            <Button message="Ver estadísticas" type="button" button="secondary" />
-                            <div @click="startGame(cuento.id)">
-                                <Button message="Iniciar" type="button" button="primary" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- FIN: CURSOS DIFICULTAD ALTA -->
+            </transition>
+            <!-- FIN: Index de personas -->
         </div>
 
     </AppLayout>
