@@ -244,6 +244,7 @@ function getHighScore(asignacion: number) {
                                             <div v-if="$page.props.auth.user.email === props.tutor[1] && props.asignaciones.length" class="text-sm">
                                                 <Button type="button" @click="mostrarCuentos = true" message="Agregar asignación"/>
                                             </div>
+                                            <!-- TODO: INFORMACIÓN EXTRA SOBRE COMO OBTENER PUNTAJES -->
                                             <!-- <div>
                                                 <span class="bg-gray-200 rounded-full text-xs p-5" @click="asd = true; console.log(asd)">
                                                     ?
