@@ -36,14 +36,21 @@ const props = defineProps({
     cuentos: {
         type: Array<Cuento>,
         default: null,
+    },
+    puntaje: {
+        type: Object,
+        default: null,
     }
 });
+
+console.log(props.puntaje);
 
 let activeTab = ref('tablero');
 let cuentoFilter = ref('');
 let mostrarCuentos = ref(false);
 let filteredCuentos = ref<Array<Cuento>>(props.cuentos);
 let isLoading = ref(false);
+let asd = ref(false);
 
 function resolveCursoColor(color: string) {
     switch (color) {
@@ -109,11 +116,21 @@ function asignarCuentos() {
         onSuccess: () => {
             mostrarCuentos.value = false;
             selectedCuentos.value = [];
+            filteredCuentos.value = props.cuentos;
             form.reset();
             form.clearErrors();
         }
     });
 }
+
+function hasHighScore(asignacion: number) {
+    return props.puntaje.length && props.puntaje.find(p => p.curso_id === asignacion);
+}
+
+function getHighScore(asignacion: number) {
+    return props.puntaje.find(p => p.curso_id === asignacion).puntaje;
+}
+
 </script>
 
 <template>
@@ -140,7 +157,8 @@ function asignarCuentos() {
             <template v-slot:modal-content>
                 <div class="p-5 w-full h-full">
                     <div>
-                        <input type="text" v-model="cuentoFilter">
+                        <input type="text" v-model="cuentoFilter" placeholder="Buscar textos..."
+                            class="transition duration-100 max-h-[32px] rounded-md border-gray-300 shadow-sm focus:ring-indigo-200 focus:border-indigo-200">
                     </div>
                     <Separator margin="mb-6 mt-2"/>
                     <div v-if="isLoading">
@@ -163,15 +181,23 @@ function asignarCuentos() {
                             </transition>
 
                         </div>
-                        <div v-for="cuento in filteredCuentos" class="flex flex-col my-2" @click="Texts(cuento.id)">
-                            <div class="flex justify-between group p-2 border items-center border-gray-200 rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:border-indigo-500 hover:text-indigo-600"
-                                :class="{'border-indigo-500': selectedCuentos.some(c => c.id === cuento.id)}">
-                                <span>
-                                    {{ cuento.titulo }} - Dificultad: {{ cuento.dificultad }}
-                                </span>
-                                <span class="h-5 w-5 bg-gray-300 rounded-full transition-all duration-300 ease-in-out group-hover:bg-indigo-400"
-                                    :class="{'!bg-indigo-400': selectedCuentos.some(c => c.id === cuento.id)}"></span>
+                        <div v-if="filteredCuentos.length > 0">
+                            <div v-for="cuento in filteredCuentos" class="flex flex-col my-2" @click="Texts(cuento.id)">
+                                <div class="flex justify-between group p-2 border items-center border-gray-200 rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:border-indigo-500 hover:text-indigo-600"
+                                    :class="{'border-indigo-500': selectedCuentos.some(c => c.id === cuento.id)}">
+                                    <span>
+                                        {{ cuento.titulo }} - Dificultad: {{ cuento.dificultad }}
+                                    </span>
+                                    <span class="h-5 w-5 bg-gray-300 rounded-full transition-all duration-300 ease-in-out group-hover:bg-indigo-400"
+                                        :class="{'!bg-indigo-400': selectedCuentos.some(c => c.id === cuento.id)}"></span>
+                                </div>
                             </div>
+                        </div>
+                        <div v-else class="w-full flex flex-col justify-center items-center p-10">
+                            <ClipboardDocumentListIcon class="w-24 h-24 opacity-60"/>
+                            <span class="text-gray-700 mt-4">
+                                No hay textos disponibles para asignar en este momento.
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -218,17 +244,31 @@ function asignarCuentos() {
                                             <div v-if="$page.props.auth.user.email === props.tutor[1] && props.asignaciones.length" class="text-sm">
                                                 <Button type="button" @click="mostrarCuentos = true" message="Agregar asignación"/>
                                             </div>
+                                            <!-- <div>
+                                                <span class="bg-gray-200 rounded-full text-xs p-5" @click="asd = true; console.log(asd)">
+                                                    ?
+                                                </span>
+                                            </div> -->
                                         </div>
                                         <Separator/>
                                     </span>
                                     <div v-if="props.asignaciones.length" class="flex flex-col w-full space-y-2">
                                         <div v-for="asignacion in props.asignaciones" :key="asignacion.id" @click="startGame(asignacion.id)"
-                                            class="flex justify-between p-2 border border-gray-200 rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:border-indigo-500 hover:text-indigo-600">
-                                            <span class="flex justify-start items-center content-center w-full font-medium">
+                                            class="flex group justify-between p-2 border border-gray-200 rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:border-indigo-500 ">
+                                            <span class="flex justify-start items-center content-center w-full font-medium group-hover:text-indigo-600">
                                                 <PlayIcon class="w-8 h-8 mr-2 opacity-70"/>
                                                 {{ asignacion.titulo }}
                                             </span>
-                                            <span class="font-semibold justify-end content-center">
+                                            <span class="flex group min-w-[228px] font-semibold items-center transition-all duration-300 ease-in-out justify-center border-l-2 px-5 hover:border-indigo-500 hover:bg-indigo-100 content-center text-sm">
+                                                <span class="mr-1">
+                                                    Mejor puntaje:
+                                                </span>
+                                                <span v-if="hasHighScore(asignacion.id)" class="group-hover:text-indigo-500 transition-all duration-300 ease-in-out">
+                                                    {{ getHighScore(asignacion.id) }} puntos
+                                                </span>
+                                                <span v-else class="group-hover:text-indigo-500 transition-all duration-300 ease-in-out">
+                                                    Sin puntaje
+                                                </span>
                                             </span>
                                         </div>
                                     </div>
