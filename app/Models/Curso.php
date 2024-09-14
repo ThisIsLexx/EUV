@@ -29,4 +29,9 @@ class Curso extends Model
     public function cuentos() : belongsToMany {
         return $this->belongsToMany(Cuento::class);
     }
+
+    public function puntajes(): hasMany
+    {
+        return $this->hasMany(Puntaje::class);
+    }
 }

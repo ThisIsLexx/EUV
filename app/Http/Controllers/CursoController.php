@@ -73,6 +73,8 @@ class CursoController extends Controller
             'dificultad' => $cuento->dificultad,
             ];
         });
+        $puntaje = $curso->puntajes()->where('user_id', auth()->user()->id)->orderBy('puntaje', 'desc')->get();
+
 
         return Inertia::render('Cursos/CursoIndex',[
             'curso' => $curso,
@@ -80,6 +82,7 @@ class CursoController extends Controller
             'personas' => $personas,
             'asignaciones' => $asignaciones,
             'cuentos' => $cuentos,
+            'puntaje' => $puntaje,
             'breadcrumbs' => [
                 ['name' => 'Listado de cursos', 'href' => 'curso.index', 'current' => false],
                 ['name' => $curso->codigo, 'href' => '', 'current' => true],
@@ -144,17 +147,20 @@ class CursoController extends Controller
 
     public function asignar(Request $request, Curso $curso)
     {
-
-
         $request->validate([
             'selectedCuentos' => 'required|array',
         ]);
-
-
         foreach ($request->selectedCuentos as $cuento) {
             $curso->cuentos()->attach($cuento['id']);
         }
 
         return redirect()->back()->with('success', 'Textos asignados correctamente!');
+    }
+
+    public function desasignar(Cuento $cuento, Curso $curso)
+    {
+        $curso->cuentos()->detach($cuento);
+
+        return redirect()->back()->with('success', 'Texto desasignado correctamente!');
     }
 }
