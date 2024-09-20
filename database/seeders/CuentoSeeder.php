@@ -150,6 +150,30 @@ class CuentoSeeder extends Seeder
             ]
         );
 
+        Cuento::create(
+            [
+                'titulo' => 'The War to End All Wars',
+                'contenido' => 'They push - we push. Every once in awhile, we push hard enough that the light breaks through the clouds, so the world beyond the war glimmers, just out of reach. The war is the world and the world is the war. But behind every gunsight is a human being. We are those people. We are the jaded and we are the naive. We are the honourable and the criminal. We are the bound for legend and the lost to history. We are the knights of the sky, the ghosts in the desert and the rats in the mud. These are our stories.'
+                'dificultad' => 'baja',
+            ]
+        );
+
+        Cuento::create(
+            [
+                'titulo' => 'Ancient One',
+                'contenido' => 'We do not get to choose our time. Death is what gives life meaning. To know your days are numbered. Your time is short. You would think after all this time, I would be ready. But look at me. Stretching one moment out into a thousand... just so that I can watch the snow.'
+                'dificultad' => 'baja',
+            ]
+        );
+
+        Cuento::create(
+            [
+                'titulo' => 'we Can Do This',
+                'contenido' => 'It is truly amazing what you can do when you believe in your own ability. That is why you need faith - a deep down, dogged belief that, regardless of the evidence, you are going to make it! You are going to achieve what you have set out to accomplish. You are going to make a difference in this life.'
+                'dificultad' => 'media',
+            ]
+        );
+
     }
 }
 
