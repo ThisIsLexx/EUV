@@ -55,7 +55,6 @@ function creaCurso() {
 
 function toggleShowMenu(curso_id: number) {
 
-    // console.log(currentCurso.value, curso_id);
     if (currentCurso.value !== curso_id) {
         showMenu.value = true;
         currentCurso.value = curso_id;

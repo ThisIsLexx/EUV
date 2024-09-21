@@ -45,6 +45,14 @@ function iniciarEventos() {
     document.addEventListener('keydown', () => {
         $input.value.focus();
     });
+    document.addEventListener('keyup', (e) => {
+        console.log(e.key);
+
+        if (e.key === $primera_palabra.querySelector('letter').textContent) {
+            texto.value = '';
+        }
+
+    });
 }
 
 onMounted(() => {
