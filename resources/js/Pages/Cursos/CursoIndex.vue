@@ -75,7 +75,7 @@ function resolveCursoColor(color: string) {
 }
 
 const startGame = (cuento: number) => {
-    router.get(route('curso.play', cuento));
+    router.get(route('curso.play', { cuento, curso: props.curso.id }));
 }
 
 watch(cuentoFilter, (value) => {

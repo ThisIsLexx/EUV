@@ -4,11 +4,13 @@ import { Cuento } from '@/types/cuento';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Separator from '@/Components/Separator.vue';
 import { Breadcrumb } from '@/types/breadcrumb';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import Modal from '@/Components/Custom/Modal.vue';
+import { Curso } from '@/types/curso';
 
 const props = defineProps({
     cuento: Object as () => Cuento,
+    curso: Object as () => Curso,
     breadcrumbs: Array<Breadcrumb>,
 });
 
@@ -153,13 +155,23 @@ function OnKeyUp() {
     }
 }
 
-function gameOver() {
-    const total_palabras = palabras.value.length;
-    const palabras_correctas = $contenido.value?.querySelectorAll('word.correct').length;
-    const score = (palabras_correctas / total_palabras) * 100;
+const form = useForm({
+    total_palabras : palabras.value.length,
+    palabras_correctas : 0,
+    score : 0,
+    tiempo : tiempo.value,
+    cuento_id : props.cuento.id,
+    curso_id: props.curso.id,
+});
 
-    console.log({ total_palabras, palabras_correctas, score });
+function gameOver() {
+    form.total_palabras = palabras.value.length;
+    form.palabras_correctas = $contenido.value?.querySelectorAll('word.correct').length;
+    form.score = (form.palabras_correctas / form.total_palabras) * 100;
+
     showResultModal.value = true;
+
+    form.post(route('puntaje.store'));
 }
 
 onMounted(() => {
@@ -175,7 +187,15 @@ onMounted(() => {
 
         <Modal :showModal="showResultModal" size="lg" :titulo="`Resultados: ${cuento.titulo}`" @closeModal="showResultModal = false;">
             <template v-slot:modal-content>
-
+                <div class="flex flex-col w-full text-center justify-center">
+                    <h1 class="font-semibold text-3xl uppercase">¡Felicidades!</h1>
+                    <span class="text-base uppercase font-semibold">
+                        Has completado el cuento en {{ tiempo }}
+                    </span>
+                    <span class="text-xs uppercase font-semibold">
+                        Tu score es de {{ form.score }}
+                    </span>
+                </div>
             </template>
 
             <template v-slot:action-button>

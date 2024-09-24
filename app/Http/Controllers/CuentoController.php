@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCuentoRequest;
 use Inertia\Inertia;
 
 use App\Models\Cuento;
+use App\Models\Curso;
 use Illuminate\Http\Request;
 
 class CuentoController extends Controller
@@ -132,12 +133,14 @@ class CuentoController extends Controller
         return response()->json($cuentos);
     }
 
-    public function play(int $cuento_id)
+    public function play(int $curso_id, int $cuento_id)
     {
         $cuento = Cuento::find($cuento_id);
+        $curso = Curso::find($curso_id);
 
         return Inertia::render('Cuentos/Play', [
             'cuento' => $cuento,
+            'curso' => $curso,
             'breadcrumbs' => [
                 ['name' => 'Listado de cuentos', 'href' => 'cuento.index', 'current' => false],
                 ['name' => 'Jugar cuento: ' . $cuento->titulo, 'href' => 'cuento.play', 'current' => true],
