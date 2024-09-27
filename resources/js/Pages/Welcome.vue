@@ -46,13 +46,8 @@ function handleImageError() {
 
                         <div class="w-full space-y-2 lg:space-y-0 md:w-max">
                             <span class="block text-yellow-800 font-semibold text-sm">
-                                    <Link v-if="canRegister" :href="route('register')"
-                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black focus:outline-none focus-visible:ring-[#FF2D20] dark:text-black dark:hover:text-black/80 dark:focus-visible:ring-black">
-                                    Register
-                                </Link>
                                 <Link :href="route('login')"
                                     class="inline-flex items-center px-4 py-2 bg-indigo-500 border border-transparent rounded-md font-semibold text-m text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
-
                                 ACCEDER
                                 </Link>
                             </span>
@@ -82,7 +77,7 @@ function handleImageError() {
 
 
                     <div class="ml-auto -mb-24 lg:-mb-56 lg:w-6/12">
-                        <img src="/images/landing/purple-writer.png" class="relative" alt="laptop" loading="lazy"
+                        <img src="/images/landing/e-learning.png" class="relative" alt="laptop" loading="lazy"
                             width="4500" height="4500">
                     </div>
                 </div>
@@ -124,16 +119,16 @@ function handleImageError() {
                         <h3 class="text-2xl font-semibold text-indigo-900">Cursos Interactivos</h3>
                         <p class="mb-6">Los alumnos pueden inscribirse en cursos impartidos por sus tutores, quienes podrán asignarles textos específicos. Esta estructura permite un seguimiento del progreso y una atención personalizada.</p>
                     </div>
-                    <img src="https://tailus.io/sources/blocks/end-image/preview/images/ui-design.svg"
-                        class="w-2/3 ml-auto" alt="illustration" loading="lazy" width="900" height="600">
+                    <img src="/images/landing/purple-writer.png"
+                        class="w-2/3 ml-auto mr-16" alt="illustration" loading="lazy" width="900" height="600">
                 </div>
                 <div class="bg-white rounded-2xl shadow-xl px-8 py-12 sm:px-12 lg:px-8">
                     <div class="mb-12 space-y-4">
                         <h3 class="text-2xl font-semibold text-indigo-900">Mejora de la Mecanografía</h3>
                         <p class="mb-6">A través de ejercicios diseñados para practicar la escritura, los usuarios pueden mejorar su velocidad y precisión en el teclado, habilidades que son esenciales en la era digital.</p>
                     </div>
-                    <img src="https://tailus.io/sources/blocks/end-image/preview/images/ux-design.svg"
-                        class="w-2/3 ml-auto " alt="illustration" loading="lazy" width="900" height="600">
+                    <img src="/images/landing/writing.png"
+                        class="w-2/3 ml-auto mr-16" alt="illustration" loading="lazy" width="900" height="600">
                 </div>
             </div>
         </div>
