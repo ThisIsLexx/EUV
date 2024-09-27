@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('aciertos');
             $table->integer('fallas');
             $table->integer('total_palabras');
-            $table->integer('puntaje');
+            $table->float('puntaje');
             $table->timestamps();
         });
     }

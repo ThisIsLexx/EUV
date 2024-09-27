@@ -43,7 +43,6 @@ const props = defineProps({
     }
 });
 
-console.log(props.puntaje);
 
 let activeTab = ref('tablero');
 let cuentoFilter = ref('');
@@ -76,7 +75,7 @@ function resolveCursoColor(color: string) {
 }
 
 const startGame = (cuento: number) => {
-    router.get(route('curso.play', cuento));
+    router.get(route('curso.play', { cuento, curso: props.curso.id }));
 }
 
 watch(cuentoFilter, (value) => {
@@ -103,7 +102,6 @@ function Texts(cuento: number) {
     else {
         selectedCuentos.value.push(props.cuentos.find((c) => c.id === cuento));
     }
-    console.log(selectedCuentos.value);
 }
 
 const form = useForm({
@@ -181,7 +179,7 @@ function getHighScore(asignacion: number) {
                             </transition>
 
                         </div>
-                        <div v-if="filteredCuentos.length > 0">
+                        <div v-if="filteredCuentos.length > 0" class="flex flex-col overflow-y-scroll h-[248px] px-5">
                             <div v-for="cuento in filteredCuentos" class="flex flex-col my-2" @click="Texts(cuento.id)">
                                 <div class="flex justify-between group p-2 border items-center border-gray-200 rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:border-indigo-500 hover:text-indigo-600"
                                     :class="{'border-indigo-500': selectedCuentos.some(c => c.id === cuento.id)}">
