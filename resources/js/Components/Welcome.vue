@@ -5,15 +5,21 @@ import { AcademicCapIcon, ChevronDoubleRightIcon, ChevronRightIcon, PaperAirplan
 <template>
     <div>
 
-        <div class="p-6 lg:p-8 bg-indigo-600 text-center">
+        <div class="p-6 lg:p-8 bg-indigo-600 text-center flex items-center justify-center">
 
-            <h1 class="mt-8 text-7xl font-medium text-gray-900">
-                Bienvenido a 
-                <h1 class="font-extrabold text-indigo-300">
-                    Érase una vez!
+            <div class="w-1/4 h-1/4">
+                <!-- Imagen temmporal-->
+                <img src="\images\typing.png" class="">
+            </div>
+            
+            <div class="m-8 columns-xl">
+
+                <h1 class="mt-4 mb-2 text-7xl text-slate-50">
+                    Bienvenido a <h1 class="mb-4 mt-2 font-extrabold text-7xl text-slate-50">Érase una vez!</h1>
                 </h1>
-            </h1>
     
+            </div>
+            
         </div>
 
         <!-- Espacio para listado de actividades-->
