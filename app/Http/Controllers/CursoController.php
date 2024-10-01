@@ -163,4 +163,17 @@ class CursoController extends Controller
 
         return redirect()->back()->with('success', 'Texto desasignado correctamente!');
     }
+
+    public function listadoCursos()
+    {
+        $cursos = Curso::all();
+
+        return Inertia::render('Cursos/CursoListado', [
+            'cursos' => $cursos,
+            'breadcrumbs' => [
+                ['name' => 'Listado de cursos', 'href' => 'curso.index', 'current' => false],
+                ['name' => 'Cursos', 'href' => '', 'current' => true],
+            ],
+        ]);
+    }
 }

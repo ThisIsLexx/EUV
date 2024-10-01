@@ -53,14 +53,18 @@ function scrollToSection(sectionId) {
                         class="hidden w-full lg:flex flex-wrap justify-end items-center space-y-6 p-6 rounded-xl bg-white md:space-y-0 md:p-0 md:flex-nowrap md:bg-transparent lg:w-7/12">
 
                         <div class="w-full space-y-2 lg:space-y-0 md:w-max">
-                            <span class="flex space-x-2 items-center text-yellow-800 font-semibold text-sm">
-                                <Link
-                                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-m text-indigo-500 uppercase tracking-widest hover:bg-indigo-200 focus:bg-indigo-200 active:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
-                                Registrarme
+                            <span class="flex space-x-2 items-center font-semibold text-sm">
+                                <div @click="scrollToSection('servicios')"
+                                class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-m text-indigo-500 uppercase tracking-widest hover:bg-indigo-400 hover:text-white hover:cursor-pointer focus:bg-indigo-200 active:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-300">
+                                    Servicios
+                                </div>
+                                <Link :href="route('register')"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-m text-indigo-500 uppercase tracking-widest hover:bg-indigo-400 hover:text-white focus:bg-indigo-200 active:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-300">
+                                    Registrarme
                                 </Link>
                                 <Link :href="route('login')"
-                                    class="inline-flex items-center px-4 py-2 bg-indigo-500 border border-transparent rounded-md font-semibold text-m text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
-                                ACCEDER
+                                    class="inline-flex items-center px-4 py-2 bg-indigo-500 border border-transparent rounded-md font-semibold text-m text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-300">
+                                    Acceder
                                 </Link>
                             </span>
                         </div>
@@ -190,7 +194,7 @@ function scrollToSection(sectionId) {
                                     class="flex flex-wrap items-center justify-center gap-5 lg:gap-12 gap-y-3 lg:flex-nowrap text-dark-grey-900">
                                     <a @click="scrollToSection('acerca')" class="text-gray-600 transition-all duration-300 ease-in-out hover:text-indigo-600 hover:cursor-pointer">Acerca de</a>
                                     <a @click="scrollToSection('servicios')" class="text-gray-600 transition-all duration-300 ease-in-out hover:text-indigo-600 hover:cursor-pointer">Servicios</a>
-                                    <Link :href="route('login')" class="text-gray-600 hover:text-gray-900">Acceder
+                                    <Link :href="route('login')" class="text-gray-600 hover:text-indigo-600">Acceder
                                     </Link>
                                 </div>
                                 <div class="flex items-center gap-8">

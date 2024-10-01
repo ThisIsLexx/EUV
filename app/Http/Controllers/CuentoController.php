@@ -147,4 +147,14 @@ class CuentoController extends Controller
             ],
         ]);
     }
+
+    public function listadoCuentos()
+    {
+        return Inertia::render('Cuentos/CuentoListado', [
+            'cuentos' => Cuento::all(),
+            'breadcrumbs' => [
+                ['name' => 'Listado de cuentos', 'href' => 'cuento.cuentos', 'current' => true],
+            ],
+        ]);
+    }
 }
