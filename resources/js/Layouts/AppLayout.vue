@@ -21,9 +21,16 @@
       <body class="h-full">
       ```
     -->
+    <Modal :showModal="showHelpModal" size="md" titulo="Posicionamiento de las manos" @closeModal="showHelpModal = false">
+        <template v-slot:modal-content>
+            <div>
+                AQUI VA IMAGEN
+            </div>
+        </template>
+    </Modal>
     <div>
         <TransitionRoot as="template" :show="sidebarOpen">
-            <Dialog class="relative z-50 lg:hidden" @close="sidebarOpen = false">
+            <Dialog class="relative z-40 lg:hidden" @close="sidebarOpen = false">
                 <TransitionChild as="template" enter="transition-opacity ease-linear duration-300"
                     enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300"
                     leave-from="opacity-100" leave-to="opacity-0">
@@ -83,12 +90,12 @@
                                             </ul>
                                         </li>
                                         <li class="mt-auto">
-                                            <a href="#"
-                                                class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+                                            <a @click="showHelpModal = true"
+                                                class="group hover:cursor-pointer -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
                                                 <Cog6ToothIcon
                                                     class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                                                     aria-hidden="true" />
-                                                Modo práctica
+                                                Ayuda
                                             </a>
                                         </li>
                                     </ul>
@@ -101,7 +108,7 @@
         </TransitionRoot>
 
         <!-- Static sidebar for desktop -->
-        <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+        <div class="hidden lg:fixed lg:inset-y-0 lg:z-40 lg:flex lg:w-72 lg:flex-col">
             <!-- Sidebar component, swap this element with another sidebar if you like -->
             <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
                 <div class="flex h-16 shrink-0 items-center space-x-2">
@@ -139,11 +146,11 @@
                             </ul>
                         </li>
                         <li class="mt-auto">
-                            <a href="#"
-                                class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+                            <a @click="showHelpModal = true"
+                                class="group hover:cursor-pointer -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
                                 <Cog6ToothIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                                     aria-hidden="true" />
-                                Modo práctica
+                                Ayuda
                             </a>
                         </li>
                     </ul>
@@ -226,18 +233,20 @@ import axios from 'axios';
 import Breadcrumbs from '@/Components/Custom/Breadcrumbs.vue';
 import Alert from '@/Components/Alert.vue';
 import { Breadcrumb } from '@/types/breadcrumb';
+import Modal from '@/Components/Custom/Modal.vue';
 
 const props = defineProps({
     breadcrumbs: Array<Breadcrumb>,
 });
 
+let showHelpModal = ref(false);
 
 const current_route = window.location.pathname;
 
 import { Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot, } from '@headlessui/vue';
-import { Bars3Icon, BellIcon, CalendarIcon, ChartPieIcon, Cog6ToothIcon, DocumentDuplicateIcon, FolderIcon, HomeIcon, UsersIcon, XMarkIcon, } from '@heroicons/vue/24/outline';
+import { AcademicCapIcon, Bars3Icon, BookOpenIcon, ChartPieIcon, Cog6ToothIcon, ComputerDesktopIcon, HomeIcon, UsersIcon, XMarkIcon, } from '@heroicons/vue/24/outline';
 
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid';
+import { ChevronDownIcon } from '@heroicons/vue/20/solid';
 
 import { router } from '@inertiajs/vue3';
 
@@ -252,8 +261,9 @@ const navigation = [
     { name: 'Inicio', href: "dashboard", icon: HomeIcon, current: current_route === "/dashboard" },
     { name: 'Mis cursos', href: "curso.index", icon: UsersIcon, current: current_route === "/curso" },
     { name: 'Mis estadisticas', href: "estadisticas", icon: ChartPieIcon, current: current_route === "/estadisticas" },
-    { name: 'Cursos disponibles', href: "curso.cursos", icon: DocumentDuplicateIcon, current: current_route === "/curso/cursos" },
-    { name: 'Cuentos disponibles', href: "cuento.cuentos", icon: FolderIcon, current: false },
+    { name: 'Explorar cursos', href: "curso.cursos", icon: AcademicCapIcon, current: current_route === "/cursos" },
+    { name: 'Explorar cuentos', href: "cuento.cuentos", icon: BookOpenIcon, current: current_route === "/cuentos" },
+    { name: 'Modo práctica', href: "practice", icon: ComputerDesktopIcon, current: current_route === "/modo-practica" },
 
 ]
 const administrativo = [
