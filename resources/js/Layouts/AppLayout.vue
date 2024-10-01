@@ -88,7 +88,7 @@
                                                 <Cog6ToothIcon
                                                     class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                                                     aria-hidden="true" />
-                                                Settings
+                                                Modo práctica
                                             </a>
                                         </li>
                                     </ul>
@@ -143,7 +143,7 @@
                                 class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
                                 <Cog6ToothIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                                     aria-hidden="true" />
-                                Settings
+                                Modo práctica
                             </a>
                         </li>
                     </ul>
@@ -251,7 +251,10 @@ const logout = () => {
 const navigation = [
     { name: 'Inicio', href: "dashboard", icon: HomeIcon, current: current_route === "/dashboard" },
     { name: 'Mis cursos', href: "curso.index", icon: UsersIcon, current: current_route === "/curso" },
-    { name: 'Mis estadisticas', href: "estadisticas", icon: ChartPieIcon, current: false },
+    { name: 'Mis estadisticas', href: "estadisticas", icon: ChartPieIcon, current: current_route === "/estadisticas" },
+    { name: 'Cursos disponibles', href: "curso.cursos", icon: DocumentDuplicateIcon, current: current_route === "/curso/cursos" },
+    { name: 'Cuentos disponibles', href: "cuento.cuentos", icon: FolderIcon, current: false },
+
 ]
 const administrativo = [
     { name: 'Listado de cuentos', href: "cuento.index", icon: HomeIcon, current: current_route === "/cuento" },
