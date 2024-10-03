@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 use App\Models\Curso;
 
@@ -24,7 +25,11 @@ class CursoSeeder extends Seeder
             'codigo' => 'CURSO-002',
             'titulo' => 'Curso de programación',
             'descripcion' => 'Curso de programación en Vue',
+            'color' => 'emerald',
             'user_id' => 1,
         ]);
+
+        $user = User::find(1);
+        $user->cursos()->attach([1, 2]);
     }
 }

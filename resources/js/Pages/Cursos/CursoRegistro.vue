@@ -77,6 +77,7 @@ const curso_form = useForm({
 </script>
 
 <template>
+    <Head title="Mis cursos" />
     <AppLayout :breadcrumbs="props.breadcrumbs">
         <div>
             <h1>{{props.titulo}}</h1>

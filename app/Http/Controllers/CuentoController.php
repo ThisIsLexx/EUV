@@ -137,12 +137,15 @@ class CuentoController extends Controller
     {
         $cuento = Cuento::find($cuento_id);
         $curso = Curso::find($curso_id);
+        $puntajes = $curso->puntajes()->where('user_id', auth()->user()->id)->orderBy('puntaje', 'desc')->get();
 
         return Inertia::render('Cuentos/Play', [
             'cuento' => $cuento,
             'curso' => $curso,
+            'puntajes' => $puntajes,
             'breadcrumbs' => [
-                ['name' => 'Listado de cuentos', 'href' => 'cuento.index', 'current' => false],
+                ['name' => 'Mis cursos', 'href' => 'curso.index', 'current' => false],
+                ['name' => $curso->titulo, 'href' => '', 'current' => false],
                 ['name' => 'Jugar cuento: ' . $cuento->titulo, 'href' => 'cuento.play', 'current' => true],
             ],
         ]);

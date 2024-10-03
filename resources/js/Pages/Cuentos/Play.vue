@@ -7,11 +7,13 @@ import { Breadcrumb } from '@/types/breadcrumb';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import Modal from '@/Components/Custom/Modal.vue';
 import { Curso } from '@/types/curso';
+import { Puntaje } from '@/types/puntaje';
 
 const props = defineProps({
     cuento: Object as () => Cuento,
     curso: Object as () => Curso,
     breadcrumbs: Array<Breadcrumb>,
+    puntajes: Array<Puntaje>,
 });
 
 let texto = ref('');
@@ -180,6 +182,20 @@ onMounted(() => {
     iniciarJuego();
     iniciarEventos();
 });
+
+function hasHighScore(asignacion: number) {
+    if (props.puntajes.length && props.puntajes.find(p => p.cuento_id === 3))
+        return true;
+    return false
+}
+
+function getHighScore(asignacion: number) {
+    const puntajes = props.puntajes.filter(p => p.cuento_id === asignacion);
+    if (puntajes.length) {
+        return Math.max(...puntajes.map(p => p.puntaje));
+    }
+    return 0;
+}
 </script>
 
 <template>
@@ -199,7 +215,9 @@ onMounted(() => {
             </template>
 
             <template v-slot:action-button>
-            <button class="bg-indigo-500 hover:bg-indigo-500/90 text-white shadow-sm rounded-md px-2">
+            <button class="bg-indigo-500 hover:bg-indigo-500/90 text-white shadow-sm rounded-md px-2"
+                @click="router.get(route('curso.show', props.curso.id));"
+            >
                 Siguiente
             </button>
             </template>
@@ -207,12 +225,15 @@ onMounted(() => {
 
         <div class="flex flex-col px-20 w-full">
             <div class="flex flex-col w-full text-center justify-center">
-                <h1 class="font-semibold text-2xl uppercase">{{ cuento.titulo }}</h1>
-                <span class="text-xs uppercase font-semibold">
+                <h1 class="font-semibold text-2xl uppercase text-indigo-700">{{ cuento.titulo }}</h1>
+                <!-- <span class="text-xs uppercase font-semibold">
                     Tiempo transcurrido: {{ tiempo }}
-                </span>
+                </span> -->
                 <span class="text-xs uppercase font-semibold">
-                    Mejor score: {{ texto }}
+                    Mejor score:
+                    <template v-if="hasHighScore(cuento.id)">
+                        {{ getHighScore(cuento.id) }} puntos
+                    </template>
                 </span>
             </div>
             <Separator/>

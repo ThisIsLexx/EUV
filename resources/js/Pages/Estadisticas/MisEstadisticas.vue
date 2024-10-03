@@ -4,6 +4,7 @@ import { Breadcrumb } from '@/types/breadcrumb';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Separator from '@/Components/Separator.vue';
 import VueApexCharts from "vue3-apexcharts";
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps({
     breadcrumbs: {
@@ -52,6 +53,7 @@ let options2 = ref({
 </script>
 
 <template>
+    <Head title="Mis estadísticas" />
     <AppLayout :breadcrumbs="props.breadcrumbs">
     <div>
         <h1 class=" font-light uppercase">Mis Estadisticas</h1>

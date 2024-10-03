@@ -1,4 +1,5 @@
 <script setup>
+import { router } from '@inertiajs/vue3';
 import { AcademicCapIcon, ChevronDoubleRightIcon, ChevronRightIcon, PaperAirplaneIcon, PencilIcon, RocketLaunchIcon } from '@heroicons/vue/24/outline';
 </script>
 
@@ -24,17 +25,27 @@ import { AcademicCapIcon, ChevronDoubleRightIcon, ChevronRightIcon, PaperAirplan
                 <div class="space-y-3">
                     <!-- Division para el espacio de Cursos-->
                     <div class="bg-indigo-100/60 shadow-md transition-all duration-300 ease-in-out hover:bg-indigo-100 rounded-xl p-3">
-                        <div class="flex items-center">
+                        <div class="flex items-center px-2 pt-2">
                             <AcademicCapIcon class="stroke-indigo-500 h-20 w-20"></AcademicCapIcon>
                             <h2 class="ms-3 text-4xl font-semibold text-indigo-500">
                                 Cursos
                             </h2>
                         </div>
-                        <p class="mt-4 text-gray-900 text-lg leading-normal font-medium p-5 text-justify">
-                            Los tutores podrán asignar textos a sus alumnos para apoyar el desarrollo de las habilidades de
-                            los alumnos.
-                            Los alumnos podrán ingresar a cursos que les brindaran apoyo en el desarrollo de sus habilidades
-                            de escritura.
+                        <p class="flex flex-col text-gray-900 text-lg leading-normal font-medium p-4 text-justify">
+                            <span class="text-indigo-600 mt-2">
+                                ¿Eres un tutor?
+                            </span>
+                            <span>
+                                asigna textos a tus alumnos para apoyar el desarrollo de sus habilidades en
+                                mecanografía.
+                            </span>
+                            <span class="text-indigo-600 mt-2">
+                                ¿Eres un estudiante?
+                            </span>
+                            <span>
+                                Los alumnos podrán ingresar a cursos que les brindaran apoyo en el desarrollo de sus habilidades
+                                de escritura.
+                            </span>
                         </p>
                         <button type="button"
                             class="font-semibold mt-4 text-base inline-flex items-center text-indigo-500 hover:text-indigo-800">
@@ -44,15 +55,15 @@ import { AcademicCapIcon, ChevronDoubleRightIcon, ChevronRightIcon, PaperAirplan
                     </div>
                     <!-- Division para el espacio de cuentos -->
                     <div class="bg-indigo-100/60 shadow-md transition-all duration-300 ease-in-out hover:bg-indigo-100 rounded-xl p-3">
-                        <div class="flex items-center">
+                        <div class="flex items-center px-2 pt-2">
                             <PencilIcon class="stroke-indigo-500 h-20 w-20"></PencilIcon>
                             <h2 class="ms-3 text-4xl font-semibold text-indigo-500">
                                 Cuentos
                             </h2>
                         </div>
-                        <p class="mt-4 text-gray-900 text-lg leading-normal font-medium p-5 text-justify">
-                            Pon a prueba tus habilidades de escritura con el modo "Cuentos" donde podrás encontrar una
-                            seleccián de historias con las cuales pondrás a volar la imaginación.
+                        <p class="text-gray-900 text-lg leading-normal font-medium p-4 text-justify">
+                            Pon a prueba tus habilidades de escritura con una amplia selección de cuentos previamente
+                            seleccionados, encontrando historias con las cuales pondrás a volar  imaginación.
                         </p>
                         <button type="button"
                             class="font-semibold mt-4 text-base inline-flex items-center text-indigo-500 hover:text-indigo-800">
@@ -62,17 +73,17 @@ import { AcademicCapIcon, ChevronDoubleRightIcon, ChevronRightIcon, PaperAirplan
                     </div>
                     <!-- Division para el espacio de Modo Practica-->
                     <div class="bg-indigo-100/60 shadow-md transition-all duration-300 ease-in-out hover:bg-indigo-100 rounded-xl p-3">
-                        <div class="flex items-center">
+                        <div class="flex items-center px-2 pt-2">
                             <RocketLaunchIcon class="stroke-indigo-500 h-20 w-20"></RocketLaunchIcon>
                             <h2 class="ms-3 text-4xl font-semibold text-indigo-500">
                                 Modo practica
                             </h2>
                         </div>
-                        <p class="mt-4 text-gray-900 text-lg font-medium leading-normal p-5 text-justify">
+                        <p class="text-gray-900 text-lg font-medium leading-normal p-4 text-justify">
                             Mejora tu habilidad y vocabulario dentro de este modo con una serie de palabras las cuales
                             aumentaran su dificultad conforme aumente tu desempeño.
                         </p>
-                        <button type="button"
+                        <button type="button" @click="router.get(route('practice'))"
                             class="font-semibold mt-4 text-base inline-flex items-center text-indigo-500 hover:text-indigo-800">
                             <PaperAirplaneIcon class="h-6 w-12 inline-flex items-center"></PaperAirplaneIcon>
                             Comienza a practicar

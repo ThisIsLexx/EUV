@@ -4,6 +4,7 @@ import { ref, watch } from 'vue';
 import debounce from 'lodash.debounce';
 import { Curso } from '@/types/curso';
 import { Cuento } from '@/types/cuento';
+import { Puntaje } from '@/types/puntaje';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Breadcrumb } from '@/types/breadcrumb';
 import Modal from '@/Components/Custom/Modal.vue';
@@ -37,8 +38,8 @@ const props = defineProps({
         type: Array<Cuento>,
         default: null,
     },
-    puntaje: {
-        type: Object,
+    puntajes: {
+        type: Array<Puntaje>,
         default: null,
     }
 });
@@ -121,17 +122,27 @@ function asignarCuentos() {
     });
 }
 
+console.log({ total_puntajes: props.puntajes.length, highscore: hasHighScore(3) });
+
+
 function hasHighScore(asignacion: number) {
-    return props.puntaje.length && props.puntaje.find(p => p.curso_id === asignacion);
+    if (props.puntajes.length && props.puntajes.find(p => p.cuento_id === 3))
+        return true;
+    return false
 }
 
 function getHighScore(asignacion: number) {
-    return props.puntaje.find(p => p.curso_id === asignacion).puntaje;
+    const puntajes = props.puntajes.filter(p => p.cuento_id === asignacion);
+    if (puntajes.length) {
+        return Math.max(...puntajes.map(p => p.puntaje));
+    }
+    return 0;
 }
 
 </script>
 
 <template>
+    <Head :title="props.curso.titulo" />
     <AppLayout :breadcrumbs="props.breadcrumbs">
 
         <!-- BEGIN: Tabs de navegación -->

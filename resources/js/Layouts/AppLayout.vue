@@ -56,9 +56,9 @@
                             <!-- Sidebar component, swap this element with another sidebar if you like -->
                             <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                                 <div class="flex h-16 shrink-0 items-center">
-                                    <img class="h-8 w-auto"
+                                    <!-- <img class="h-8 w-auto"
                                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                        alt="Your Company" />
+                                        alt="Your Company" /> -->
                                 </div>
                                 <nav class="flex flex-1 flex-col">
                                     <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -112,8 +112,8 @@
             <!-- Sidebar component, swap this element with another sidebar if you like -->
             <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
                 <div class="flex h-16 shrink-0 items-center space-x-2">
-                    <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                        alt="Erase una vez" />
+                    <!-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                        alt="Erase una vez" /> -->
                     <h1 class="font-semibold text-indigo-700">EUV</h1>
                 </div>
                 <nav class="flex flex-1 flex-col">
@@ -181,9 +181,12 @@
                         <Menu as="div" class="relative">
                             <MenuButton class="-m-1.5 flex items-center p-1.5">
                                 <span class="sr-only">Abrir menú de usuario</span>
-                                <img class="h-8 w-8 rounded-full bg-gray-50"
+                                <div class="h-8 w-8 text-sm font-semibold flex items-center justify-center rounded-full bg-gray-200">
+                                    {{ generarAcronimo($page.props.auth.user.name) }}
+                                </div>
+                                <!-- <img class="h-8 w-8 rounded-full bg-gray-50"
                                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    alt="" />
+                                    alt="" /> -->
                                 <span class="hidden lg:flex lg:items-center">
                                     <span class="ml-4 text-sm font-semibold leading-6 text-gray-900"
                                         aria-hidden="true">{{ $page.props.auth.user.name }}</span>
@@ -274,5 +277,14 @@ const userNavigation = [
 ]
 
 const sidebarOpen = ref(false)
+
+function generarAcronimo(nombre) {
+    // Divide el nombre por espacios, filtra las entradas vacías y mapea a la primera letra de cada palabra
+    return nombre
+        .split(' ')
+        .filter(palabra => palabra.length > 0) // Asegura que no se usen palabras vacías
+        .map(palabra => palabra[0].toUpperCase())
+        .join('');
+}
 
 </script>
