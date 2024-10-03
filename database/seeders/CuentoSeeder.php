@@ -42,7 +42,7 @@ class CuentoSeeder extends Seeder
             [
                 'titulo' => 'Ozymandias',
                 'contenido' => 'I met a traveller from an antique land, Who said— “Two vast and trunkless legs of stone stand in the desert. . . . Near them, on the sand, half sunk a shattered visage lies, whose frown, and wrinkled lip, and sneer of cold command tell that its sculptor well those passions read, which yet survive, stamped on these lifeless things, the hand that mocked them, and the heart that fed; and on the pedestal, these words appear: My name is Ozymandias, King of Kings; Look on my Works, ye Mighty, and despair!... Nothing beside remains. Round the decay of that colossal Wreck, boundless and bare. The lone and level sands stretch far away.”',
-                'dificultad' => 'dificil',
+                'dificultad' => 'alta',
             ]
         );
 
@@ -58,7 +58,7 @@ class CuentoSeeder extends Seeder
             [
                 'titulo' => 'The Call of Cthulhu',
                 'contenido' => 'The most merciful thing in the world, I think, is the inability of the human mind to correlate all its contents. We live on a placid island of ignorance in the midst of black seas of infinity, and it was not meant that we should voyage far.',
-                'dificultad' => 'dificil',
+                'dificultad' => 'alta',
             ]
         );
 
@@ -122,7 +122,7 @@ class CuentoSeeder extends Seeder
             [
                 'titulo' => 'Ezekiel 25:17',
                 'contenido' => "The path of the righteous man is beset on all sides by the inequities of the selfish and the tyranny of evil men. Blessed is he who, in the name of charity and good will, shepherds the weak through the valley of darkness, for he is truly his brother's keeper and the finder of lost children. And I will strike down upon thee with great vengeance and furious anger those who attempt to poison and destroy my brothers. And you will know my name is the Lord when I lay my vengeance upon thee.",
-                'dificultad' => 'dificil',
+                'dificultad' => 'alta',
             ]
         );
 
@@ -146,7 +146,7 @@ class CuentoSeeder extends Seeder
             [
                 'titulo' => 'Hawkeye Gough',
                 'contenido' => 'The dragons shall never be forgotten… We knights fought valiantly, but for every one of them, we lost three score of our own. Exhiliration, pride, hatred, rage… The dragons teased out our dearest emotions. …Thou will understand, one day. At thy twilight, old thoughts return, in great waves of nostalgia.',
-                'dificultad' => 'dificil',
+                'dificultad' => 'alta',
             ]
         );
 
