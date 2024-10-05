@@ -8,6 +8,7 @@ import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import Modal from '@/Components/Custom/Modal.vue';
 import { Curso } from '@/types/curso';
 import { Puntaje } from '@/types/puntaje';
+import axios from 'axios';
 
 const props = defineProps({
     cuento: Object as () => Cuento,
@@ -174,6 +175,7 @@ function gameOver() {
     showResultModal.value = true;
 
     form.post(route('puntaje.store'));
+    router.post(route('clasificar'));
 }
 
 onMounted(() => {
