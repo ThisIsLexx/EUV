@@ -263,7 +263,7 @@ function savePuntaje() {
         guardandoPuntaje.value = false;
         showResultModal.value = false;
 
-        router.get(route('curso.show', props.curso.id));
+        // router.get(route('curso.show', props.curso.id));
 
     }, 2000);
 }

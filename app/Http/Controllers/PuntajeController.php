@@ -11,7 +11,7 @@ use Illuminate\Support\LazyCollection;
 
 class PuntajeController extends Controller
 {
-    public function store(Request $request): void
+    public function store(Request $request)
     {
         $puntaje = New Puntaje();
         $puntaje->curso_id = $request->curso_id;
@@ -26,6 +26,24 @@ class PuntajeController extends Controller
             $puntaje->dificultad = 'alta';
         }
         $puntaje->save();
+
+        $usuario = User::find(Auth::user()->id);
+
+        $clasificacion_actual = $usuario->dificultad;
+        $puntajes = $usuario->puntajes()->get();
+
+        // Calculate the average classification
+
+        if ($puntajes->count() >= 10) {
+            $clasificacion_avg = $puntajes->countBy('clasificacion')->sortDesc()->keys()->first();
+
+            if ($clasificacion_avg != $clasificacion_actual) {
+                $usuario->dificultad = $clasificacion_avg;
+                $usuario->save();
+            }
+        }
+
+        return redirect()->route('curso.show', ['curso' => $puntaje->curso_id])->with('success', 'Puntaje guardado exitosamente!');
     }
 
     public function clasificarUsuario(Request $request)
