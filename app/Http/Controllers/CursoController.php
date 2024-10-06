@@ -64,7 +64,14 @@ class CursoController extends Controller
      */
     public function show(Curso $curso)
     {
-        $personas = $curso->alumnos()->get()->whereNotIn('id', [$curso->user->id]);
+        $tutor = $curso->user()->get();
+        $personas = $curso->alumnos()->get()->whereNotIn('id', $tutor->pluck('id'))->map(function($persona) {
+            return [
+                'id' => $persona->id,
+                'name' => $persona->name,
+                'dificultad' => $persona->dificultad,
+            ];
+        });
         $asignaciones = $curso->cuentos()->get();
         $cuentos = Cuento::whereNotIn('id', $asignaciones->pluck('id'))->get()->map(function($cuento) {
             return [

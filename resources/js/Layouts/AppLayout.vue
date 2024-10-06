@@ -23,8 +23,11 @@
     -->
     <Modal :showModal="showHelpModal" size="md" titulo="Posicionamiento de las manos" @closeModal="showHelpModal = false">
         <template v-slot:modal-content>
-            <div>
-                AQUI VA IMAGEN
+            <div class="w-full flex flex-col justify-center">
+                <span class="text-center font-semibold">
+                    Para una mejor experiencia, coloque sus manos en la posición que se muestra en la imagen.
+                </span>
+                <img src="/images/Posicionamiento.png" alt="Posicionamiento de las manos">
             </div>
         </template>
     </Modal>
