@@ -247,7 +247,7 @@ function setSeries(aciertos: number, errores: number, score: number, request: an
         },
         {
             name: "Promedio de usuarios",
-            data: [30, 5, 30]
+            data: [props.promedioUsuarios?.aciertos.toFixed(2), props.promedioUsuarios?.fallas.toFixed(2), props.promedioUsuarios?.puntajes.toFixed(2)]
         },
     ];
 }
@@ -257,7 +257,7 @@ function setSeries(aciertos: number, errores: number, score: number, request: an
 <template>
     <AppLayout :breadcrumbs="breadcrumbs">
 
-        <Modal :showModal="showResultModal" size="lg" :titulo="`Resultados: ${cuento.titulo}`" @closeModal="showResultModal = false;">
+        <Modal :showModal="showResultModal" :closeButton="false" size="lg" :titulo="`Resultados: ${cuento.titulo}`" @closeModal="showResultModal = false;">
             <template v-slot:modal-content>
                 <div v-if="loadingData">
                     <div class="flex flex-col w-full text-center justify-center">
@@ -280,14 +280,13 @@ function setSeries(aciertos: number, errores: number, score: number, request: an
                         <span v-if="prediccion" class="uppercase mt-2">
                             En este puntaje obtuviste una clasificación: <span class="text-indigo-500 font-semibold">{{ prediccion }}</span>
                         </span>
-                        <div class="w-full">
+                        <div class="w-full p-2 border-2 border-indigo-200 rounded-md mt-4">
                             <VueApexCharts width="700" height="300" type="area" :options="options" :series="series"></VueApexCharts>
                         </div>
                 </div>
             </template>
-
             <template v-slot:action-button>
-                <button class="bg-indigo-500 hover:bg-indigo-500/90 text-white shadow-sm rounded-md px-2"
+                <button class="bg-indigo-500 hover:bg-indigo-500/90 text-white shadow-sm rounded-md p-2"
                     @click="router.get(route('curso.show', props.curso.id));"
                 >
                     Siguiente

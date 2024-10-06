@@ -16,6 +16,11 @@ defineProps({
         type: String,
         default: "Titulo",
     },
+
+    closeButton: {
+        type: Boolean,
+        default: true,
+    }
 });
 
 </script>
@@ -45,7 +50,7 @@ defineProps({
                     <Separator />
                     <slot name="modal-content"/>
                     <div class="flex justify-end w-full space-x-1 mt-6">
-                        <button  class="text-white p-2 rounded-md shadow-sm hover:shadow-md bg-gray-500 hover:bg-gray-500/90" @click="$emit('closeModal')">
+                        <button v-if="closeButton" class="text-white p-2 rounded-md shadow-sm hover:shadow-md bg-gray-500 hover:bg-gray-500/90" @click="$emit('closeModal')">
                             <span>
                                 Cerrar
                             </span>
