@@ -44,11 +44,11 @@ function resolveCursoColor(color: string) {
         <div>
 
             <!-- Contenedor principal-->
-            <div class="bg-indigo-200 bg-opacity-25 rounded-xl grid grid-cols-3 items-center p-6">
+            <div class="bg-indigo-200 bg-opacity-25 rounded-xl p-6">
                 
                 <!-- Caso de lista vacia -->
                 <div v-if="!props.cursos.length">
-                    <h1>VACIO</h1>
+                    <h1>Parece que aún no hay cursos disponibles, pronto habrá nuevos cursos que descubrir</h1>
                 </div>
 
                 <!-- Caso de lista con elementos -->
@@ -56,36 +56,43 @@ function resolveCursoColor(color: string) {
                 
                     <div v-for="curso in props.cursos" :key="curso.id">
 
-                        <!-- Columna para imagen-->
-                        <div class="w-1/2 h-1/2 aspect-square items-center">
-                            <img src="\images\typing.png" class="border border-black rounded-lg">
-                        </div>
+                        <div class="w-full rounded-xl grid grid-cols-3 items-center p-6 mb-6"
+                            :class="resolveCursoColor(curso.color)">
 
-                        <!-- Columna para titulo y descripcion-->
-                        <div>
+                            <!-- Columna para imagen-->
+                            <!-- Espacio de prueba-->
+                            <div class="border border-black rounded-lg flex justify-center">
+                                <img src="\images\typing.png" class="w-1/2 h-1/2 border border-black rounded-lg">
+                            </div>
 
-                            <h1>
+                            <!-- Columna para titulo y descripcion-->
+                            <div class="border border-black rounded-lg p-6 justify-self-center">
 
-                                Titulo
-                                {{ curso.titulo }}
+                                <h1>
 
-                            </h1>
+                                    Titulo:
+                                    {{ curso.titulo }}
 
-                            <h1>
+                                </h1>
 
-                                {{ curso.descripcion }}
+                                <h1>
 
-                            </h1>
+                                    {{ curso.descripcion }}
 
-                        </div>
+                                </h1>
 
-                        <!-- Columna para codigo-->
-                        <h3>
-
-                            codigo
-                            {{ curso.codigo }}
+                            </div>
                             
-                        </h3>
+
+                            <!-- Columna para codigo-->
+                            <h1 class="border border-black rounded-lg p-6 justify-self-end">
+
+                                Código:
+                                {{ curso.codigo }}
+                                
+                            </h1>
+
+                        </div>
 
                     </div>
 
