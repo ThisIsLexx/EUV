@@ -6,7 +6,7 @@ import Separator from '@/Components/Separator.vue';
 import VueApexCharts from "vue3-apexcharts";
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
-import { UserCircleIcon, PaperAirplaneIcon } from '@heroicons/vue/24/solid';
+import { UserCircleIcon, PaperAirplaneIcon, ChartBarIcon } from '@heroicons/vue/24/solid';
 import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -166,11 +166,11 @@ onMounted(() => {
 let series_generales = ref([
     {
         name: "Mis estadisticas",
-        data: [1,3,4,5]
+        data: [0,0,0,0]
     },
     {
         name: "Promedio de usuarios",
-        data: [2,4,5,3]
+        data: [0,0,0,0]
     }
 ]);
 
@@ -215,33 +215,33 @@ let opciones_cuentos = ref({
 let series_baja = ref([
     {
         name: "Mis estadisticas",
-        data: [1,3,5,1]
+        data: [0,0,0,0]
     },
     {
         name: "Promedio de usuarios",
-        data: [2,4,5,3]
+        data: [0,0,0,0]
     }
 ]);
 
 let series_media = ref([
     {
         name: "Mis estadisticas",
-        data: [1,3,5,1]
+        data: [0,0,0,0]
     },
     {
         name: "Promedio de usuarios",
-        data: [2,4,5,3]
+        data: [0,0,0,0]
     }
 ]);
 
 let series_alta = ref([
     {
         name: "Mis estadisticas",
-        data: [1,3,5,1]
+        data: [0,0,0,0]
     },
     {
         name: "Promedio de usuarios",
-        data: [2,4,5,3]
+        data: [0,0,0,0]
     }
 ]);
 
@@ -287,10 +287,21 @@ let series_alta = ref([
             </div>
         </transition>
 
-        <div class="flex flex-col p-5 my-4 border-2 shadow-sm hover:shadow-md hover:shadow-indigo-500/30 transition duration-300 ease-in-out rounded-md w-auto">
-            <h2 class="font-semibold uppercase text-sm">Estadisticas generales</h2>
-            <div class="flex justify-center text-center w-full">
-                <VueApexCharts width="800" height="300" type="area" :options="opciones_generales" :series="series_generales"></VueApexCharts>
+        <div v-if="mis_puntajes.jugados">
+            <div class="flex flex-col p-5 my-4 border-2 shadow-sm hover:shadow-md hover:shadow-indigo-500/30 transition duration-300 ease-in-out rounded-md w-auto">
+                <h2 class="font-semibold uppercase text-sm">Estadisticas generales</h2>
+                <div class="flex justify-center text-center w-full">
+                    <VueApexCharts width="800" height="300" type="area" :options="opciones_generales" :series="series_generales"></VueApexCharts>
+                </div>
+            </div>
+        </div>
+        <div v-else>
+            <div class="flex flex-col p-5 my-4 border-2 shadow-sm hover:shadow-md hover:shadow-indigo-500/30 transition duration-300 ease-in-out rounded-md w-auto">
+                <h2 class="font-semibold uppercase text-sm">Estadisticas generales</h2>
+                <div class="flex flex-col justify-center text-center w-full">
+                    <ChartBarIcon class="w-16 h-16 text-gray-500 m-auto animate-pulse" />
+                    <p class="text-gray-500 font-semibold">No tienes estadisticas generales</p>
+                </div>
             </div>
         </div>
         <div class="grid grid-cols-3 gap-4">
