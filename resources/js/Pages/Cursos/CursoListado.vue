@@ -5,8 +5,8 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 
 /* Variable con los cursos */
 const props = defineProps({
-    curso: {
-        type: Object as () => Curso,
+    cursos: {
+        type: Array<Curso>,
         required: true,
     }
 });
@@ -52,7 +52,7 @@ function resolveCursoColor(color: string) {
                 </div>
 
                 <!-- Caso de lista con elementos -->
-                <div>
+                <div v-for="curso in props.cursos" :key="curso.id">
 
                     <!-- Columna para imagen-->
                     <div class="w-1/2 h-1/2 aspect-square items-center">
@@ -65,13 +65,13 @@ function resolveCursoColor(color: string) {
                         <h1>
 
                             Titulo
+                            {{ curso.titulo }}
 
                         </h1>
 
                         <h1>
 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem maiores, sit ut facere earum ab et quas atque aspernatur, possimus tenetur. Odit omnis delectus voluptatibus numquam officiis exercitationem doloremque! Necessitatibus?
-
+                            {{ curso.descripcion }}
                         </h1>
 
                     </div>
@@ -79,9 +79,9 @@ function resolveCursoColor(color: string) {
                     <h3>
 
                         codigo
-
+                        {{ curso.codigo }}
                     </h3>
-                    
+
                 </div>
 
             </div>
