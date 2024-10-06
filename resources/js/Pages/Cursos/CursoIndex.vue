@@ -122,9 +122,6 @@ function asignarCuentos() {
     });
 }
 
-console.log({ total_puntajes: props.puntajes.length, highscore: hasHighScore(3) });
-
-
 function hasHighScore(asignacion: number) {
     if (props.puntajes.length && props.puntajes.find(p => p.cuento_id === 3))
         return true;

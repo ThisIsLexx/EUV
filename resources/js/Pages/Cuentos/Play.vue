@@ -27,7 +27,7 @@ const $contenido = ref<HTMLElement | null>(null);
 const $input = ref<HTMLInputElement | null>(null);
 
 let loadingData = ref(false);
-let prediccion = ref('');
+const prediccion = ref('');
 
 let timerInterval: number | null = null;
 let secondsElapsed = 0;
@@ -228,7 +228,7 @@ function setSeries(aciertos: number, errores: number, score: number, request: an
         .then(response => {
             // && response.data.clasificacion
             if (response.data ) {
-                prediccion = response.data.clasificacion; // Guardamos la clasificación obtenida
+                prediccion.value = response.data.clasificacion; // Guardamos la clasificación obtenida
                 form.clasificacion = response.data.clasificacion;
                 loadingData.value = false;
             } else {
