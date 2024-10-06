@@ -170,6 +170,7 @@ const form = useForm({
     tiempo : tiempo.value,
     cuento_id : props.cuento.id,
     curso_id: props.curso.id,
+    clasificacion: '',
 });
 
 function gameOver() {
@@ -186,9 +187,6 @@ function gameOver() {
     setSeries(form.palabras_correctas, form.total_palabras - form.palabras_correctas, form.score, request);
 
     showResultModal.value = true;
-
-    form.post(route('puntaje.store'));
-
 }
 
 onMounted(() => {
@@ -231,6 +229,7 @@ function setSeries(aciertos: number, errores: number, score: number, request: an
             // && response.data.clasificacion
             if (response.data ) {
                 prediccion = response.data.clasificacion; // Guardamos la clasificación obtenida
+                form.clasificacion = prediccion.value;
                 loadingData.value = false;
             } else {
                 console.warn('No se recibió una clasificación válida en la respuesta');
@@ -251,6 +250,24 @@ function setSeries(aciertos: number, errores: number, score: number, request: an
         },
     ];
 }
+
+let guardandoPuntaje = ref(false);
+
+function savePuntaje() {
+
+    guardandoPuntaje.value = true;
+    form.post(route('puntaje.store'));
+
+    setTimeout(() => {
+        guardandoPuntaje.value = false;
+        showResultModal.value = false;
+
+        router.get(route('curso.show', props.curso.id));
+
+    }, 2000);
+}
+
+import { ChartPieIcon } from '@heroicons/vue/24/outline';
 
 </script>
 
@@ -286,8 +303,14 @@ function setSeries(aciertos: number, errores: number, score: number, request: an
                 </div>
             </template>
             <template v-slot:action-button>
-                <button class="bg-indigo-500 hover:bg-indigo-500/90 text-white shadow-sm rounded-md p-2"
-                    @click="router.get(route('curso.show', props.curso.id));"
+
+                <button v-if="guardandoPuntaje" type="button" class="bg-indigo-500 hover:bg-indigo-500 cursor-not-allowed text-white shadow-sm rounded-md p-2">
+                    <span class="animate-pulse">
+                        Guardando puntaje...
+                    </span>
+                </button>
+                <button v-else type="button" class="bg-indigo-500 hover:bg-indigo-500/90 text-white shadow-sm rounded-md p-2"
+                    @click="savePuntaje()"
                 >
                     Siguiente
                 </button>

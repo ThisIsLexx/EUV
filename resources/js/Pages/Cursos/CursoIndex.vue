@@ -269,7 +269,7 @@ function getHighScore(asignacion: number) {
                                                 <PlayIcon class="w-8 h-8 mr-2 opacity-70"/>
                                                 {{ asignacion.titulo }}
                                             </span>
-                                            <span class="flex group min-w-[228px] font-semibold items-center transition-all duration-300 ease-in-out justify-center border-l-2 px-5 hover:border-indigo-500 hover:bg-indigo-100 content-center text-sm">
+                                            <span class="flex group min-w-[298px] font-semibold items-center transition-all duration-300 ease-in-out justify-start border-l-2 px-5 hover:border-indigo-500 hover:bg-indigo-100 content-center text-sm">
                                                 <span class="mr-1">
                                                     Mejor puntaje:
                                                 </span>
