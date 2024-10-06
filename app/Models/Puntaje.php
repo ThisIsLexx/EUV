@@ -24,6 +24,11 @@ class Puntaje extends Model
         return $this->belongsTo(Curso::class, 'curso_id');
     }
 
+    public function cuento()
+    {
+        return $this->belongsTo(Cuento::class, 'cuento_id');
+    }
+
     public function texto()
     {
         return $this->belongsTo(Cuento::class, 'texto_id');
