@@ -64,7 +64,14 @@ class CursoController extends Controller
      */
     public function show(Curso $curso)
     {
-        $personas = $curso->alumnos()->get()->whereNotIn('id', [$curso->user->id]);
+        $tutor = $curso->user()->get();
+        $personas = $curso->alumnos()->get()->whereNotIn('id', $tutor->pluck('id'))->map(function($persona) {
+            return [
+                'id' => $persona->id,
+                'name' => $persona->name,
+                'dificultad' => $persona->dificultad,
+            ];
+        });
         $asignaciones = $curso->cuentos()->get();
         $cuentos = Cuento::whereNotIn('id', $asignaciones->pluck('id'))->get()->map(function($cuento) {
             return [
@@ -73,7 +80,7 @@ class CursoController extends Controller
             'dificultad' => $cuento->dificultad,
             ];
         });
-        $puntaje = $curso->puntajes()->where('user_id', auth()->user()->id)->orderBy('puntaje', 'desc')->get();
+        $puntajes = $curso->puntajes()->where('user_id', auth()->user()->id)->orderBy('puntaje', 'desc')->get();
 
 
         return Inertia::render('Cursos/CursoIndex',[
@@ -82,7 +89,7 @@ class CursoController extends Controller
             'personas' => $personas,
             'asignaciones' => $asignaciones,
             'cuentos' => $cuentos,
-            'puntaje' => $puntaje,
+            'puntajes' => $puntajes,
             'breadcrumbs' => [
                 ['name' => 'Listado de cursos', 'href' => 'curso.index', 'current' => false],
                 ['name' => $curso->codigo, 'href' => '', 'current' => true],

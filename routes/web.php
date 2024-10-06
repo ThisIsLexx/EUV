@@ -28,6 +28,7 @@ Route::middleware([
     Route::get('/cuentos', [CuentoController::class, 'listadoCuentos'])->name('cuento.cuentos');
     Route::resource('curso', CursoController::class);
     Route::resource('puntaje', PuntajeController::class);
+    Route::post('/clasificar-usuario', [PuntajeController::class, 'clasificarUsuario'])->name('clasificar');
     Route::post('/curso/unirse', [CursoController::class, 'unirse'])->name('curso.unirse');
     Route::post('/curso/{curso}/asignar', [CursoController::class, 'asignar'])->name('curso.asignar');
     Route::get('/curso/{curso}/cuento/{cuento}/play', [CuentoController::class, 'play'])->name('curso.play');
@@ -38,6 +39,8 @@ Route::middleware([
             'breadcrumbs' => [
                 ['name' => 'Mis Estadísticas', 'route' => 'estadisticas', 'current' => true],
             ],
+            'user_id' => auth()->user()->id,
+            'user_clasification' => auth()->user()->dificultad,
         ]);
     })->name('estadisticas');
 

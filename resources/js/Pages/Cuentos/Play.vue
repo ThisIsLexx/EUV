@@ -2,16 +2,22 @@
 import { ref, onMounted } from 'vue';
 import { Cuento } from '@/types/cuento';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import Spinner from '@/Components/Custom/Spinner.vue';
 import Separator from '@/Components/Separator.vue';
 import { Breadcrumb } from '@/types/breadcrumb';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import Modal from '@/Components/Custom/Modal.vue';
 import { Curso } from '@/types/curso';
+import { Puntaje } from '@/types/puntaje';
+import VueApexCharts from "vue3-apexcharts";
+import axios from 'axios';
 
 const props = defineProps({
     cuento: Object as () => Cuento,
     curso: Object as () => Curso,
     breadcrumbs: Array<Breadcrumb>,
+    puntajes: Array<Puntaje>,
+    promedioUsuarios: Object,
 });
 
 let texto = ref('');
@@ -19,6 +25,9 @@ let tiempo = ref('00:00');
 let palabras = ref<Array<string>>([]);
 const $contenido = ref<HTMLElement | null>(null);
 const $input = ref<HTMLInputElement | null>(null);
+
+let loadingData = ref(false);
+const prediccion = ref('baja');
 
 let timerInterval: number | null = null;
 let secondsElapsed = 0;
@@ -79,7 +88,6 @@ function OnKeyDown(event) {
             }
             $input.value!.value = '';
         } else {
-            console.log("juego terminado");
             gameOver();
         }
     }
@@ -162,6 +170,7 @@ const form = useForm({
     tiempo : tiempo.value,
     cuento_id : props.cuento.id,
     curso_id: props.curso.id,
+    clasificacion: '',
 });
 
 function gameOver() {
@@ -169,9 +178,15 @@ function gameOver() {
     form.palabras_correctas = $contenido.value?.querySelectorAll('word.correct').length;
     form.score = (form.palabras_correctas / form.total_palabras) * 100;
 
-    showResultModal.value = true;
+    // Definimos el objeto request
+    const request = [
+        form.palabras_correctas,
+        form.total_palabras,
+        form.score,
+    ];
+    setSeries(form.palabras_correctas, form.total_palabras - form.palabras_correctas, form.score, request);
 
-    form.post(route('puntaje.store'));
+    showResultModal.value = true;
 }
 
 onMounted(() => {
@@ -180,39 +195,140 @@ onMounted(() => {
     iniciarJuego();
     iniciarEventos();
 });
+
+function hasHighScore(asignacion: number) {
+    if (props.puntajes.length && props.puntajes.find(p => p.cuento_id === 3))
+        return true;
+    return false
+}
+
+function getHighScore(asignacion: number) {
+    const puntajes = props.puntajes.filter(p => p.cuento_id === asignacion);
+    if (puntajes.length) {
+        return Math.max(...puntajes.map(p => p.puntaje));
+    }
+    return 0;
+}
+
+let options = {
+    chart: {
+        type: 'area'
+    },
+    xaxis: {
+        categories: ['Aciertos', 'Errores', 'Score']
+    }
+};
+
+let series = [];
+
+function setSeries(aciertos: number, errores: number, score: number, request: any) {
+    // Hacemos la petición POST para obtener la predicción
+    loadingData.value = true;
+    axios.post(route('clasificar'), request)
+        .then(response => {
+            // && response.data.clasificacion
+            if (response.data ) {
+                prediccion.value = response.data.clasificacion; // Guardamos la clasificación obtenida
+                form.clasificacion = response.data.clasificacion;
+                if (form.clasificacion === 'altaalta') form.clasificacion = 'alta';
+                loadingData.value = false;
+            } else {
+                console.warn('No se recibió una clasificación válida en la respuesta');
+            }
+        })
+        .catch(error => {
+            console.error('Error al clasificar:', error);
+    });
+
+    series = [
+        {
+            name: "Tus estadísticas",
+            data: [aciertos, errores, score]
+        },
+        {
+            name: "Promedio de usuarios",
+            data: [props.promedioUsuarios?.aciertos?.toFixed(2) ?? 0, props.promedioUsuarios?.fallas?.toFixed(2) ?? 0, props.promedioUsuarios?.puntajes?.toFixed(2) ?? 0]
+        },
+    ];
+}
+
+let guardandoPuntaje = ref(false);
+
+function savePuntaje() {
+
+    guardandoPuntaje.value = true;
+    form.post(route('puntaje.store'));
+
+    setTimeout(() => {
+        guardandoPuntaje.value = false;
+        showResultModal.value = false;
+
+        // router.get(route('curso.show', props.curso.id));
+
+    }, 2000);
+}
+
+import { ChartPieIcon } from '@heroicons/vue/24/outline';
+
 </script>
 
 <template>
     <AppLayout :breadcrumbs="breadcrumbs">
 
-        <Modal :showModal="showResultModal" size="lg" :titulo="`Resultados: ${cuento.titulo}`" @closeModal="showResultModal = false;">
+        <Modal :showModal="showResultModal" :closeButton="false" size="lg" :titulo="`Resultados: ${cuento.titulo}`" @closeModal="showResultModal = false;">
             <template v-slot:modal-content>
-                <div class="flex flex-col w-full text-center justify-center">
-                    <h1 class="font-semibold text-3xl uppercase">¡Felicidades!</h1>
-                    <span class="text-base uppercase font-semibold">
-                        Has completado el cuento en {{ tiempo }}
-                    </span>
-                    <span class="text-xs uppercase font-semibold">
-                        Tu score es de {{ form.score }}
-                    </span>
+                <div v-if="loadingData">
+                    <div class="flex flex-col w-full text-center justify-center">
+                        <span class="text-base uppercase mt-2">
+                            Espere un momento mientras se procesan los datos
+                        </span>
+                        <div class="w-full flex justify-center mt-4">
+                            <Spinner/>
+                        </div>
+                    </div>
+                </div>
+                <div v-else class="flex flex-col w-full text-center justify-center">
+                        <h1 class="font-semibold text-3xl uppercase">¡Felicidades!</h1>
+                        <span class="text-base uppercase mt-2">
+                            Has completado el cuento: <span class="text-indigo-500 font-bold">{{ cuento?.titulo }}</span>
+                        </span>
+                        <span class="uppercase mt-2">
+                            Obtuviste un total de <span class="text-indigo-500 font-semibold">{{ form.score }}</span> puntos
+                        </span>
+                        <span v-if="prediccion" class="uppercase mt-2">
+                            En este puntaje obtuviste una clasificación: <span class="text-indigo-500 font-semibold">{{ prediccion }}</span>
+                        </span>
+                        <div class="w-full p-2 border-2 border-indigo-200 rounded-md mt-4">
+                            <VueApexCharts width="700" height="300" type="area" :options="options" :series="series"></VueApexCharts>
+                        </div>
                 </div>
             </template>
-
             <template v-slot:action-button>
-            <button class="bg-indigo-500 hover:bg-indigo-500/90 text-white shadow-sm rounded-md px-2">
-                Siguiente
-            </button>
+
+                <button v-if="guardandoPuntaje" type="button" class="bg-indigo-500 hover:bg-indigo-500 cursor-not-allowed text-white shadow-sm rounded-md p-2">
+                    <span class="animate-pulse">
+                        Guardando puntaje...
+                    </span>
+                </button>
+                <button v-else type="button" class="bg-indigo-500 hover:bg-indigo-500/90 text-white shadow-sm rounded-md p-2"
+                    @click="savePuntaje()"
+                >
+                    Siguiente
+                </button>
             </template>
         </Modal>
 
         <div class="flex flex-col px-20 w-full">
             <div class="flex flex-col w-full text-center justify-center">
-                <h1 class="font-semibold text-2xl uppercase">{{ cuento.titulo }}</h1>
-                <span class="text-xs uppercase font-semibold">
+                <h1 class="font-semibold text-2xl uppercase text-indigo-700">{{ cuento.titulo }}</h1>
+                <!-- <span class="text-xs uppercase font-semibold">
                     Tiempo transcurrido: {{ tiempo }}
-                </span>
+                </span> -->
                 <span class="text-xs uppercase font-semibold">
-                    Mejor score: {{ texto }}
+                    Mejor score:
+                    <template v-if="hasHighScore(cuento.id)">
+                        {{ getHighScore(cuento.id) }} puntos
+                    </template>
                 </span>
             </div>
             <Separator/>

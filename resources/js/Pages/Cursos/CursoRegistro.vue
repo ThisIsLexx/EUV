@@ -77,6 +77,7 @@ const curso_form = useForm({
 </script>
 
 <template>
+    <Head title="Mis cursos" />
     <AppLayout :breadcrumbs="props.breadcrumbs">
         <div>
             <h1>{{props.titulo}}</h1>
@@ -319,7 +320,7 @@ const curso_form = useForm({
 
                             <!-- BEGIN: Imagen de curso -->
                             <div class="h-40 overflow-hidden">
-                                <img src="/images/login.jpg" alt="Curso Cover" class="h-full w-full object-cover rounded-t-md transition-all duration-300 transform brightness-50 group-hover:brightness-100" />
+                                <img :src="'/images/curso_images/' + curso.color + '.jpg'" alt="Curso Cover" class="h-full w-full object-cover rounded-t-md transition-all duration-300 transform brightness-50 group-hover:brightness-100" />
                             </div>
                             <!-- END: Imagen de curso -->
 
@@ -338,9 +339,7 @@ const curso_form = useForm({
     </AppLayout>
 </template>
 
-<style>
-+
-
+<style scoped>
 .list-enter-active,
 .list-leave-active {
   transition: all 0.5s ease;

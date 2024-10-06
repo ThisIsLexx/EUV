@@ -16,14 +16,14 @@ class UserSeeder extends Seeder
     {
         // Admin user
         User::factory()->create([
-            'name' => 'admin',
+            'name' => 'Usuario Administrador',
             'email' => 'admin@test.com',
-            'password' => Hash::make('admineuv'),
+            'password' => Hash::make('password'),
         ]);
 
         // Regular user
         User::factory()->create([
-            'name' => 'user',
+            'name' => 'Usuario Regular',
             'email' => 'user@test.com',
             'password' => Hash::make('password'),
         ]);
