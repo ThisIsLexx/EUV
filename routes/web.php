@@ -40,6 +40,7 @@ Route::middleware([
                 ['name' => 'Mis Estadísticas', 'route' => 'estadisticas', 'current' => true],
             ],
             'user_id' => auth()->user()->id,
+            'user_clasification' => auth()->user()->dificultad,
         ]);
     })->name('estadisticas');
 

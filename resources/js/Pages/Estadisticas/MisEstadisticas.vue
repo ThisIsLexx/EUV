@@ -6,6 +6,8 @@ import Separator from '@/Components/Separator.vue';
 import VueApexCharts from "vue3-apexcharts";
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
+import { UserCircleIcon, PaperAirplaneIcon } from '@heroicons/vue/24/solid';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
     breadcrumbs: {
@@ -14,6 +16,10 @@ const props = defineProps({
     },
     user_id: {
         type: Number,
+        required: true
+    },
+    user_clasification: {
+        type: String,
         required: true
     }
 });
@@ -32,6 +38,21 @@ let puntajes_generales = ref({
     puntajes: 0
 });
 
+function resolveClasificacion(clasificacion : string) {
+    switch (clasificacion) {
+        case 'baja':
+            return 'bg-emerald-200 text-emerald-700';
+        case 'media':
+            return 'bg-yellow-200 text-yellow-700';
+        case 'alta':
+            return 'bg-red-200 text-red-700';
+        default:
+            return 'bg-emerald-200 text-emerald-700';
+    }
+
+}
+
+
 onMounted(() => {
     // Aqui se haria la peticion a la API para obtener los datos
     // y se asignarian a las variables
@@ -42,12 +63,12 @@ onMounted(() => {
         series_generales.value = [
             {
                 name: "Mis estadisticas",
-                data: [mis_puntajes?.value?.jugados, mis_puntajes?.value?.aciertos, mis_puntajes?.value?.fallas, mis_puntajes?.value?.puntajes],
+                data: [mis_puntajes?.value?.jugados.toFixed(2), mis_puntajes?.value?.aciertos.toFixed(2), mis_puntajes?.value?.fallas.toFixed(2), mis_puntajes?.value?.puntajes.toFixed(2)],
 
             },
             {
                 name: "Promedio de usuarios",
-                data: [puntajes_generales.value.jugados, puntajes_generales.value.aciertos, puntajes_generales.value.fallas, puntajes_generales.value.puntajes]
+                data: [puntajes_generales?.value?.jugados.toFixed(2), puntajes_generales?.value?.aciertos.toFixed(2), puntajes_generales?.value?.fallas.toFixed(2), puntajes_generales?.value?.puntajes.toFixed(2)]
             }
         ];
 
@@ -129,13 +150,45 @@ let series_alta = ref([
     <div>
         <h1 class=" font-light uppercase">Mis Estadisticas</h1>
         <Separator />
+
+        <div class="flex mt-4 border-2 shadow-sm hover:shadow-md hover:shadow-indigo-500/30 transition-all duration-300 ease-in-out rounded-md w-auto h-auto group">
+            <div class="w-auto bg-gray-200 justify-center items-center">
+                <UserCircleIcon class="w-16 h-16 transition-all ease-in-out duration-300 text-gray-500 m-4 group-hover:text-indigo-400"  />
+            </div>
+            <div class="flex flex-col w-full p-4">
+                <div class="flex w-full justify-between">
+                    <div>
+                        <h2 class="font-semibold uppercase text-sm">
+                            {{ $page.props.auth.user.name }}
+                        </h2>
+                    </div>
+                    <div class="font-semibold">
+                        Clasificación:
+                        <span class="py-1 px-4 rounded-full" :class="resolveClasificacion(props.user_clasification)">
+                            {{ props.user_clasification }}
+                        </span>
+                    </div>
+                </div>
+                <span class="text-sm text-gray-500 mt-4 text-justify">
+                    Para mejorar tu clasificación de usuario registrate en los diferentes cursos para jugar diversas asignaciones
+                    y mejorar tus habilidades en mecanografia. Conforme consigas diferentes puntajes, tu clasificación irá mejorando
+                    según tus habilidades. Nuestro sistema de clasificación podrá dar calificaciones a cada uno de tus puntajes para
+                    evaluar tu desempeño, para posteriormente darte una clasificación de usuario:
+                    <button type="button" @click="router.get(route('curso.index'))"
+                        class="font-semibold mt-4 text-sm inline-flex items-center text-indigo-500 hover:text-indigo-800">
+                        Unirme a un curso
+                    </button>
+                </span>
+            </div>
+        </div>
+
         <div class="flex flex-col p-5 my-4 border-2 shadow-sm hover:shadow-md hover:shadow-indigo-500/30 transition duration-300 ease-in-out rounded-md w-auto">
             <h2 class="font-semibold uppercase text-sm">Estadisticas generales</h2>
             <div class="flex justify-center text-center w-full">
-                <VueApexCharts width="600" type="area" :options="opciones_generales" :series="series_generales"></VueApexCharts>
+                <VueApexCharts width="800" height="300" type="area" :options="opciones_generales" :series="series_generales"></VueApexCharts>
             </div>
         </div>
-        <div class="grid grid-cols-3 gap-4">
+        <!-- <div class="grid grid-cols-3 gap-4">
             <div class="p-5 border-2 shadow-sm hover:shadow-md hover:shadow-indigo-500/30 transition duration-300 ease-in-out rounded-md w-auto">
                 <h2 class="font-semibold uppercase text-sm">Cuentos dificultad baja</h2>
                 <div class="flex justify-center text-center">
@@ -154,7 +207,7 @@ let series_alta = ref([
                     <VueApexCharts width="300" height="300" type="bar" :options="opciones_cuentos" :series="series_alta"></VueApexCharts>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     </AppLayout>
 </template>
