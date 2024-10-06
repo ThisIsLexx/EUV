@@ -24,29 +24,19 @@ class PuntajeController extends Controller
 
     public function clasificarUsuario(Request $request)
     {
-        // Obtenemos los puntajes del usuario
-        $usuario = Auth::user();
+        $data = $request->toArray();
 
-
-
-        $aciertos = $request->palabras_correctas;
-        $total_palabras = $request->total_palabras;
-        $score = $request->score;
-
-
-        // Preparamos los datos para el script de Python
-        $data = [
-            "aciertos" => $aciertos ? $aciertos : 0,
-            "total_palabras" => $total_palabras ? $total_palabras : 0,
-            "score" => $score ? $score : 0,
+        $python_request = [
+            "aciertos" => $data[0],
+            "total_palabras" => $data[1],
+            "score" => $data[2]
         ];
 
         // Convertimos los datos a JSON
-        $jsonData = json_encode($data);
+        $jsonData = json_encode($python_request);
 
         $tempFilePath = sys_get_temp_dir() . '/data.json';
         file_put_contents($tempFilePath, $jsonData);
-
 
         // Especificamos correctamente el comando para Python
         $command = 'C:/laragon/bin/python/python-3.10/python.exe C:/laragon/www/EUV/clasificarUsuario.py ' . escapeshellarg($tempFilePath)  . ' 2>&1';

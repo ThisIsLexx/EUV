@@ -5,9 +5,9 @@
 
 <style scoped>
 .loader {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  width: 36px;
-  height: 36px;
+  border: 10px solid rgba(0, 0, 0, 0.1);
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border-left-color: #09f;
   animation: spin 1s ease infinite;
