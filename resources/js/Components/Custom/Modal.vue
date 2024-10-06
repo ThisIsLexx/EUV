@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import Separator from '@/Components/Separator.vue'
+import { defineProps, defineEmits, onUnmounted, watch } from 'vue';
 
 defineEmits(['closeModal']);
 
-defineProps({
+const props = defineProps({
     showModal: {
         type: Boolean,
         default: false,
@@ -23,6 +24,17 @@ defineProps({
     }
 });
 
+watch(() => props.showModal, () => {
+    if (props.showModal) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = null;
+    }
+});
+
+onUnmounted(() => {
+    document.body.style.overflow = null;
+});
 </script>
 
 <template>
@@ -34,7 +46,7 @@ defineProps({
                 leave-from-class="opacity-100"
                 leave-to-class="opacity-0"
     >
-        <div class="absolute w-full bg-gradient-to-r from-indigo-900/60 to-indigo-950/60 h-screen top-0 left-0 flex justify-center px-8 z-50" v-if="showModal">
+        <div class="absolute min-h-full w-full bg-gradient-to-r inset-0 from-indigo-900/60 to-indigo-950/60 h-screen top-0 left-0 flex justify-center z-50" v-if="showModal" scroll-region>
             <transition
                 enter-active-class="ease-out duration-300"
                 enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
