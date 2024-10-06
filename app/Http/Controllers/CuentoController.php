@@ -156,7 +156,7 @@ class CuentoController extends Controller
         return Inertia::render('Cuentos/CuentoListado', [
             'cuentos' => Cuento::all(),
             'breadcrumbs' => [
-                ['name' => 'Listado de cuentos', 'href' => 'cuento.cuentos', 'current' => true],
+                ['name' => 'Listado de cuentos', 'href' => 'cuento.index', 'current' => true],
             ],
         ]);
     }
