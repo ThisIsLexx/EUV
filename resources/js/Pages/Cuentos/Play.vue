@@ -175,7 +175,7 @@ function gameOver() {
     showResultModal.value = true;
 
     form.post(route('puntaje.store'));
-    router.post(route('clasificar'));
+    form.post(route('clasificar'));
 }
 
 onMounted(() => {

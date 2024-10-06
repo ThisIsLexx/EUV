@@ -22,42 +22,37 @@ class PuntajeController extends Controller
         $puntaje->save();
     }
 
-    public function clasificarUsuario()
+    public function clasificarUsuario(Request $request)
     {
         // Obtenemos los puntajes del usuario
         $usuario = Auth::user();
-        $puntajes = Puntaje::where('user_id', $usuario->id)->get();
 
-        $aciertos = [];
-        $total_palabras = [];
-        $score = [];
 
-        // Obtenemos los aciertos, total de palabras y puntaje de cada puntaje
-        foreach ($puntajes as $puntaje) {
-            array_push($aciertos, $puntaje->aciertos);
-            array_push($total_palabras, $puntaje->total_palabras);
-            array_push($score, $puntaje->puntaje);
-        }
+
+        $aciertos = $request->palabras_correctas;
+        $total_palabras = $request->total_palabras;
+        $score = $request->score;
+
 
         // Preparamos los datos para el script de Python
         $data = [
-            "aciertos" => $aciertos,
-            "total_palabras" => $total_palabras,
-            "score" => $score
+            "aciertos" => $aciertos ? $aciertos : 0,
+            "total_palabras" => $total_palabras ? $total_palabras : 0,
+            "score" => $score ? $score : 0,
         ];
 
-        // Convertimos los datos a JSON correctamente con json_encode
+        // Convertimos los datos a JSON
         $jsonData = json_encode($data);
 
-        $jsonData = escapeshellarg($jsonData);
+        $tempFilePath = sys_get_temp_dir() . '/data.json';
+        file_put_contents($tempFilePath, $jsonData);
 
 
+        // Especificamos correctamente el comando para Python
+        $command = 'C:/laragon/bin/python/python-3.10/python.exe C:/laragon/www/EUV/clasificarUsuario.py ' . escapeshellarg($tempFilePath)  . ' 2>&1';
 
-        // Ejecutamos el script de Python
-        $command = "C:/laragon/bin/python/python-3.10/python.exe C:/laragon/www/EUV/clasificarUsuario.py " . $jsonData;
+        // Ejecutamos el comando
         $output = shell_exec($command);
-
-        dd($output);
 
         // Verificamos si el output es null
         if ($output === null) {
