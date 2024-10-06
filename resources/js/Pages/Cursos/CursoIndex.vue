@@ -31,6 +31,7 @@ const props = defineProps({
         required: true,
     },
     personas: {
+        typew: Array<Object>,
         required: true,
         default: null,
     },
@@ -50,7 +51,6 @@ let cuentoFilter = ref('');
 let mostrarCuentos = ref(false);
 let filteredCuentos = ref<Array<Cuento>>(props.cuentos);
 let isLoading = ref(false);
-let asd = ref(false);
 
 function resolveCursoColor(color: string) {
     switch (color) {
@@ -72,6 +72,19 @@ function resolveCursoColor(color: string) {
             return 'bg-gradient-to-r from-pink-500 to-rose-500';
         default:
             return 'bg-gradient-to-r from-cyan-500 to-emerald-500';
+    }
+}
+
+function resolveClasificacion(clasificacion : string) {
+    switch (clasificacion) {
+        case 'baja':
+            return 'bg-emerald-200 text-emerald-700';
+        case 'media':
+            return 'bg-yellow-200 text-yellow-700';
+        case 'alta':
+            return 'bg-red-200 text-red-700';
+        default:
+            return 'bg-emerald-200 text-emerald-700';
     }
 }
 
@@ -123,7 +136,7 @@ function asignarCuentos() {
 }
 
 function hasHighScore(asignacion: number) {
-    if (props.puntajes.length && props.puntajes.find(p => p.cuento_id === 3))
+    if (props.puntajes && props.puntajes.find(p => p.cuento_id === props.asignaciones.find(a => a.id === asignacion).id))
         return true;
     return false
 }
@@ -322,11 +335,14 @@ function getHighScore(asignacion: number) {
                                     Personas inscritas
                                     <Separator/>
                                     <span class="text-sm uppercase">
-                                        <div v-if="props.personas.length > 0">
+                                        <div v-if="props.personas != 0">
                                             <div v-for="persona in props.personas" :key="persona.id" class="flex justify-between p-5 border-b transition-all duration-200 border-gray-200 hover:border-indigo-600 hover:text-indigo-600">
                                                 <span class="flex justify-start items-center content-center w-full font-semibold">
                                                     <UserCircleIcon class="w-8 h-8 mr-2 opacity-70"/>
                                                     {{ persona.name }}
+                                                </span>
+                                                <span class="py-1 px-4 rounded-full flex justify-center items-center" :class="resolveClasificacion(persona.dificultad)">
+                                                    {{ persona.dificultad }}
                                                 </span>
                                             </div>
                                         </div>
