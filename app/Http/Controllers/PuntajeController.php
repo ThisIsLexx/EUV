@@ -19,6 +19,7 @@ class PuntajeController extends Controller
         $puntaje->total_palabras = $request->total_palabras;
         $puntaje->fallas = $request->total_palabras - $request->palabras_correctas;
         $puntaje->puntaje = $request->score;
+        $puntaje->clasificacion = $request->clasificacion;
         $puntaje->save();
     }
 

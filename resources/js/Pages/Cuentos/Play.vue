@@ -229,7 +229,7 @@ function setSeries(aciertos: number, errores: number, score: number, request: an
             // && response.data.clasificacion
             if (response.data ) {
                 prediccion = response.data.clasificacion; // Guardamos la clasificación obtenida
-                form.clasificacion = prediccion.value;
+                form.clasificacion = response.data.clasificacion;
                 loadingData.value = false;
             } else {
                 console.warn('No se recibió una clasificación válida en la respuesta');
@@ -246,7 +246,7 @@ function setSeries(aciertos: number, errores: number, score: number, request: an
         },
         {
             name: "Promedio de usuarios",
-            data: [props.promedioUsuarios?.aciertos.toFixed(2), props.promedioUsuarios?.fallas.toFixed(2), props.promedioUsuarios?.puntajes.toFixed(2)]
+            data: [props.promedioUsuarios?.aciertos?.toFixed(2) ?? 0, props.promedioUsuarios?.fallas?.toFixed(2) ?? 0, props.promedioUsuarios?.puntajes?.toFixed(2) ?? 0]
         },
     ];
 }
