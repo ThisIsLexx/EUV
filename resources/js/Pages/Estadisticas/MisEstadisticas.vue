@@ -1,24 +1,66 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import { Breadcrumb } from '@/types/breadcrumb';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Separator from '@/Components/Separator.vue';
 import VueApexCharts from "vue3-apexcharts";
 import { Head } from '@inertiajs/vue3';
+import axios from 'axios';
 
 const props = defineProps({
     breadcrumbs: {
         type: Array<Breadcrumb>,
         required: true
     },
+    user_id: {
+        type: Number,
+        required: true
+    }
 });
 
+let mis_puntajes = ref({
+    jugados: 0,
+    aciertos: 0,
+    fallas: 0,
+    puntajes: 0
+});
 
+let puntajes_generales = ref({
+    jugados: 0,
+    aciertos: 0,
+    fallas: 0,
+    puntajes: 0
+});
+
+onMounted(() => {
+    // Aqui se haria la peticion a la API para obtener los datos
+    // y se asignarian a las variables
+    axios.get(`/api/estadisticas/${props.user_id}`).then(response => {
+        mis_puntajes.value = response.data.mis_puntajes;
+        puntajes_generales.value = response.data.puntajes_generales;
+
+        series_generales.value = [
+            {
+                name: "Mis estadisticas",
+                data: [mis_puntajes?.value?.jugados, mis_puntajes?.value?.aciertos, mis_puntajes?.value?.fallas, mis_puntajes?.value?.puntajes],
+
+            },
+            {
+                name: "Promedio de usuarios",
+                data: [puntajes_generales.value.jugados, puntajes_generales.value.aciertos, puntajes_generales.value.fallas, puntajes_generales.value.puntajes]
+            }
+        ];
+
+
+    }).catch(error => {
+        console.log(error);
+    });
+});
 
 let series_generales = ref([
     {
         name: "Mis estadisticas",
-        data: [2,3,4,5]
+        data: [1,3,4,5]
     },
     {
         name: "Promedio de usuarios",

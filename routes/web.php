@@ -39,6 +39,7 @@ Route::middleware([
             'breadcrumbs' => [
                 ['name' => 'Mis Estadísticas', 'route' => 'estadisticas', 'current' => true],
             ],
+            'user_id' => auth()->user()->id,
         ]);
     })->name('estadisticas');
 

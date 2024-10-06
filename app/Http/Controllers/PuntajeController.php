@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Puntaje;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class PuntajeController extends Controller
 {
@@ -52,5 +53,27 @@ class PuntajeController extends Controller
 
         // Enviamos la clasificación dada por el modelo al usuario
         return response()->json(['clasificacion' => $output]);
+    }
+
+    public function getEstadisticas(Request $request)
+    {
+        $user = User::find($request->id);
+        $puntajes = $user->puntajes->select('aciertos', 'fallas', 'puntaje');
+        $misPuntajes = [
+            'jugados' => $puntajes->count(),
+            'aciertos' => $puntajes->avg('aciertos'),
+            'fallas' => $puntajes->avg('fallas'),
+            'puntajes' => $puntajes->avg('puntaje'),
+        ];
+
+        $puntajesAll = Puntaje::all()->select('aciertos', 'fallas', 'puntaje');
+        $puntajes_generales = [
+            'jugados' => $puntajesAll->count(),
+            'aciertos' => $puntajesAll->avg('aciertos'),
+            'fallas' => $puntajesAll->avg('fallas'),
+            'puntajes' => $puntajesAll->avg('puntaje'),
+        ];
+
+        return response()->json(['mis_puntajes' => $misPuntajes, 'puntajes_generales' => $puntajes_generales]);
     }
 }
