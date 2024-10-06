@@ -27,7 +27,7 @@ const $contenido = ref<HTMLElement | null>(null);
 const $input = ref<HTMLInputElement | null>(null);
 
 let loadingData = ref(false);
-const prediccion = ref('');
+const prediccion = ref('baja');
 
 let timerInterval: number | null = null;
 let secondsElapsed = 0;
@@ -230,6 +230,7 @@ function setSeries(aciertos: number, errores: number, score: number, request: an
             if (response.data ) {
                 prediccion.value = response.data.clasificacion; // Guardamos la clasificación obtenida
                 form.clasificacion = response.data.clasificacion;
+                if (form.clasificacion === 'altaalta') form.clasificacion = 'alta';
                 loadingData.value = false;
             } else {
                 console.warn('No se recibió una clasificación válida en la respuesta');
