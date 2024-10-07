@@ -15,6 +15,9 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'python_path' => env('PYTHON_PATH', 'python3'),
+    'python_script' => env('PYTHON_SCRIPT', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

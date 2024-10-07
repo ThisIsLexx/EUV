@@ -63,7 +63,7 @@ class PuntajeController extends Controller
         file_put_contents($tempFilePath, $jsonData);
 
         // Especificamos correctamente el comando para Python
-        $command = 'C:/laragon/bin/python/python-3.10/python.exe C:/laragon/www/EUV/clasificarUsuario.py ' . escapeshellarg($tempFilePath)  . ' 2>&1';
+        $command = config('app.python_path') . ' ' . config('app.python_script') . ' ' . escapeshellarg($tempFilePath)  . ' 2>&1';
 
         // Ejecutamos el comando
         $output = shell_exec($command);
