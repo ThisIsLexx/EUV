@@ -284,7 +284,7 @@ function getHighScore(asignacion: number) {
                                                     Mejor puntaje:
                                                 </span>
                                                 <span v-if="hasHighScore(asignacion.id)" class="group-hover:text-indigo-500 transition-all duration-300 ease-in-out">
-                                                    {{ getHighScore(asignacion.id) }} puntos
+                                                    {{ getHighScore(asignacion.id).toFixed(2) }} puntos
                                                 </span>
                                                 <span v-else class="group-hover:text-indigo-500 transition-all duration-300 ease-in-out">
                                                     Sin puntaje

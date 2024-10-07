@@ -36,7 +36,7 @@ let showResultModal = ref(false);
 
 function iniciarJuego() {
     // Definimos las palabras del texto
-    palabras.value = props.cuento.contenido.split(' ').slice(0, 32);
+    palabras.value = props.cuento.contenido.split(' ').slice(0);
 
     // Mostramos las palabras en el DOM haciendo map para separar cada palabra y de
     // cada palabra, cada una de sus letras.
@@ -243,7 +243,7 @@ function setSeries(aciertos: number, errores: number, score: number, request: an
     series = [
         {
             name: "Tus estadísticas",
-            data: [aciertos, errores, score]
+            data: [aciertos.toFixed(2), errores.toFixed(2), score.toFixed(2)]
         },
         {
             name: "Promedio de usuarios",
@@ -293,7 +293,7 @@ import { ChartPieIcon } from '@heroicons/vue/24/outline';
                             Has completado el cuento: <span class="text-indigo-500 font-bold">{{ cuento?.titulo }}</span>
                         </span>
                         <span class="uppercase mt-2">
-                            Obtuviste un total de <span class="text-indigo-500 font-semibold">{{ form.score }}</span> puntos
+                            Obtuviste un total de <span class="text-indigo-500 font-semibold">{{ form.score.toFixed(2) }}</span> puntos
                         </span>
                         <span v-if="prediccion" class="uppercase mt-2">
                             En este puntaje obtuviste una clasificación: <span class="text-indigo-500 font-semibold">{{ prediccion }}</span>
