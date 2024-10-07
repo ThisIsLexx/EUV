@@ -24,17 +24,17 @@ const props = defineProps({
     }
 });
 
-watch(() => props.showModal, () => {
-    if (props.showModal) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = null;
-    }
-});
+// watch(() => props.showModal, () => {
+//     if (props.showModal) {
+//         document.body.style.overflow = 'hidden';
+//     } else {
+//         document.body.style.overflow = null;
+//     }
+// });
 
-onUnmounted(() => {
-    document.body.style.overflow = null;
-});
+// onUnmounted(() => {
+//     document.body.style.overflow = null;
+// });
 </script>
 
 <template>
