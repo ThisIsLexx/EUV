@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Curso } from '@/types/curso';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { FaceFrownIcon } from '@heroicons/vue/24/outline';
 
 /* Variable con los cursos */
 const props = defineProps({
@@ -38,70 +39,45 @@ function resolveCursoColor(color: string) {
 </script>
 
 <template>
-
     <AppLayout>
-
-        <div>
-
-            <!-- Contenedor principal-->
-            <div class="bg-indigo-200 bg-opacity-25 rounded-xl p-6">
-                
-                <!-- Caso de lista vacia -->
-                <div v-if="!props.cursos.length">
-                    <h1>Parece que aún no hay cursos disponibles, pronto habrá nuevos cursos que descubrir</h1>
-                </div>
-
-                <!-- Caso de lista con elementos -->
-                <div v-else>
-                
-                    <div v-for="curso in props.cursos" :key="curso.id">
-
-                        <div class="w-full rounded-xl grid grid-cols-3 items-center p-6 mb-6"
-                            :class="resolveCursoColor(curso.color)">
-
-                            <!-- Columna para imagen-->
-                            <!-- Espacio de prueba-->
-                            <div class="border border-black rounded-lg flex justify-center">
-                                <img src="\images\typing.png" class="w-1/2 h-1/2 border border-black rounded-lg">
-                            </div>
-
-                            <!-- Columna para titulo y descripcion-->
-                            <div class="border border-black rounded-lg p-6 justify-self-center">
-
-                                <h1>
-
-                                    Titulo:
-                                    {{ curso.titulo }}
-
-                                </h1>
-
-                                <h1>
-
-                                    {{ curso.descripcion }}
-
-                                </h1>
-
-                            </div>
-                            
-
-                            <!-- Columna para codigo-->
-                            <h1 class="border border-black rounded-lg p-6 justify-self-end">
-
-                                Código:
-                                {{ curso.codigo }}
-                                
-                            </h1>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+        <!-- Contenedor principal-->
+        <div class="bg-indigo-600 bg-opacity-25 rounded-xl p-6">
+            <!-- Caso de lista vacia -->
+            <div v-if="!props.cursos.length" class="grid grid-cols-1 place-items-center">
+                <h1 class="font-extrabold text-4xl text-center">
+                    Parece que aún no hay cursos disponibles, pronto habrá nuevos cursos que descubrir.
+                </h1>
+                <FaceFrownIcon class="stroke-indigo-500 size-64"></FaceFrownIcon>
             </div>
-            <!-- Fin de contenedor-->
+            <!-- Caso de lista con elementos -->
+            <div v-else>
+                <div v-for="curso in props.cursos" :key="curso.id">
+                    <div class="w-full rounded-xl grid grid-cols-3 items-center p-6 mt-3 mb-3 border-4 border-indigo-800"
+                        :class="resolveCursoColor(curso.color)">
+                        <!-- Columna para imagen-->
+                        <div class="flex justify-center mr-6">
+                            <img :src="'/images/curso_images/' + curso.color + '.jpg'" class="rounded-lg h-3/4 w-3/4 object-cover rounded-t-md transition-all duration-300 transform brightness-50 group-hover:brightness-100">
+                        </div>
+                        <!-- Columna para titulo y descripcion-->
+                        <div class="p-6">
+                            <h1 class="font-extrabold text-2xl">
+                                {{ curso.titulo }}
+                            </h1>
+                            <h1 class="text-slate-800 text-lg leading-normal font-medium">
+                                {{ curso.descripcion }}
+                            </h1>
+                        </div>
+                        <!-- Columna para codigo-->
+                        <h1 class="font-extrabold text-xl p-6 justify-self-center">
+                            Código:
+                            <span class="text-3xl underline">
+                                {{ curso.codigo }}
+                            </span>
+                        </h1>
+                    </div>
+                </div>
+            </div>
         </div>
-
+        <!-- Fin de contenedor-->
     </AppLayout>
-
 </template>
