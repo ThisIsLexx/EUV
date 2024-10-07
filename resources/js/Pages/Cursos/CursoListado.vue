@@ -16,38 +16,13 @@ const props = defineProps({
         required: true,
     }
 });
-
-/*Funcion para colores de cursos*/
-function resolveCursoColor(color: string) {
-    switch (color) {
-        case 'blue':
-            return 'bg-gradient-to-r from-sky-500 to-indigo-500';
-        case 'emerald':
-            return 'bg-gradient-to-r from-cyan-500 to-emerald-500';
-        case 'red':
-            return 'bg-gradient-to-r from-rose-500 to-red-500';
-        case 'amber':
-            return 'bg-gradient-to-r from-amber-500 to-yellow-500';
-        case 'orange':
-            return 'bg-gradient-to-r from-orange-500 to-yellow-500';
-        case 'purple':
-            return 'bg-gradient-to-r from-violet-500 to-purple-500';
-        case 'gray':
-            return 'bg-gradient-to-r from-gray-500 to-gray-800';
-        case 'pink':
-            return 'bg-gradient-to-r from-pink-500 to-rose-500';
-        default:
-            return 'bg-gradient-to-r from-cyan-500 to-emerald-500';
-    }
-}
-
 </script>
 
 <template>
     <AppLayout :breadcrumbs="props.breadcrumbs">
         <transition appear name="left-to-right">
             <!-- Contenedor principal-->
-            <div class="bg-indigo-600 bg-opacity-25 rounded-xl p-6">
+            <div class="p-6">
                 <!-- Caso de lista vacia -->
                 <div v-if="!props.cursos.length" class="grid grid-cols-1 place-items-center">
                     <h1 class="font-extrabold text-4xl text-center">
@@ -58,8 +33,7 @@ function resolveCursoColor(color: string) {
                 <!-- Caso de lista con elementos -->
                 <div v-else>
                     <div v-for="curso in props.cursos" :key="curso.id">
-                        <div class="w-full rounded-xl grid grid-cols-3 items-center p-6 mt-3 mb-3 border-4 border-indigo-800"
-                            :class="resolveCursoColor(curso.color)">
+                        <div class="w-full rounded-xl grid grid-cols-3 items-center p-6 mt-3 mb-3 border-4 border-indigo-600 bg-gray-200">
                             <!-- Columna para imagen-->
                             <div class="flex justify-center mr-6">
                                 <img :src="'/images/curso_images/' + curso.color + '.jpg'" class="rounded-lg h-3/4 w-3/4 object-cover rounded-t-md transition-all duration-300 transform brightness-50 group-hover:brightness-100">
