@@ -23,16 +23,11 @@ const props = defineProps({
 
 function getNameTutor(identificador : number){
     if(identificador > props.tutor.length){
-        return false;
+        return "ERROR";
     }
     if(identificador = props.tutor[identificador-1].id){
-        /* return props.tutor.length */
         return props.tutor[identificador-1].name;
     }
-    else{
-        return false;
-    }
-
 }
 </script>
 
@@ -61,34 +56,21 @@ function getNameTutor(identificador : number){
                                 <h1 class="font-extrabold text-2xl">
                                     {{ curso.titulo }}
                                 </h1>
-                                <h1 class="text-slate-800 text-lg leading-normal font-medium">
+                                <h1 class="text-slate-800 text-base leading-normal font-medium">
                                     {{ curso.descripcion }}
                                 </h1>
                             </div>
                             <!-- Columna para codigo-->
-                            <div class="p-6">
-                                <h1>
+                            <div class="p-6 grid items-center">
+                                <h1 class=" font-semibold text-lg p-6 justify-self-center">
                                     Tutor:
-                                    <span>
-                                        {{ props.tutor[curso.user_id-1].name }}
+                                    <span class="font-extrabold underline">
                                         {{ getNameTutor(curso.user_id) }}
-                                        <!-- {{ curso.user_id }} -->
-                                        <!-- Esperando saber como mostrar nombre -->
-                                        <!-- <div v-if="getNameTutor(curso.user_id)">
-                                            Hay tutor, cantidad de usuarios:
-                                            {{ getNameTutor(curso.user_id) }}
-                                        </div>
-                                        <div v-else>No funciona</div> -->
-                                        <!-- {{ props.tutor.toString() }} -->
-                                        <!-- {{ props.tutor.concat() }} -->
-                                        <!-- {{ props.tutor[0] }} -->
-                                        <!-- {{ props.cursos.concat() }} -->
-                                        <!-- {{ props.tutor[curso.user_id-1].name }} -->
                                     </span>
                                 </h1>
-                                <h1 class="font-extrabold text-xl p-6 justify-self-center">
+                                <h1 class="font-extrabold text-lg p-6 justify-self-center">
                                     Código:
-                                    <span class="text-3xl underline">
+                                    <span class="text-xl underline">
                                         {{ curso.codigo }}
                                     </span>
                                 </h1>
