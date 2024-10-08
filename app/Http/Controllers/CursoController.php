@@ -174,12 +174,11 @@ class CursoController extends Controller
     public function listadoCursos()
     {
         $cursos = Curso::all();
-        /* $tutor =  */
-
-
+        $tutor = User::all()->select('id','name');
+       
         return Inertia::render('Cursos/CursoListado', [
             'cursos' => $cursos,
-            /* 'tutor' => $tutor, */
+            'tutor' => $tutor,
             'breadcrumbs' => [
                 ['name' => 'Cursos', 'href' => '', 'current' => true],
             ],

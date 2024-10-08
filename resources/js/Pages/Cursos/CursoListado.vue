@@ -12,6 +12,7 @@ const props = defineProps({
         required: true,
     },
     tutor: {
+        type: Array,
         required: true,
     },
     breadcrumbs:{
@@ -19,6 +20,20 @@ const props = defineProps({
         required: true,
     },
 });
+
+function getNameTutor(identificador : number){
+    if(identificador > props.tutor.length){
+        return false;
+    }
+    if(identificador = props.tutor[identificador-1].id){
+        /* return props.tutor.length */
+        return props.tutor[identificador-1].name;
+    }
+    else{
+        return false;
+    }
+
+}
 </script>
 
 <template>
@@ -55,9 +70,20 @@ const props = defineProps({
                                 <h1>
                                     Tutor:
                                     <span>
-                                        {{ curso.user_id }}
+                                        {{ props.tutor[curso.user_id-1].name }}
+                                        {{ getNameTutor(curso.user_id) }}
+                                        <!-- {{ curso.user_id }} -->
                                         <!-- Esperando saber como mostrar nombre -->
-                                        
+                                        <!-- <div v-if="getNameTutor(curso.user_id)">
+                                            Hay tutor, cantidad de usuarios:
+                                            {{ getNameTutor(curso.user_id) }}
+                                        </div>
+                                        <div v-else>No funciona</div> -->
+                                        <!-- {{ props.tutor.toString() }} -->
+                                        <!-- {{ props.tutor.concat() }} -->
+                                        <!-- {{ props.tutor[0] }} -->
+                                        <!-- {{ props.cursos.concat() }} -->
+                                        <!-- {{ props.tutor[curso.user_id-1].name }} -->
                                     </span>
                                 </h1>
                                 <h1 class="font-extrabold text-xl p-6 justify-self-center">
