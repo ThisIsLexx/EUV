@@ -43,32 +43,31 @@ function getNameTutor(identificador : number){
                     </h1>
                     <FaceFrownIcon class="stroke-indigo-500 size-64"></FaceFrownIcon>
                 </div>
+                <!-- Fin de caso de lista vacia -->
+
                 <!-- Caso de lista con elementos -->
                 <div v-else>
                     <div v-for="curso in props.cursos" :key="curso.id">
-                        <div class="w-full rounded-xl grid grid-cols-3 items-center mt-4 mb-4 bg-gray-200">
+                        <div class="w-full rounded-xl grid grid-cols-[2fr_4fr_2fr] items-center mt-4 mb-4">
                             <!-- Columna para imagen-->
                             <div class="flex justify-start h-full">
                                 <img :src="'/images/curso_images/' + curso.color + '.jpg'" class="rounded-lg h-full w-full object-cover rounded-t-md transition-all duration-300 transform brightness-50 group-hover:brightness-100">
                             </div>
                             <!-- Columna para titulo y descripcion-->
-                            <div class="p-6">
+                            <div class="p-4 h-full">
                                 <h1 class="font-extrabold text-2xl">
                                     {{ curso.titulo }}
                                 </h1>
-                                <h1 class="text-slate-800 text-base leading-normal font-medium">
+                                <h1 class="text-slate-800 text-lg leading-normal font-medium">
                                     {{ curso.descripcion }}
+                                </h1>
+                                <h1 class=" font-medium text-base text-gray-500 justify-self-left">
+                                    {{ getNameTutor(curso.user_id) }}
                                 </h1>
                             </div>
                             <!-- Columna para codigo-->
-                            <div class="p-6 grid items-center">
-                                <h1 class=" font-semibold text-lg p-6 justify-self-center">
-                                    Tutor:
-                                    <span class="font-extrabold underline">
-                                        {{ getNameTutor(curso.user_id) }}
-                                    </span>
-                                </h1>
-                                <h1 class="font-extrabold text-lg p-6 justify-self-center">
+                            <div class="grid items-center h-full">
+                                <h1 class="font-extrabold text-lg p-5 justify-self-left">
                                     Código:
                                     <span class="text-xl underline">
                                         {{ curso.codigo }}
@@ -76,8 +75,11 @@ function getNameTutor(identificador : number){
                                 </h1>
                             </div>
                         </div>
+                        <div data-v-4988fd09="" class="border-b-2 my-2 border-gray-400"></div>
                     </div>
+                    <!-- Fin del for para mostrar cursos -->
                 </div>
+                <!-- Fin del caso de lista con elementos -->
             </div>
             <!-- Fin de contenedor-->
         </transition>
