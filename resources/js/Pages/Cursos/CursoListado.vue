@@ -48,7 +48,7 @@ function getNameTutor(identificador : number){
                 <!-- Caso de lista con elementos -->
                 <div v-else>
                     <div v-for="curso in props.cursos" :key="curso.id">
-                        <div class="w-full rounded-xl grid grid-cols-[2fr_4fr_2fr] items-center mt-4 mb-4">
+                        <div class="w-full rounded-xl grid grid-cols-[2fr_4fr_2fr] items-center mt-4 mb-4 bg-gray-200">
                             <!-- Columna para imagen-->
                             <div class="flex justify-start h-full">
                                 <img :src="'/images/curso_images/' + curso.color + '.jpg'" class="rounded-lg h-full w-full object-cover rounded-t-md transition-all duration-300 transform brightness-50 group-hover:brightness-100">
@@ -75,7 +75,7 @@ function getNameTutor(identificador : number){
                                 </h1>
                             </div>
                         </div>
-                        <div data-v-4988fd09="" class="border-b-2 my-2 border-gray-400"></div>
+                        <!-- Fin de contenedor de informacion del curso -->
                     </div>
                     <!-- Fin del for para mostrar cursos -->
                 </div>
