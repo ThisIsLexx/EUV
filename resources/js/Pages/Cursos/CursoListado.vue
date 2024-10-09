@@ -66,10 +66,10 @@ function getNameTutor(identificador : number){
                                 </h1>
                             </div>
                             <!-- Columna para codigo-->
-                            <div class="grid items-center h-full">
-                                <h1 class="font-extrabold text-lg p-5 justify-self-left">
+                            <div class="grid items-end h-full">
+                                <h1 class="font-extrabold text-lg p-5 justify-self-end">
                                     Código:
-                                    <span class="text-xl underline">
+                                    <span class="text-xl text-indigo-500">
                                         {{ curso.codigo }}
                                     </span>
                                 </h1>
