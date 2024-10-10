@@ -17,7 +17,7 @@ import { AcademicCapIcon, ChevronDoubleRightIcon, ChevronRightIcon, PaperAirplan
             <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
                 <!-- Lado izquierdo-->
                 <div class="bg-indigo-100/60 shadow-md transition-all duration-300 ease-in-out hover:bg-indigo-100 rounded-xl flex items-center">
-                    <img src="\images\typing.png">
+                    <img src="\images\typing.png" loading="lazy">
                     <!-- <a href="https://storyset.com/communication">Communication illustrations by Storyset</a> -->
                 </div>
                 <!-- Lado derecho-->
