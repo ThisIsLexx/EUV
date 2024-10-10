@@ -209,9 +209,18 @@
                                             :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">{{ item.name }}
                                         </a>
                                     </MenuItem>
-                                    <form @submit.prevent="logout">
+                                    <!-- Botón para perfil -->
+                                    <button @click="redirectToView('profile.show')" class="hover:bg-gray-50 w-full text-left">
                                         <MenuItem as="button">
-                                            <a class="hover:bg-gray-50 block px-3 py-1 text-sm leading-6 text-gray-900">
+                                            <a class="block px-3 py-1 text-sm leading-6 text-gray-900">
+                                                Perfil
+                                            </a>
+                                        </MenuItem>
+                                    </button>
+                                    <!-- Boton para cerrar sesion -->
+                                    <form @submit.prevent="logout" class="hover:bg-gray-50">
+                                        <MenuItem as="button">
+                                            <a class="block px-3 py-1 text-sm leading-6 text-gray-900">
                                                 Cerrar Sesión
                                             </a>
                                         </MenuItem>
