@@ -81,7 +81,7 @@ class CuentoSeeder extends Seeder
         Cuento::create(
             [
                 'titulo' => 'Entrenamiento de la Escuela de la Tortuga',
-                'contenido' => 'Hay que trabajar, hay que aprender, hay que comer, hay que descansar y también hay que jugar. Esas son las bases del entrenamiento del maestro Roshi para tener una buena condición',
+                'contenido' => 'Hay que trabajar, hay que aprender, hay que comer, hay que descansar y también hay que jugar. Esas son las bases del entrenamiento del maestro Roshi para tener una buena condición.',
                 'dificultad' => 'baja',
             ]
         );

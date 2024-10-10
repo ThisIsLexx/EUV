@@ -56,9 +56,8 @@ watch(searchValue, (value) => {
             <!-- INICIO: Listado de cuentos -->
             <div class="m-5" v-if="filteredCuentos.length > 0">
                     <a href="#" v-for="cuento in filteredCuentos" :key="cuento.id"
-                        class="group flex justify-between bg-white rounded-lg border-2 border-gray-300 transition-transform duration-300 transform hover:scale-105 hover:border-emerald-600">
+                        class="group flex justify-between my-1 bg-white rounded-lg border-2 border-gray-300 transition-transform duration-300 transform hover:scale-105 ":class="{'hover:border-emerald-600': cuento.dificultad === 'baja', 'hover:border-yellow-600': cuento.dificultad === 'media', 'hover:border-orange-700': cuento.dificultad === 'alta'}" >
                         <div class="flex">
-
                             <!-- Color a la izquierda del contenedor -->
                             <div class="hidden sm:inline-block w-4 flex flex-shrink-0 rounded-l-md" :class="{'bg-emerald-500': cuento.dificultad === 'baja', 'bg-yellow-500': cuento.dificultad === 'media', 'bg-orange-600': cuento.dificultad === 'alta'}"> 
                             </div>
@@ -69,7 +68,7 @@ watch(searchValue, (value) => {
                                     {{ cuento.titulo }}
                                 </h2>
                                 <p class=" font-normal text-sm text-gray-500">
-                                    {{ cuento.contenido.length > 30 ? cuento.contenido.substring(0, 50) + "..." :
+                                    {{ cuento.contenido.length > 30 ? cuento.contenido.substring(0, 200) + "...":
                                         cuento.contenido }}
                                 </p>
                             </div>
