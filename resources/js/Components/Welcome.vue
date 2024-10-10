@@ -36,7 +36,7 @@ import { AcademicCapIcon, ChevronDoubleRightIcon, ChevronRightIcon, PaperAirplan
                                 ¿Eres un tutor?
                             </span>
                             <span>
-                                asigna textos a tus alumnos para apoyar el desarrollo de sus habilidades en
+                                Asigna textos a tus alumnos para apoyar el desarrollo de sus habilidades en
                                 mecanografía.
                             </span>
                             <span class="text-indigo-600 mt-2">
