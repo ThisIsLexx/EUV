@@ -18,8 +18,6 @@ let filteredCuentos = ref<Array<Cuento>>(props.cuentos);
 let isLoading = ref(false);
 let showModal = ref(false);
 
-
-
 const filtrarCuentoBusqueda = debounce(async (value: string) => {
     isLoading.value = true;
     try {
@@ -55,42 +53,36 @@ watch(searchValue, (value) => {
             </div>
             <!-- FIN: Barra de busqueda -->
 
-
             <!-- INICIO: Listado de cuentos -->
             <div class="m-5" v-if="filteredCuentos.length > 0">
-                <table class="table-auto min-w-full divide-y divide-gray-300 bg-indigo-500 shadow-md rounded-md">
-                    <thead class="text-white">
-                        <tr class="">
-                            <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Id</th>
-                            <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Titulo del cuento
-                            </th>
-                            <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Contenido</th>
-                            <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">Dificultad</th>
-                            <th scope="col" class="px-5 py-4 text-left text-xs font-medium uppercase">
-                                <span>Acciones</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-300 bg-gray-100">
-                        <tr v-for="cuento in filteredCuentos" :key="cuento.id" class="even:bg-gray-100/10 odd:bg-white">
-                            <td class="px-5 py-3 text-left text-sm"> {{ cuento.id }} </td>
-                            <td class="px-5 py-3 text-left text-sm">{{ cuento.titulo }}</td>
-                            <td class="px-5 py-3 text-left text-sm">{{ cuento.contenido.length > 30 ?
-                                cuento.contenido.substring(0, 50) + "..." : cuento.contenido }}</td>
-                            <td class="px-5 py-3 text-left text-sm">
-                                <span class="badge" :class="{'dificultad-baja': cuento.dificultad === 'baja', 'dificultad-media': cuento.dificultad === 'media', 'dificultad-alta': cuento.dificultad === 'alta'}">
-                                    {{ cuento.dificultad }}
-                                </span>
-                            </td>
+                <tr v-for="cuento in filteredCuentos" :key="cuento.id" class="even:bg-gray-100/10 odd:bg-white">
+                    <a href="#"
+                        class="group flex justify-between bg-white rounded-lg border-2 border-gray-300 transition-transform duration-300 transform hover:scale-105 hover:border-emerald-600">
+                        <div class="flex">
 
-                            <td class="px-5 py-3 text-left text-sm">
-                                <div class="flex space-x-2">
-                                    VER
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            <!-- Color a la izquierda del contenedor -->
+                            <div class="hidden sm:inline-block w-4 flex flex-shrink-0 rounded-l-md  bg-emerald-500">
+                            </div>
+
+                            <!-- Texto de la card -->
+                            <div class="pt-4 pb-6 px-4 flex flex-col">
+                                <h2 class="text-lg text-indigo-950 font-semibold">
+                                    {{ cuento.titulo }}
+                                </h2>
+                                <p class=" font-normal text-sm text-gray-500">
+                                    {{ cuento.contenido.length > 30 ? cuento.contenido.substring(0, 50) + "..." :
+                                        cuento.contenido }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Etiqueta de dificultad cuando la pantalla es mayor a sm -->
+                        <div
+                            class="m-4 py-1 px-2 h-fit rounded-full bg-emerald-500 text-white text-xs font-medium self-start">
+                            {{ cuento.dificultad }}
+                        </div>
+                    </a>
+                </tr>
             </div>
         </div>
     </AppLayout>
