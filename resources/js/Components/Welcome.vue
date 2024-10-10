@@ -1,6 +1,6 @@
 <script setup>
 import { router } from '@inertiajs/vue3';
-import { AcademicCapIcon, ChevronDoubleRightIcon, ChevronRightIcon, PaperAirplaneIcon, PencilIcon, RocketLaunchIcon } from '@heroicons/vue/24/outline';
+import { AcademicCapIcon, PaperAirplaneIcon, PencilIcon, RocketLaunchIcon } from '@heroicons/vue/24/outline';
 </script>
 
 <template>
@@ -47,7 +47,7 @@ import { AcademicCapIcon, ChevronDoubleRightIcon, ChevronRightIcon, PaperAirplan
                                 de escritura.
                             </span>
                         </p>
-                        <button type="button"
+                        <button @click="router.get(route('curso.cursos'))" type="button"
                             class="font-semibold mt-4 text-base inline-flex items-center text-indigo-500 hover:text-indigo-800">
                             <PaperAirplaneIcon class="h-6 w-12 inline-flex items-center"></PaperAirplaneIcon>
                             Explorar cursos disponibles
@@ -65,7 +65,7 @@ import { AcademicCapIcon, ChevronDoubleRightIcon, ChevronRightIcon, PaperAirplan
                             Pon a prueba tus habilidades de escritura con una amplia selección de cuentos previamente
                             seleccionados, encontrando historias con las cuales pondrás a volar  imaginación.
                         </p>
-                        <button type="button"
+                        <button @click="router.get(route('cuento.cuentos'))" type="button"
                             class="font-semibold mt-4 text-base inline-flex items-center text-indigo-500 hover:text-indigo-800">
                             <PaperAirplaneIcon class="h-6 w-12 inline-flex items-center"></PaperAirplaneIcon>
                             Explorar cuentos disponibles
@@ -83,7 +83,7 @@ import { AcademicCapIcon, ChevronDoubleRightIcon, ChevronRightIcon, PaperAirplan
                             Mejora tu habilidad y vocabulario dentro de este modo con una serie de palabras las cuales
                             aumentaran su dificultad conforme aumente tu desempeño.
                         </p>
-                        <button type="button" @click="router.get(route('practice'))"
+                        <button @click="router.get(route('practice'))" type="button"
                             class="font-semibold mt-4 text-base inline-flex items-center text-indigo-500 hover:text-indigo-800">
                             <PaperAirplaneIcon class="h-6 w-12 inline-flex items-center"></PaperAirplaneIcon>
                             Comienza a practicar
