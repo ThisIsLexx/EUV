@@ -149,6 +149,15 @@ function getHighScore(asignacion: number) {
     return 0;
 }
 
+function generarAcronimo(nombre) {
+    // Divide el nombre por espacios, filtra las entradas vacías y mapea a la primera letra de cada palabra
+    return nombre
+        .split(' ')
+        .filter(palabra => palabra.length > 0) // Asegura que no se usen palabras vacías
+        .map(palabra => palabra[0].toUpperCase())
+        .join('');
+}
+
 </script>
 
 <template>
@@ -325,7 +334,14 @@ function getHighScore(asignacion: number) {
                                     <span class="text-sm uppercase">
                                         <div class="flex justify-between p-5 border-b transition-all duration-200 border-gray-200 hover:border-indigo-600 hover:text-indigo-600">
                                                 <span class="flex justify-start items-center content-center w-full font-semibold">
-                                                    <UserCircleIcon class="w-8 h-8 mr-2 opacity-70"/>
+                                                    <!-- <UserCircleIcon class="w-8 h-8 mr-2 opacity-70"/> -->
+                                                    <!-- Espacio para mostrar al tutor -->
+                                                    <div v-if="props.tutor[2]">
+                                                        <img :src="props.tutor[2]" class="w-8 h-8 mr-2 rounded-full">
+                                                    </div>
+                                                    <div v-else class="h-8 w-8 text-sm font-normal flex items-center justify-center rounded-full text-indigo-800 bg-indigo-200">
+                                                        {{ generarAcronimo(props.tutor[0]) }}
+                                                    </div>
                                                     {{ props.tutor[0] }}
                                                 </span>
                                             </div>
@@ -338,7 +354,14 @@ function getHighScore(asignacion: number) {
                                         <div v-if="props.personas != 0">
                                             <div v-for="persona in props.personas" :key="persona.id" class="flex justify-between p-5 border-b transition-all duration-200 border-gray-200 hover:border-indigo-600 hover:text-indigo-600">
                                                 <span class="flex justify-start items-center content-center w-full font-semibold">
-                                                    <UserCircleIcon class="w-8 h-8 mr-2 opacity-70"/>
+                                                    <!-- <UserCircleIcon class="w-8 h-8 mr-2 opacity-70"/> -->
+                                                    <!-- Espacio para mostrar a los integrantes del curso -->
+                                                    <div v-if="persona.imagen">
+                                                        <img :src="persona.imagen" class="w-8 h-8 mr-2 rounded-full">
+                                                    </div>
+                                                    <div v-else class="h-8 w-8 text-sm font-normal flex items-center justify-center rounded-full text-indigo-800 bg-indigo-200">
+                                                        {{ generarAcronimo(persona.name) }}
+                                                    </div>
                                                     {{ persona.name }}
                                                 </span>
                                                 <span class="py-1 px-4 rounded-full flex justify-center items-center" :class="resolveClasificacion(persona.dificultad)">
