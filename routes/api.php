@@ -11,3 +11,4 @@ Route::get('/user', function (Request $request) {
 
 
 Route::get('/estadisticas/{id}', [PuntajeController::class, 'getEstadisticas'])->name('estadisticas');
+Route::get('/cuentos', [CuentoController::class, 'search'])->name('cuento.filtrado-busqueda');
