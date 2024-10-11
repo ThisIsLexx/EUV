@@ -273,6 +273,7 @@ import { ChartPieIcon } from '@heroicons/vue/24/outline';
 </script>
 
 <template>
+    <Head :title="cuento.titulo"/>
     <AppLayout :breadcrumbs="breadcrumbs">
 
         <Modal :showModal="showResultModal" :closeButton="false" size="lg" :titulo="`Resultados: ${cuento.titulo}`" @closeModal="showResultModal = false;">
