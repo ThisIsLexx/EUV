@@ -70,6 +70,7 @@ class CursoController extends Controller
                 'id' => $persona->id,
                 'name' => $persona->name,
                 'dificultad' => $persona->dificultad,
+                'imagen' => $persona->profile_photo_url,
             ];
         });
         $asignaciones = $curso->cuentos()->get();
@@ -85,7 +86,7 @@ class CursoController extends Controller
 
         return Inertia::render('Cursos/CursoIndex',[
             'curso' => $curso,
-            'tutor' => [$curso->user->name, $curso->user->email],
+            'tutor' => [$curso->user->name, $curso->user->email, $curso->user->profile_photo_url],
             'personas' => $personas,
             'asignaciones' => $asignaciones,
             'cuentos' => $cuentos,

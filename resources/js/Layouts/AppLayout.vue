@@ -184,7 +184,14 @@
                         <Menu as="div" class="relative">
                             <MenuButton class="-m-1.5 flex items-center p-1.5">
                                 <span class="sr-only">Abrir menú de usuario</span>
-                                <div class="h-8 w-8 text-sm font-semibold flex items-center justify-center rounded-full bg-gray-200">
+                                <!-- Mostrar imagen si la hay -->
+                                <div v-if="$page.props.auth.user.profile_photo_url">
+                                    <div>
+                                        <img :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name" class="rounded-full h-8 w-8 object-cover">
+                                    </div>
+                                </div>
+                                <!-- Mostrar acronimo del usuario -->
+                                <div v-else class="h-8 w-8 text-sm font-normal flex items-center justify-center rounded-full text-indigo-800 bg-indigo-200">
                                     {{ generarAcronimo($page.props.auth.user.name) }}
                                 </div>
                                 <!-- <img class="h-8 w-8 rounded-full bg-gray-50"
@@ -209,9 +216,18 @@
                                             :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">{{ item.name }}
                                         </a>
                                     </MenuItem>
-                                    <form @submit.prevent="logout">
+                                    <!-- Botón para perfil -->
+                                    <button @click="redirectToView('profile.show')" class="hover:bg-gray-50 w-full text-left">
                                         <MenuItem as="button">
-                                            <a class="hover:bg-gray-50 block px-3 py-1 text-sm leading-6 text-gray-900">
+                                            <a class="block px-3 py-1 text-sm leading-6 text-gray-900">
+                                                Perfil
+                                            </a>
+                                        </MenuItem>
+                                    </button>
+                                    <!-- Boton para cerrar sesion -->
+                                    <form @submit.prevent="logout" class="hover:bg-gray-50">
+                                        <MenuItem as="button">
+                                            <a class="block px-3 py-1 text-sm leading-6 text-gray-900">
                                                 Cerrar Sesión
                                             </a>
                                         </MenuItem>

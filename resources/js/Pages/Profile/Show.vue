@@ -6,6 +6,7 @@ import SectionBorder from '@/Components/SectionBorder.vue';
 import TwoFactorAuthenticationForm from '@/Pages/Profile/Partials/TwoFactorAuthenticationForm.vue';
 import UpdatePasswordForm from '@/Pages/Profile/Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from '@/Pages/Profile/Partials/UpdateProfileInformationForm.vue';
+import Breadcrumbs from '@/Components/Custom/Breadcrumbs.vue';
 
 defineProps({
     confirmsTwoFactorAuthentication: Boolean,
@@ -14,10 +15,11 @@ defineProps({
 </script>
 
 <template>
-    <AppLayout title="Profile">
+    <AppLayout title="Perfil" :breadcrumbs="{bread:{name:'Perfil',href:'',current:true}}">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Profile
+                Perfil
+                <!-- Profile -->
             </h2>
         </template>
 
