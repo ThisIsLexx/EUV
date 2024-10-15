@@ -43,7 +43,7 @@ watch(searchValue, (value) => {
 </script>
 
 <template>
-    <AppLayout>
+    <AppLayout :breadcrumbs="props.breadcrumbs">
         <transition appear name="left-to-right">
             <div>
                 <!-- INICIO: Barra de busqueda -->
