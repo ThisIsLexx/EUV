@@ -23,10 +23,19 @@ onMounted(() => {
     $input.value?.focus();
 });
 
+let timer: any | undefined;
+
 function startTimer() {
-    setInterval(() => {
+    timer = setInterval(() => {
         tiempo_transcurrido.value++;
     }, 1000);
+}
+
+function stopTimer() {
+    if (timer) {
+        clearInterval(timer);
+        timer = undefined;
+    }
 }
 
 function iniciarJuego() {
@@ -47,6 +56,24 @@ function onKeyDown(event: KeyboardEvent) {
 
 function onKeyUp(event: KeyboardEvent) {
 
+    if (event.key === ' ') {
+        return;
+    }
+
+    if (event.key === 'Backspace') {
+        if (letraActualIndex.value > 0) {
+            letraActualIndex.value--;
+        }
+        if (letraActualIndex.value === 0) {
+            if (palabraActualIndex.value > 0) {
+                palabraActualIndex.value--;
+                letraActualIndex.value = palabras.value[palabraActualIndex.value].length;
+            }
+            letraActualIndex.value = palabras.value[palabraActualIndex.value].length;
+        }
+        return;
+    }
+
     const palabraActual = palabras.value[palabraActualIndex.value];
     const letraIndex = letraActualIndex.value;
 
@@ -58,6 +85,14 @@ function onKeyUp(event: KeyboardEvent) {
         letraActualIndex.value = 0;
         palabrasUsuario.value.push(input_usuario.value.trim());
         input_usuario.value = ''; // Limpiar la entrada para la siguiente palabra
+    }
+
+    if (palabraActualIndex.value >= palabras.value.length) {
+        console.log('Juego terminado');
+        console.log('Palabras correctas', totalPalabrasCorrectas());
+        stopTimer();
+        console.log('Tiempo total trasncurrido', tiempo_transcurrido?.value);
+        console.log('PPM', totalPalabrasCorrectas() / (tiempo_transcurrido?.value / 60));
     }
 }
 
@@ -71,6 +106,11 @@ function esLetraCorrecta(palabraIndex: number, letraIndex: number): boolean {
 function esPalabraCorrecta(palabraIndex: number): boolean {
     return palabrasUsuario.value[palabraIndex] === palabras.value[palabraIndex];
 }
+
+function totalPalabrasCorrectas(): number {
+    return document.querySelectorAll('.word.correct').length;
+}
+
 </script>
 
 <template @keydown="$input.value?.focus()">
