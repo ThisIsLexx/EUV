@@ -46,6 +46,7 @@ Route::middleware([
 
     Route::get('/modo-practica', function () {
         return Inertia::render('Practice', [
+            'dificultad' => auth()->user()->dificultad,
             'breadcrumbs' => [
                 ['name' => 'Modo Práctica', 'route' => 'modo-practica', 'current' => true],
             ],
