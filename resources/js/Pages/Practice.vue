@@ -221,7 +221,7 @@ function endGame() {
                 </button>
             </template>
         </Modal>
-        <div class="flex flex-col px-20 w-full">
+        <div class="flex flex-col px-60 w-full">
             <div class="flex flex-col w-full text-center justify-center">
                 <h1 class="font-semibold text-2xl uppercase text-indigo-700 underline underline-offset-4">Modo práctica</h1>
                 <span class="text-base uppercase font-semibold mt-4">
@@ -229,39 +229,62 @@ function endGame() {
                 </span>
             </div>
             <Separator/>
-            <div class="grid w-full h-full p-8 bg-gray-700 text-gray-400 rounded-md shadow-md">
-                <section id="juego">
-                    <p id="contenido_juego" class="uppercase text-6xl transition-colors duration-100 ease-in-out flex flex-wrap w-full items-center justify-center gap-2">
-                        <transition-group name="slide">
-                            <span v-for="(palabra, palabraIndex) in palabras" v-show="palabraIndex === palabraActualIndex"
-                                  :key="palabraIndex"
-                                  class="word"
-                                  :class="{
-                                      'current': palabraIndex === palabraActualIndex,
-                                      'correct': esPalabraCorrecta(palabraIndex),
-                                      'incorrect': !esPalabraCorrecta(palabraIndex) && palabraIndex < palabraActualIndex
-                                  }">
-                                <span v-for="(letra, letraIndex) in palabra.split('')"
-                                      :key="letraIndex"
-                                      class="letter"
+            <div class="bg-indigo-600 py-5 px-10 rounded-t-md">
+                <div class="grid w-full min-h-[200px] h-full items-center p-8 bg-gray-700 text-gray-400 rounded-md shadow-md">
+                    <section id="juego">
+                        <p id="contenido_juego" class="uppercase text-6xl transition-colors duration-100 ease-in-out flex flex-wrap w-full items-center justify-center gap-2">
+                            <transition-group name="slide">
+                                <span v-for="(palabra, palabraIndex) in palabras" v-show="palabraIndex === palabraActualIndex"
+                                      :key="palabraIndex"
+                                      class="word"
                                       :class="{
-                                          'current': letraIndex === letraActualIndex && palabraIndex === palabraActualIndex,
-                                          'correct': esLetraCorrecta(palabraIndex, letraIndex) && palabraIndex === palabraActualIndex,
-                                          'incorrect': !esLetraCorrecta(palabraIndex, letraIndex) && palabraIndex === palabraActualIndex && letraIndex < letraActualIndex
+                                          'current': palabraIndex === palabraActualIndex,
+                                          'correct': esPalabraCorrecta(palabraIndex),
+                                          'incorrect': !esPalabraCorrecta(palabraIndex) && palabraIndex < palabraActualIndex
                                       }">
-                                    {{ letra }}
+                                    <span v-for="(letra, letraIndex) in palabra.split('')"
+                                          :key="letraIndex"
+                                          class="letter"
+                                          :class="{
+                                              'current': letraIndex === letraActualIndex && palabraIndex === palabraActualIndex,
+                                              'correct': esLetraCorrecta(palabraIndex, letraIndex) && palabraIndex === palabraActualIndex,
+                                              'incorrect': !esLetraCorrecta(palabraIndex, letraIndex) && palabraIndex === palabraActualIndex && letraIndex < letraActualIndex
+                                          }">
+                                        {{ letra }}
+                                    </span>
                                 </span>
-                            </span>
-                        </transition-group>
-                    </p>
-                    <input v-model="input_usuario"
-                           @keydown="onKeyDown"
-                           @keyup="onKeyUp"
-                           ref="$input"
-                           type="text"
-                           class="absolute top-0 left-0 opacity-0"
-                           autofocus>
-                </section>
+                            </transition-group>
+                        </p>
+                        <input v-model="input_usuario"
+                               @keydown="onKeyDown"
+                               @keyup="onKeyUp"
+                               ref="$input"
+                               type="text"
+                               class="absolute top-0 left-0 opacity-0"
+                               autofocus>
+                    </section>
+                </div>
+            </div>
+            <div class="bg-indigo-600 min-h-[200px] h-auto flex justify-end items-center px-10 border-indigo-800">
+                <div class="flex gap-4 items-center bg-gray-200 w-full h-full justify-end p-5 rounded-md">
+                    <div class="flex flex-col gap-1 w-full h-full mr-6">
+                        <div class="bg-gray-600 w-full h-2"></div>
+                        <div class="bg-gray-600 w-full h-2"></div>
+                        <div class="bg-gray-600 w-full h-2"></div>
+                        <div class="bg-gray-600 w-full h-2"></div>
+                        <div class="bg-gray-600 w-full h-2"></div>
+                        <div class="bg-gray-600 w-full h-2"></div>
+                        <div class="bg-gray-600 w-full h-2"></div>
+                        <div class="bg-gray-600 w-full h-2"></div>
+                    </div>
+                    <span class="rounded-full h-10 w-10 bg-indigo-500 shadow-lg hover:bg-indigo-700"></span>
+                    <span class="rounded-full h-10 w-10 bg-indigo-500 shadow-lg hover:bg-indigo-700"></span>
+                    <span class="rounded-full h-20 w-20 bg-indigo-500 shadow-lg hover:bg-indigo-700"></span>
+                </div>
+            </div>
+            <div class="flex justify-between mx-8">
+                <div class="w-20 h-10 bg-indigo-800 shadow-lg"></div>
+                <div class="w-20 h-10 bg-indigo-800 shadow-lg"></div>
             </div>
         </div>
     </AppLayout>
