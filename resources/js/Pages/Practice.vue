@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { Head, router } from '@inertiajs/vue3';
+import { Head, router, useForm } from '@inertiajs/vue3';
 import Separator from '@/Components/Separator.vue';
 import Modal from '@/Components/Custom/Modal.vue';
 import baja from '@/Components/Custom/baja.json';
 import media from '@/Components/Custom/media.json';
 import alta from '@/Components/Custom/alta.json';
 import { ArrowPathRoundedSquareIcon } from '@heroicons/vue/24/outline';
+import VueApexCharts from 'vue3-apexcharts';
+import { Practice } from '@/types/practice';
 
 
 const palabrasDificultadBaja = baja['palabras'];
@@ -31,7 +33,14 @@ const PPM = ref<number>(0);
 
 onMounted(() => {
     iniciarJuego();
+});
 
+const form = useForm({
+    dificultad: 'baja',
+    tiempo: 0,
+    total_palabras: 0,
+    palabras_correctas: 0,
+    ppm: 0,
 });
 
 const timer = ref<number | null>(null);
@@ -52,6 +61,7 @@ function stopTimer() {
 
 const props = defineProps<{
     dificultad: string;
+    promedios: Practice;
 }>();
 
 function iniciarJuego() {
@@ -92,7 +102,7 @@ function onKeyDown(event: KeyboardEvent) {
 }
 
 function onKeyUp(event: KeyboardEvent) {
-    console.log('letraActualIndex', letraActualIndex.value);
+    $input.value?.focus();
     // Casos a ignorar / espacios y acentos
     if (event.key === ' ') return;
     if (event.key === 'Dead') return;
@@ -144,6 +154,8 @@ const totalPalabrasCorrectas = computed(() => {
     return palabrasUsuario.value.filter((palabra, index) => esPalabraCorrecta(index)).length;
 });
 
+const loadingForm = ref<boolean>(false);
+
 function gameOver(): void {
     try {
         stopTimer();
@@ -151,6 +163,25 @@ function gameOver(): void {
     }
     finally {
         showModal.value = true;
+        form.dificultad = props.dificultad;
+        form.tiempo = tiempo_transcurrido.value;
+        form.total_palabras = palabras.value.length;
+        form.palabras_correctas = totalPalabrasCorrectas.value;
+        form.ppm = PPM.value;
+        try {
+            loadingForm.value = true;
+            form.post(route('practice.store'));
+        }
+        finally {
+            series.value = [{
+                name: 'Mis estadísticas',
+                data: [form.palabras_correctas, form.tiempo, form.ppm]
+            }, {
+                name: 'Estadísticas generales',
+                data: [props.promedios?.tiempo, props.promedios?.palabras_correctas, props.promedios?.ppm]
+            }];
+            loadingForm.value = false;
+        }
     }
 
 }
@@ -172,6 +203,17 @@ function endGame() {
     $input.value?.blur();
     router.get('/estadisticas');
 }
+
+let options = {
+    chart: {
+        type: 'area'
+    },
+    xaxis: {
+        categories: ['Total de palabras', 'Palabras correctas', 'Tiempo transcurrido', 'Palabras por minuto']
+    }
+};
+
+const series = ref([]);
 
 </script>
 
@@ -206,6 +248,9 @@ function endGame() {
                         <span class="uppercase w-full text-justify">
                             Palabras por minuto: <span class="text-indigo-500 font-semibold">{{ PPM.toFixed(2) }}</span>
                         </span>
+                    </div>
+                    <div class="w-full p-2 border-2 border-indigo-200 rounded-md mt-4">
+                        <VueApexCharts width="700" height="300" type="area" :options="options" :series="series"></VueApexCharts>
                     </div>
 
                 </div>
