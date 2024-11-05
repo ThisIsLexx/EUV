@@ -175,10 +175,10 @@ function gameOver(): void {
         finally {
             series.value = [{
                 name: 'Mis estadísticas',
-                data: [form.palabras_correctas, form.tiempo, form.ppm]
+                data: [form.palabras_correctas.toFixed(2), form.tiempo.toFixed(2), form.ppm.toFixed(2)]
             }, {
                 name: 'Estadísticas generales',
-                data: [props.promedios?.tiempo, props.promedios?.palabras_correctas, props.promedios?.ppm]
+                data: [props.promedios?.tiempo.toFixed(2), props.promedios?.palabras_correctas.toFixed(2), props.promedios?.ppm.toFixed(2)]
             }];
             loadingForm.value = false;
         }
@@ -248,7 +248,7 @@ const series = ref([]);
                             Palabras por minuto: <span class="text-indigo-500 font-semibold">{{ PPM.toFixed(2) }}</span>
                         </span>
                     </div>
-                    <div class="w-full p-2 border-2 border-indigo-200 rounded-md mt-4">
+                    <div class="w-full p-2 border-2 rounded-md mt-4">
                         <VueApexCharts width="700" height="300" type="area" :options="options" :series="series"></VueApexCharts>
                     </div>
 
