@@ -183,7 +183,6 @@ function gameOver(): void {
             loadingForm.value = false;
         }
     }
-
 }
 
 function reinitGame() {

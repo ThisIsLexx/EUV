@@ -93,7 +93,6 @@ function resolveClasificacion(clasificacion : string) {
     }
 }
 
-
 onMounted(() => {
     // Aqui se haria la peticion a la API para obtener los datos
     // y se asignarian a las variables
@@ -111,52 +110,89 @@ onMounted(() => {
         puntajes_generales_dificultad.value.media = response.data.puntajes_generales_dificultad.media;
         puntajes_generales_dificultad.value.alta = response.data.puntajes_generales_dificultad.alta;
 
-
         series_generales.value = [
             {
                 name: "Mis estadisticas",
-                data: [mis_puntajes?.value?.jugados.toFixed(2), mis_puntajes?.value?.aciertos.toFixed(2), mis_puntajes?.value?.fallas.toFixed(2), mis_puntajes?.value?.puntajes.toFixed(2)],
-
+                data: [
+                    parseFloat(mis_puntajes.value.jugados.toFixed(2)),
+                    parseFloat(mis_puntajes.value.aciertos.toFixed(2)),
+                    parseFloat(mis_puntajes.value.fallas.toFixed(2)),
+                    parseFloat(mis_puntajes.value.puntajes.toFixed(2))
+                ]
             },
             {
                 name: "Promedio de usuarios",
-                data: [puntajes_generales?.value?.jugados.toFixed(2), puntajes_generales?.value?.aciertos.toFixed(2), puntajes_generales?.value?.fallas.toFixed(2), puntajes_generales?.value?.puntajes.toFixed(2)]
+                data: [
+                    parseFloat(puntajes_generales.value.jugados.toFixed(2)),
+                    parseFloat(puntajes_generales.value.aciertos.toFixed(2)),
+                    parseFloat(puntajes_generales.value.fallas.toFixed(2)),
+                    parseFloat(puntajes_generales.value.puntajes.toFixed(2))
+                ]
             }
         ];
 
         series_baja.value = [
             {
                 name: "Mis estadisticas",
-                data: [mis_puntajes_dificultad?.value?.baja?.jugados.toFixed(2), mis_puntajes_dificultad?.value?.baja?.aciertos.toFixed(2), mis_puntajes_dificultad?.value?.baja?.fallas.toFixed(2), mis_puntajes_dificultad?.value?.baja?.puntajes.toFixed(2)]
+                data: [
+                    parseFloat(mis_puntajes_dificultad.value.baja.jugados.toFixed(2)),
+                    parseFloat(mis_puntajes_dificultad.value.baja.aciertos.toFixed(2)),
+                    parseFloat(mis_puntajes_dificultad.value.baja.fallas.toFixed(2)),
+                    parseFloat(mis_puntajes_dificultad.value.baja.puntajes.toFixed(2))
+                ]
             },
             {
                 name: "Promedio de usuarios",
-                data: [puntajes_generales_dificultad?.value?.baja?.jugados.toFixed(2), puntajes_generales_dificultad?.value?.baja?.aciertos.toFixed(2), puntajes_generales_dificultad?.value?.baja?.fallas.toFixed(2), puntajes_generales_dificultad?.value?.baja?.puntajes.toFixed(2)]
+                data: [
+                    parseFloat(puntajes_generales_dificultad.value.baja.jugados.toFixed(2)),
+                    parseFloat(puntajes_generales_dificultad.value.baja.aciertos.toFixed(2)),
+                    parseFloat(puntajes_generales_dificultad.value.baja.fallas.toFixed(2)),
+                    parseFloat(puntajes_generales_dificultad.value.baja.puntajes.toFixed(2))
+                ]
             }
         ];
 
         series_media.value = [
             {
                 name: "Mis estadisticas",
-                data: [mis_puntajes_dificultad?.value?.media?.jugados.toFixed(2), mis_puntajes_dificultad?.value?.media?.aciertos.toFixed(2), mis_puntajes_dificultad?.value?.media?.fallas.toFixed(2), mis_puntajes_dificultad?.value?.media?.puntajes.toFixed(2)]
+                data: [
+                    parseFloat(mis_puntajes_dificultad.value.media.jugados.toFixed(2)),
+                    parseFloat(mis_puntajes_dificultad.value.media.aciertos.toFixed(2)),
+                    parseFloat(mis_puntajes_dificultad.value.media.fallas.toFixed(2)),
+                    parseFloat(mis_puntajes_dificultad.value.media.puntajes.toFixed(2))
+                ]
             },
             {
                 name: "Promedio de usuarios",
-                data: [puntajes_generales_dificultad?.value?.media?.jugados.toFixed(2), puntajes_generales_dificultad?.value?.media?.aciertos.toFixed(2), puntajes_generales_dificultad?.value?.media?.fallas.toFixed(2), puntajes_generales_dificultad?.value?.media?.puntajes.toFixed(2)]
+                data: [
+                    parseFloat(puntajes_generales_dificultad.value.media.jugados.toFixed(2)),
+                    parseFloat(puntajes_generales_dificultad.value.media.aciertos.toFixed(2)),
+                    parseFloat(puntajes_generales_dificultad.value.media.fallas.toFixed(2)),
+                    parseFloat(puntajes_generales_dificultad.value.media.puntajes.toFixed(2))
+                ]
             }
         ];
 
         series_alta.value = [
             {
                 name: "Mis estadisticas",
-                data: [mis_puntajes_dificultad?.value?.alta?.jugados.toFixed(2), mis_puntajes_dificultad?.value?.alta?.aciertos.toFixed(2), mis_puntajes_dificultad?.value?.alta?.fallas.toFixed(2), mis_puntajes_dificultad?.value?.alta?.puntajes.toFixed(2)]
+                data: [
+                    parseFloat(mis_puntajes_dificultad.value.alta.jugados.toFixed(2)),
+                    parseFloat(mis_puntajes_dificultad.value.alta.aciertos.toFixed(2)),
+                    parseFloat(mis_puntajes_dificultad.value.alta.fallas.toFixed(2)),
+                    parseFloat(mis_puntajes_dificultad.value.alta.puntajes.toFixed(2))
+                ]
             },
             {
                 name: "Promedio de usuarios",
-                data: [puntajes_generales_dificultad?.value?.alta?.jugados.toFixed(2), puntajes_generales_dificultad?.value?.alta?.aciertos.toFixed(2), puntajes_generales_dificultad?.value?.alta?.fallas.toFixed(2), puntajes_generales_dificultad?.value?.alta?.puntajes.toFixed(2)]
+                data: [
+                    parseFloat(puntajes_generales_dificultad.value.alta.jugados.toFixed(2)),
+                    parseFloat(puntajes_generales_dificultad.value.alta.aciertos.toFixed(2)),
+                    parseFloat(puntajes_generales_dificultad.value.alta.fallas.toFixed(2)),
+                    parseFloat(puntajes_generales_dificultad.value.alta.puntajes.toFixed(2))
+                ]
             }
         ];
-
 
     }).catch(error => {
         console.log(error);
@@ -304,7 +340,7 @@ let series_alta = ref([
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-3 gap-4">
+        <!-- <div class="grid grid-cols-3 gap-4">
             <div class="p-5 border-2 shadow-sm hover:shadow-md hover:shadow-indigo-500/30 transition duration-300 ease-in-out rounded-md w-auto">
                 <h2 class="font-semibold uppercase text-sm">Cuentos dificultad baja</h2>
                 <div class="flex justify-center text-center">
@@ -323,7 +359,7 @@ let series_alta = ref([
                     <VueApexCharts width="300" height="300" type="bar" :options="opciones_cuentos" :series="series_alta"></VueApexCharts>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     </AppLayout>
 </template>
