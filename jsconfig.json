@@ -3,7 +3,9 @@
         "baseUrl": ".",
         "paths": {
             "@/*": ["resources/js/*"]
-        }
+        },
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
     },
     "exclude": ["node_modules", "public"]
 }

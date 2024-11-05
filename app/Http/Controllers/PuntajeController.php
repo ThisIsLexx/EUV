@@ -79,7 +79,7 @@ class PuntajeController extends Controller
 
     public function getEstadisticas(Request $request)
     {
-        $user = User::find($request->id);
+        $user = User::find($request->id);   
         $puntajes = $user->puntajes()->select('aciertos', 'fallas', 'puntaje')->get();
         $misPuntajes = [
             'jugados' => $puntajes->count(),

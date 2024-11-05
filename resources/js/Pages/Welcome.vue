@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
+import { AcademicCapIcon } from '@heroicons/vue/24/outline';
 
 defineProps({
     canLogin: {
@@ -38,7 +39,12 @@ function scrollToSection(sectionId) {
                             class="flex space-x-2 items-center">
                             <!-- <img src="https://tailus.io/sources/blocks/food-delivery/preview/images/icon.png"
                                 class="w-12" alt="tailus logo" width="144" height="133"> -->
-                            <span class="text-2xl font-bold text-indigo-500 hover:text-indigo-400"> Érase Una Vez </span>
+                            <span class="text-2xl font-bold text-indigo-500 flex items-center gap-2 group hover:text-indigo-400">
+                                <AcademicCapIcon class="w-8 h-8 text-indigo-500 group-hover:text-indigo-400" />
+                                <span>
+                                    Érase Una Vez
+                                </span>
+                            </span>
                         </a>
 
                         <button aria-label="humburger" id="hamburger" class="relative w-10 h-10 -mr-2 lg:hidden">
@@ -58,11 +64,11 @@ function scrollToSection(sectionId) {
                                 class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-m text-indigo-500 uppercase tracking-widest hover:bg-indigo-400 hover:text-white hover:cursor-pointer focus:bg-indigo-200 active:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-300">
                                     Servicios
                                 </div>
-                                <Link :href="route('register')"
+                                <Link :href="route('register')" v-if="!$page.props.auth.user"
                                     class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-m text-indigo-500 uppercase tracking-widest hover:bg-indigo-400 hover:text-white focus:bg-indigo-200 active:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-300">
                                     Registrarme
                                 </Link>
-                                <Link :href="route('login')"
+                                <Link :href="route('login')" v-if="canLogin"
                                     class="inline-flex items-center px-4 py-2 bg-indigo-500 border border-transparent rounded-md font-semibold text-m text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-300">
                                     Acceder
                                 </Link>

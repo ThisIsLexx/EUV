@@ -79,4 +79,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Puntaje::class);
     }
+
+    public function practices()
+    {
+        return $this->hasMany(Practice::class);
+    }
 }

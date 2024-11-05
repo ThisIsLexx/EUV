@@ -19,6 +19,7 @@ class CuentoController extends Controller
         return Inertia::render('Cuentos/Index', [
             'cuentos' => Cuento::all(),
             'breadcrumbs' => [
+                ['name' => 'Admin', 'href' => '', 'current' => false],
                 ['name' => 'Listado de cuentos', 'href' => 'cuento.index', 'current' => true],
             ],
         ]);
@@ -164,7 +165,7 @@ class CuentoController extends Controller
         return Inertia::render('Cuentos/CuentoListado', [
             'cuentos' => Cuento::all(),
             'breadcrumbs' => [
-                ['name' => 'Listado de cuentos', 'href' => 'cuento.index', 'current' => true],
+                ['name' => 'Listado de cuentos disponibles', 'href' => 'cuento.index', 'current' => true],
             ],
         ]);
     }

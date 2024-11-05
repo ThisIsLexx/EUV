@@ -117,7 +117,10 @@
                 <div class="flex h-16 shrink-0 items-center space-x-2">
                     <!-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                         alt="Erase una vez" /> -->
-                    <h1 class="font-semibold text-indigo-700">EUV</h1>
+                    <h1 class="font-semibold text-indigo-700 flex gap-2">
+                        <AcademicCapIcon class="w-6 h-6 text-indigo-500" />
+                        EUV
+                    </h1>
                 </div>
                 <nav class="flex flex-1 flex-col">
                     <ul role="list" class="flex flex-1 flex-col gap-y-7">
