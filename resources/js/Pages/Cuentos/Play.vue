@@ -219,7 +219,7 @@ let options = {
     }
 };
 
-let series = [];un
+let series = [];
 
 function setSeries(aciertos: number, errores: number, score: number, request: any) {
     // Hacemos la petición POST para obtener la predicción
