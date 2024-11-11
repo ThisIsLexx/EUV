@@ -10,6 +10,7 @@ import alta from '@/Components/Custom/alta.json';
 import { ArrowPathRoundedSquareIcon } from '@heroicons/vue/24/outline';
 import VueApexCharts from 'vue3-apexcharts';
 import { Practice } from '@/types/practice';
+import { Breadcrumb } from '@/types/breadcrumb';
 
 
 const palabrasDificultadBaja = baja['palabras'];
@@ -62,6 +63,7 @@ function stopTimer() {
 const props = defineProps<{
     dificultad: string;
     promedios: Practice;
+    breadcrumbs: Array<Breadcrumb>,
 }>();
 
 function iniciarJuego() {
@@ -218,7 +220,7 @@ const series = ref([]);
 
 <template @keydown="$input.value?.focus()">
     <Head title="Modo Práctica" />
-    <AppLayout>
+    <AppLayout :breadcrumbs="breadcrumbs">
         <Modal :showModal="showModal" :closeButton="false" size="lg" titulo="Resultados del modo práctica" @closeModal="showModal = false;">
             <template v-slot:modal-content>
 

@@ -89,7 +89,7 @@ const submit = () => {
             <div class="mt-5">
                 <Separator/>
                 <span class="text-sm text-gray-600">
-                    Aún no tienes una cuenta?
+                    ¿Aún no tienes una cuenta?
                     <Link :href="route('register')" class="underline ml-1 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Registrate aquí.
                     </Link>
