@@ -43,7 +43,7 @@ import { AcademicCapIcon, PaperAirplaneIcon, PencilIcon, RocketLaunchIcon } from
                                 ¿Eres un estudiante?
                             </span>
                             <span>
-                                Los alumnos podrán ingresar a cursos que les brindaran apoyo en el desarrollo de sus habilidades
+                                Los alumnos podrán ingresar a cursos que les brindarán apoyo en el desarrollo de sus habilidades
                                 de escritura.
                             </span>
                         </p>
@@ -63,7 +63,7 @@ import { AcademicCapIcon, PaperAirplaneIcon, PencilIcon, RocketLaunchIcon } from
                         </div>
                         <p class="text-gray-900 text-lg leading-normal font-medium p-4 text-justify">
                             Pon a prueba tus habilidades de escritura con una amplia selección de cuentos previamente
-                            seleccionados, encontrando historias con las cuales pondrás a volar  imaginación.
+                            seleccionados, encontrando historias con las cuales pondrás a volar tu imaginación.
                         </p>
                         <button @click="router.get(route('cuento.cuentos'))" type="button"
                             class="font-semibold mt-4 text-base inline-flex items-center text-indigo-500 hover:text-indigo-800">

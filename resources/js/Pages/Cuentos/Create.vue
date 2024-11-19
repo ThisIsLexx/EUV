@@ -70,7 +70,7 @@ onMounted(() => {
                         <div class="flex flex-col space-y-2 mb-2">
                             <label for="contenido">Contenido del cuento <span class="text-red-500 font-semibold">*</span></label>
                             <textarea name="contenido"
-                                class="transition duration-100 rounded-md border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-200"
+                                class="transition min-h-40 duration-100 rounded-md border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-200"
                                 :class="{ 'border-red-600' : form.errors.contenido }"
                                 v-model="form.contenido"></textarea>
                             <div v-if="form.errors.contenido" class="text-red-500 text-xs uppercase">

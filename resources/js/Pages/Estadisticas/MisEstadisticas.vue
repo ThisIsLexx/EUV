@@ -292,7 +292,12 @@ let series_alta = ref([
 
         <transition appear name="slide-fade">
             <div class="flex mt-4 border-2 shadow-sm hover:shadow-md hover:shadow-indigo-500/30 transition-all duration-300 ease-in-out rounded-md w-auto h-auto group">
-                <div class="w-auto bg-gray-200 flex justify-center items-center">
+                <div v-if="$page.props.auth.user.profile_photo_url" class="w-auto bg-gray-200 flex justify-center items-center">
+                    <div>
+                        <img :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name" class="rounded-full w-16 h-16 transition-all ease-in-out duration-300 text-gray-500 m-4 group-hover:text-indigo-400">
+                    </div>
+                </div>
+                <div v-else class="w-auto bg-gray-200 flex justify-center items-center">
                     <UserCircleIcon class="w-16 h-16 transition-all ease-in-out duration-300 text-gray-500 m-4 group-hover:text-indigo-400"  />
                 </div>
                 <div class="flex flex-col w-full p-4">

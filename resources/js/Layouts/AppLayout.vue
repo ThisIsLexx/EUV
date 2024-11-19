@@ -153,8 +153,8 @@
                         </li>
                         <li class="mt-auto">
                             <a @click="showHelpModal = true"
-                                class="group hover:cursor-pointer -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
-                                <Cog6ToothIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
+                                class="group hover:cursor-pointer -mx-2 flex items-center gap-x-3 rounded-md p-2 text-xl font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+                                <Cog6ToothIcon class="h-10 w-10 shrink-0 text-gray-400 group-hover:text-indigo-600"
                                     aria-hidden="true" />
                                 Ayuda
                             </a>
