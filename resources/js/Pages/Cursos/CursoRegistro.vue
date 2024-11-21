@@ -79,10 +79,6 @@ const curso_form = useForm({
 <template>
     <Head title="Mis cursos" />
     <AppLayout :breadcrumbs="props.breadcrumbs">
-        <div>
-            <h1>{{props.titulo}}</h1>
-        </div>
-        <Separator />
 
         <Modal :showModal="cancelar_registro" size="md" :titulo="props.mis_cursos?.find(curso => curso.id === currentCurso)?.titulo" @closeModal="cancelar_registro = false">
             <template v-slot:modal-content>
@@ -319,7 +315,7 @@ const curso_form = useForm({
 
 
                             <!-- BEGIN: Imagen de curso -->
-                            <div class="h-40 overflow-hidden">
+                            <div class="h-40 overflow-hidden hover:cursor-pointer" @click="verCurso(curso)">
                                 <img :src="'/images/curso_images/' + curso.color + '.jpg'" alt="Curso Cover" loading="lazy" class="h-full w-full object-cover rounded-t-md transition-all duration-300 transform brightness-50 group-hover:brightness-100" />
                             </div>
                             <!-- END: Imagen de curso -->
